@@ -57,7 +57,7 @@
     white-space: pre-wrap;
   }
 
-    h2 { color: #444; margin-top: 40px; }
+  h2 { color: #444; margin-top: 40px; }
 
   /* Table layout for skills and counts */
   #skillCountsTable {
@@ -70,11 +70,11 @@
     padding: 8px 10px;
     vertical-align: middle;
   }
-#skillCountsTable td:first-child {
-  text-align: left;
-  white-space: normal;   /* allows wrapping on small screens */
-  word-break: break-word;
-}
+  #skillCountsTable td:first-child {
+    text-align: left;
+    white-space: normal;   /* allows wrapping on small screens */
+    word-break: break-word;
+  }
   #skillCountsTable input {
     width: 80px;
     text-align: center;
@@ -100,16 +100,13 @@
   <div class="highlight release" id="r2" style="left:62px; top:233px; width:146px; height:13px;"></div>
   <div class="highlight release" id="r3" style="left:62px; top:280px; width:146px; height:14px;"></div>
   
-  
   <div class="highlight twisting" id="t1" style="left:62px; top:335px; width:146px; height:7px;"></div>
   <div class="highlight twisting" id="t2" style="left:62px; top:342px; width:146px; height:14px;"></div>
   <div class="highlight twisting" id="t3" style="left:62px; top:356px; width:146px; height:15px;"></div>
   
-  
   <div class="highlight coed" id="c1" style="left:62px; top:410px; width:146px; height:14px;"></div>
   <div class="highlight coed" id="c2" style="left:62px; top:439px; width:146px; height:15px;"></div>
   <div class="highlight coed" id="c3" style="left:62px; top:455px; width:146px; height:15px;"></div>
-  
   
   <div class="highlight toss" id="o1" style="left:62px; top:555px; width:146px; height:15px;"></div>
   <div class="highlight toss" id="o2" style="left:62px; top:582px; width:146px; height:21px;"></div>
@@ -127,6 +124,16 @@
 
 <button id="saveBtn">Save Results</button>
 <pre id="output"></pre>
+
+<!-- Hidden form for reliable Google Form submission -->
+<form id="hiddenForm"
+      action="https://docs.google.com/forms/d/e/1FAIpQLSfQ3lyxpqbB0ej3RfpUok4s02UNwSfFExRDta7rATeTuqEg2g/formResponse"
+      method="POST"
+      target="hidden_iframe"
+      style="display:none;">
+  <textarea name="entry.853885754" id="hiddenOutput"></textarea>
+</form>
+<iframe name="hidden_iframe" style="display:none;"></iframe>
 
 <script>
 // Define all 18 skills
@@ -196,23 +203,9 @@ wrapper.addEventListener('click', e => {
   }
 });
 
-// Function to submit output to Google Form
-function submitToGoogleForm(outputText) {
-  const formURL = "https://docs.google.com/forms/d/e/1FAIpQLSfQ3lyxpqbB0ej3RfpUok4s02UNwSfFExRDta7rATeTuqEg2g/formResponse"; // replace <FORM_ID>
-  const data = new FormData();
-  data.append("entry.853885754", outputText); // replace with your field ID
-
-  fetch(formURL, {
-    method: "POST",
-    mode: "no-cors",
-    body: data
-  }).then(() => {
-    alert("Results submitted to Google Form!");
-  }).catch((err) => console.error(err));
-}
-
 // Save button: output + submit
 document.getElementById('saveBtn').addEventListener('click', () => {
+
   let out = 'Selected VHSL Stunt Rubric Skills:\n\n';
   if (selected.size === 0) out += '(None selected)';
   else selected.forEach(skill => {
@@ -224,11 +217,15 @@ document.getElementById('saveBtn').addEventListener('click', () => {
 
   document.getElementById('output').textContent = out;
 
-  // Submit to Google Form
-  submitToGoogleForm(out);
+  // Put output text into hidden form field
+  document.getElementById('hiddenOutput').value = out;
+
+  // Submit hidden form
+  document.getElementById('hiddenForm').submit();
+
+  alert("Results submitted to Google Form!");
 });
 </script>
 
 </body>
 </html>
-
