@@ -2,94 +2,66 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>VHSL Cheer Rubric – Highlight + Dynamic Counts</title>
+<title>NVCOA Cheer Coaches Full Form + Rubric</title>
 <style>
-  body { 
-    font-family: Arial, sans-serif; 
-    text-align: center; 
-    margin: 30px; 
-    background: #fafafa; 
-  }
+  body { font-family: Arial, sans-serif; margin: 30px; background: #fafafa; }
   h1 { color: #800000; }
-  .wrapper { 
-    position: relative; 
-    display: inline-block; 
-  }
-  #rubricImage { 
-    width: 90%; 
-    max-width: 950px; 
-    display: block; 
-  }
-
-  .highlight {
-    position: absolute;
-    border: 2px solid transparent;
-    background-color: transparent;
-    pointer-events: none;
-    display: none;
-  }
-  /* Category color codes */
+  label { display: block; margin-top: 15px; font-weight: bold; }
+  input, select, textarea { width: 90%; max-width: 600px; padding: 8px; margin-top: 5px; }
+  button { margin-top: 25px; padding: 10px 16px; background: #800000; color: white; border: none; border-radius: 5px; cursor: pointer; }
+  button:hover { background: #a00000; }
+  .wrapper { position: relative; display: inline-block; margin-top: 20px; }
+  #rubricImage { width: 90%; max-width: 950px; display: block; }
+  .highlight { position: absolute; border: 2px solid transparent; background-color: transparent; pointer-events: none; display: none; }
   .twisting { border-color: rgba(255,0,0,0.8); background-color: rgba(255,0,0,0.25); }
   .coed     { border-color: rgba(0,0,255,0.8); background-color: rgba(0,0,255,0.25); }
   .release  { border-color: rgba(0,180,0,0.8); background-color: rgba(0,180,0,0.25); }
   .inversion{ border-color: rgba(180,0,180,0.8); background-color: rgba(180,0,180,0.25); }
   .toss     { border-color: rgba(255,120,0,0.8); background-color: rgba(255,120,0,0.25); }
-
-  button {
-    margin-top: 20px; 
-    padding: 10px 16px;
-    background: #800000; 
-    color: white;
-    border: none; 
-    border-radius: 5px; 
-    cursor: pointer;
-  }
-  button:hover { background: #a00000; }
-
-  #output {
-    margin-top: 25px;
-    background: #f7f7f7;
-    padding: 15px;
-    border-radius: 6px;
-    width: 90%;
-    max-width: 950px;
-    text-align: left;
-    white-space: pre-wrap;
-  }
-
-  h2 { color: #444; margin-top: 40px; }
-
-  /* Table layout for skills and counts */
-  #skillCountsTable {
-    width: 50%;
-    max-width: 950px;
-    margin: 20px auto;
-    border-collapse: collapse;
-  }
-  #skillCountsTable td {
-    padding: 8px 10px;
-    vertical-align: middle;
-  }
-  #skillCountsTable td:first-child {
-    text-align: left;
-    white-space: normal;   /* allows wrapping on small screens */
-    word-break: break-word;
-  }
-  #skillCountsTable input {
-    width: 80px;
-    text-align: center;
-  }
+  #output { margin-top: 20px; white-space: pre-wrap; background: #f7f7f7; padding: 10px; border-radius: 5px; max-width: 950px; }
 </style>
 </head>
 <body>
 
-<h1>VHSL Competitive Cheer Rubric – Highlight + Counts</h1>
-<p>Click on the rubric image to select skills. Inputs will appear below for selected skills.</p>
+<h1>NVCOA Cheer Coaches Rubric + Full Form</h1>
 
-<div class="wrapper">
-  <img id="rubricImage" src="Stunt_Rubric.png" alt="VHSL Rubric">
+<form id="fullForm" action="https://docs.google.com/forms/d/e/1FAIpQLSfQ3lyxpqbB0ej3RfpUok4s02UNwSfFExRDta7rATeTuqEg2g/formResponse" method="POST" target="hidden_iframe">
 
-  <!-- Original 3 highlights -->
+  <!-- Google Form Fields -->
+  <label>School Name</label>
+  <input type="text" id="schoolName">
+
+  <label>Team Level</label>
+  <select id="teamLevel">
+    <option value="">--Select--</option>
+    <option value="Varsity">Varsity</option>
+    <option value="Junior Varsity">Junior Varsity</option>
+  </select>
+
+  <label>Number of Athletes Performing</label>
+  <input type="number" id="numAthletes" min="1">
+
+  <label>Competition Location</label>
+  <input type="text" id="competitionLocation">
+
+  <label>Competition Date</label>
+  <input type="date" id="competitionDate">
+
+  <label>Intended Stunt Range</label>
+  <select id="stuntRange">
+    <option value="">--Select--</option>
+    <option>Beginner: 0.0 - 1.0</option>
+    <option>Intermediate: 1.25 - 3.25</option>
+    <option>Advanced: 3.5 - 5.5</option>
+    <option>Elite: 5.75 - 7.75</option>
+    <option>Super Elite: 8.0 - 10.0</option>
+  </select>
+
+  <h2>Stunt Skills Rubric</h2>
+  <p>Click on the rubric image to select skills. Enter number of groups for each selected skill.</p>
+  <div class="wrapper">
+    <img id="rubricImage" src="Stunt_Rubric.png" alt="VHSL Rubric">
+   <!-- Original 3 highlights -->
   <div class="highlight inversion" id="i1" style="left:62px; top:131px; width:146px; height:17px;"></div>
   <div class="highlight inversion" id="i2" style="left:62px; top:150px; width:146px; height:18px;"></div>
   <div class="highlight inversion" id="i3" style="left:62px; top:169px; width:146px; height:17px;"></div>
@@ -115,28 +87,85 @@
   <div class="highlight inversion" id="h1" style="left:140px; top:550px; width:180px; height:20px;"></div>
   <div class="highlight release" id="h2" style="left:330px; top:550px; width:180px; height:20px;"></div>
   <div class="highlight twisting" id="h3" style="left:630px; top:550px; width:180px; height:20px;"></div>
-</div>
+  </div>
 
-<h2>Enter Number of Groups for Each Selected Skill</h2>
-<table id="skillCountsTable">
-  <tbody id="skillCounts"></tbody>
-</table>
+  <table id="skillCountsTable">
+    <tbody id="skillCounts"></tbody>
+  </table>
 
-<button id="saveBtn">Save Results</button>
-<pre id="output"></pre>
+  <label>Intended Pyramid Range</label>
+  <select id="pyramidRange">
+    <option value="">--Select--</option>
+    <option>Beginner: 0.0 - 1.0</option>
+    <option>Intermediate: 1.25 - 3.25</option>
+    <option>Advanced: 3.5 - 5.5</option>
+    <option>Elite: 5.75 - 7.75</option>
+    <option>Super Elite: 8.0 - 10.0</option>
+  </select>
 
-<!-- Hidden form for reliable Google Form submission -->
-<form id="hiddenForm"
-      action="https://docs.google.com/forms/d/e/1FAIpQLSfQ3lyxpqbB0ej3RfpUok4s02UNwSfFExRDta7rATeTuqEg2g/formResponse"
-      method="POST"
-      target="hidden_iframe"
-      style="display:none;">
-  <textarea name="entry.853885754" id="hiddenOutput"></textarea>
+  <label>Pyramid Skills Description</label>
+  <textarea id="pyramidSkills" rows="3"></textarea>
+
+  <label>Intended Tumbling Range</label>
+  <select id="tumblingRange">
+    <option value="">--Select--</option>
+    <option>0.0 - 1.0</option>
+    <option>1.25 - 2.5</option>
+    <option>2.75 - 4.0</option>
+    <option>4.25 - 5.0</option>
+  </select>
+
+  <label>Team Majority Sync Sequence Description</label>
+  <textarea id="teamSync" rows="3"></textarea>
+
+  <label>Additional Tumbling Skills Description</label>
+  <textarea id="additionalTumbling" rows="3"></textarea>
+
+  <label>Intended Jump Range</label>
+  <select id="jumpRange">
+    <option value="">--Select--</option>
+    <option>0.0 - 1.5</option>
+    <option>1.75 - 2.75</option>
+    <option>3.0 - 4.0</option>
+    <option>4.25 - 4.75</option>
+    <option>5.0</option>
+  </select>
+
+  <label>Jump Sequence Description</label>
+  <textarea id="jumpSequence" rows="3"></textarea>
+
+  <label>Any Legality Rulings from Bill Ahern?</label>
+  <select id="legalityRulings">
+    <option value="">--Select--</option>
+    <option>Yes</option>
+    <option>No</option>
+  </select>
+
+  <textarea name="entry.853885754" id="gStuntSkills" style="display:none;"></textarea>
+  <!-- Hidden fields for the other entries (replace ID placeholders with actual entry IDs) -->
+  <input type="hidden" name="entry.1305398481" id="gSchoolName">
+  <input type="hidden" name="entry.1115196285" id="gTeamLevel">
+  <input type="hidden" name="entry.1591826976" id="gNumAthletes">
+  <input type="hidden" name="entry.213144247" id="gLocation">
+  <input type="hidden" name="entry.350592538" id="gDate">
+  <input type="hidden" name="entry.839382260" id="gStuntRange">
+  <input type="hidden" name="entry.1261324678" id="gPyramidRange">
+  <input type="hidden" name="entry.1334475235" id="gPyramidSkills">
+  <input type="hidden" name="entry.1257575335" id="gTumblingRange">
+  <input type="hidden" name="entry.1061923490" id="gTeamSync">
+  <input type="hidden" name="entry.366964955" id="gAdditionalTumbling">
+  <input type="hidden" name="entry.1517156909" id="gJumpRange">
+  <input type="hidden" name="entry.1736401588" id="gJumpSequence">
+  <input type="hidden" name="entry.815911308" id="gLegalityRulings">
+
+  <button type="button" id="saveBtn">Save & Submit</button>
 </form>
+
+<pre id="output"></pre>
 <iframe name="hidden_iframe" style="display:none;"></iframe>
 
 <script>
-// Define all 18 skills
+// Rubric selection logic (same as your current JS)
 const regions = [
   { id: 'i1', skill: 'Connected Inversions - Prep Level and Below to Below Prep', category: 'Inversion' },
   { id: 'i2', skill: 'Below Prep Level Inversions to Ground', category: 'Inversion' },
@@ -157,13 +186,13 @@ const regions = [
   { id: 'h1', skill: 'TEST', category: 'Inversion' },
   { id: 'h2', skill: 'TEST', category: 'Release' },
   { id: 'h3', skill: 'TEST', category: 'Twisting' }
+  // Add all your other highlight objects here
 ];
 
 const selected = new Set();
 const wrapper = document.querySelector('.wrapper');
 const skillCountsContainer = document.getElementById('skillCounts');
 
-// Highlight click + dynamic input
 wrapper.addEventListener('click', e => {
   const rect = wrapper.getBoundingClientRect();
   const x = e.clientX - rect.left;
@@ -180,21 +209,17 @@ wrapper.addEventListener('click', e => {
       const skillId = 'count_' + r.id;
 
       if (selected.has(r.skill)) {
-        // Deselect: remove highlight + input row
         selected.delete(r.skill);
         box.style.display = 'none';
         const row = document.getElementById(skillId + '_div');
         if (row) skillCountsContainer.removeChild(row);
       } else {
-        // Select: show highlight + add table row
         selected.add(r.skill);
         box.style.display = 'block';
-
         if (!document.getElementById(skillId + '_div')) {
           const row = document.createElement('tr');
           row.id = skillId + '_div';
-          row.innerHTML = `<td>${r.skill}</td>
-                           <td><input type="number" id="${skillId}" min="0" value="0"></td>`;
+          row.innerHTML = `<td>${r.skill}</td><td><input type="number" id="${skillId}" min="0" value="0"></td>`;
           skillCountsContainer.appendChild(row);
         }
       }
@@ -203,10 +228,9 @@ wrapper.addEventListener('click', e => {
   }
 });
 
-// Save button: output + submit
+// Save & submit
 document.getElementById('saveBtn').addEventListener('click', () => {
-
-  let out = 'Selected Stunt Rubric Skills:\n\n';
+  let out = 'Selected VHSL Stunt Rubric Skills:\n\n';
   if (selected.size === 0) out += '(None selected)';
   else selected.forEach(skill => {
     const region = regions.find(r => r.skill === skill);
@@ -214,22 +238,34 @@ document.getElementById('saveBtn').addEventListener('click', () => {
     const count = countInput ? countInput.value : 0;
     out += `${count} — ${skill}\n`;
   });
-
   document.getElementById('output').textContent = out;
 
-  // Put output text into hidden form field
-  document.getElementById('hiddenOutput').value = out;
+  // Populate hidden fields
+  document.getElementById('gStuntSkills').value = out;
+  document.getElementById('gSchoolName').value = document.getElementById('schoolName').value;
+  document.getElementById('gTeamLevel').value = document.getElementById('teamLevel').value;
+  document.getElementById('gNumAthletes').value = document.getElementById('numAthletes').value;
+  document.getElementById('gLocation').value = document.getElementById('competitionLocation').value;
+  document.getElementById('gDate').value = document.getElementById('competitionDate').value;
+  document.getElementById('gStuntRange').value = document.getElementById('stuntRange').value;
+  document.getElementById('gPyramidRange').value = document.getElementById('pyramidRange').value;
+  document.getElementById('gPyramidSkills').value = document.getElementById('pyramidSkills').value;
+  document.getElementById('gTumblingRange').value = document.getElementById('tumblingRange').value;
+  document.getElementById('gTeamSync').value = document.getElementById('teamSync').value;
+  document.getElementById('gAdditionalTumbling').value = document.getElementById('additionalTumbling').value;
+  document.getElementById('gJumpRange').value = document.getElementById('jumpRange').value;
+  document.getElementById('gJumpSequence').value = document.getElementById('jumpSequence').value;
+  document.getElementById('gLegalityRulings').value = document.getElementById('legalityRulings').value;
 
-  // Submit hidden form
-  document.getElementById('hiddenForm').submit();
-
-   alert("Results submitted to Google Form! Please close this window and return to finish your form.");
-
+  document.getElementById('fullForm').submit();
+  alert('Form submitted! You may now close this page.');
 });
 </script>
 
 </body>
 </html>
+
+
 
 
 
