@@ -206,13 +206,13 @@ wrapper.addEventListener('click', e => {
 // Save button: output + submit
 document.getElementById('saveBtn').addEventListener('click', () => {
 
-  let out = 'Selected VHSL Stunt Rubric Skills:\n\n';
+  let out = 'Selected Stunt Rubric Skills:\n\n';
   if (selected.size === 0) out += '(None selected)';
   else selected.forEach(skill => {
     const region = regions.find(r => r.skill === skill);
     const countInput = document.getElementById('count_' + region.id);
     const count = countInput ? countInput.value : 0;
-    out += `• ${skill} — Count: ${count}\n`;
+    out += `${count} — ${skill}\n`;
   });
 
   document.getElementById('output').textContent = out;
@@ -236,5 +236,6 @@ window.location.href = "https://docs.google.com/forms/d/e/1FAIpQLSfQ3lyxpqbB0ej3
 
 </body>
 </html>
+
 
 
