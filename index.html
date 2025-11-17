@@ -20,9 +20,57 @@
   .toss     { border-color: rgba(255,120,0,0.8); background-color: rgba(255,120,0,0.25); }
 
   /* Draggable Row Styles */
-  .draggable-row { transition: background 0.2s; }
+  .draggable-row { transition: background 0.2s; display: flex; align-items: center; }
   .dragging { opacity: 0.4; }
   .drag-over { border-top: 3px solid #800000; }
+
+  /* Table styles */
+  #skillCountsTable {
+    border-collapse: collapse;
+    width: 90%;
+    max-width: 600px;
+    margin-top: 15px;
+  }
+
+  #skillCountsTable th, #skillCountsTable td {
+    padding: 6px 10px;
+    vertical-align: middle;
+  }
+
+  #skillCountsTable th {
+    background-color: #f0f0f0;
+    text-align: left;
+  }
+
+  #skillCountsTable td {
+    display: flex;
+    align-items: center;
+  }
+
+  #skillCountsTable td:first-child {
+    flex: 1; /* skill name column stretches */
+    cursor: grab;
+  }
+
+  #skillCountsTable td input.skillCount {
+    width: 60px; 
+    padding: 4px;
+    font-size: 14px;
+    text-align: center;
+    margin-right: 10px;
+  }
+
+  #skillCountsTable td button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 0;
+  }
+
+  #skillCountsTable td button:hover {
+    color: red;
+  }
 </style>
 </head>
 <body>
@@ -66,8 +114,7 @@
 
   <div class="wrapper">
     <img id="rubricImage" src="Stunt_Rubric.png" alt="VHSL Rubric">
-
-    <!-- All highlight boxes -->
+    <!-- Highlight boxes -->
     <div class="highlight inversion" id="i1" style="left:62px; top:131px; width:146px; height:17px;"></div>
     <div class="highlight inversion" id="i2" style="left:62px; top:150px; width:146px; height:18px;"></div>
     <div class="highlight inversion" id="i3" style="left:62px; top:169px; width:146px; height:17px;"></div>
@@ -113,6 +160,7 @@ Use the ⇅ icon to reorder or the 🗑️ icon to delete.
     <tbody id="skillCounts"></tbody>
   </table>
 
+  <!-- The rest of your form fields -->
   <label>Intended Pyramid Range</label>
   <select id="pyramidRange">
     <option value="">--Select--</option>
@@ -161,7 +209,7 @@ Use the ⇅ icon to reorder or the 🗑️ icon to delete.
     <option>No</option>
   </select>
 
-  <!-- Required Hidden Google Fields -->
+  <!-- Hidden Google Form Fields -->
   <textarea name="entry.853885754" id="gStuntSkills" style="display:none;"></textarea>
   <input type="hidden" name="entry.1305398481" id="gSchoolName">
   <input type="hidden" name="entry.1115196285" id="gTeamLevel">
@@ -188,7 +236,6 @@ Use the ⇅ icon to reorder or the 🗑️ icon to delete.
 <iframe name="hidden_iframe" style="display:none;"></iframe>
 
 <script>
-// ------- REGION DEFINITIONS -------
 const regions = [
   { id: 'i1', skill: 'Connected Inversions - Prep Level and Below to Below Prep' },
   { id: 'i2', skill: 'Below Prep Level Inversions to Ground' },
@@ -214,7 +261,6 @@ const regions = [
 const wrapper = document.querySelector('.wrapper');
 const skillCountsContainer = document.getElementById('skillCounts');
 
-// -------- OPTION B: DUPLICATE ROWS ON CLICK --------
 wrapper.addEventListener('click', e => {
   const rect = wrapper.getBoundingClientRect();
   const x = e.clientX - rect.left;
@@ -241,7 +287,7 @@ wrapper.addEventListener('click', e => {
       row.setAttribute("draggable", "true");
 
       row.innerHTML = `
-        <td style="cursor:grab;">⣿ ${r.skill}</td>
+        <td>⣿ <span class="skillName">${r.skill}</span></td>
         <td><input type="number" min="1" value="1" class="skillCount"></td>
         <td><button type="button" onclick="this.parentNode.parentNode.remove()">🗑️</button></td>
       `;
@@ -253,14 +299,13 @@ wrapper.addEventListener('click', e => {
   }
 });
 
-// -------- SAVE --------
 document.getElementById('saveBtn').addEventListener('click', () => {
   let out = 'Selected VHSL Stunt Rubric Skills:\n\n';
   const rows = skillCountsContainer.querySelectorAll('tr');
 
   if (rows.length === 0) out += '(None selected)';
   else rows.forEach(row => {
-    const skill = row.children[0].textContent.replace('⣿ ', '');
+    const skill = row.querySelector('.skillName').textContent;
     const count = row.querySelector('input').value;
     out += `${count} — ${skill}\n`;
   });
@@ -285,55 +330,10 @@ document.getElementById('saveBtn').addEventListener('click', () => {
   document.getElementById('gLegalityRulings').value = legalityRulings.value;
 
   document.getElementById('fullForm').submit();
-  alert('Form submitted! You may now close this page.');
 });
-
-// -------- DRAGGABLE ROW LOGIC --------
-let draggedRow = null;
-
-document.addEventListener("dragstart", e => {
-  if (e.target.classList.contains("draggable-row")) {
-    draggedRow = e.target;
-    e.target.classList.add("dragging");
-  }
-});
-
-document.addEventListener("dragend", e => {
-  if (e.target.classList.contains("draggable-row")) {
-    e.target.classList.remove("dragging");
-    draggedRow = null;
-  }
-});
-
-document.addEventListener("dragover", e => {
-  e.preventDefault();
-  const after = getAfterElement(skillCountsContainer, e.clientY);
-  const dragging = document.querySelector(".dragging");
-  if (!dragging) return;
-
-  if (after == null) {
-    skillCountsContainer.appendChild(dragging);
-  } else {
-    skillCountsContainer.insertBefore(dragging, after);
-  }
-});
-
-function getAfterElement(container, y) {
-  const elements = [...container.querySelectorAll(".draggable-row:not(.dragging)")];
-  return elements.reduce((closest, child) => {
-    const rect = child.getBoundingClientRect();
-    const offset = y - rect.top - rect.height / 2;
-    if (offset < 0 && offset > closest.offset) {
-      return { offset, element: child };
-    } else {
-      return closest;
-    }
-  }, { offset: Number.NEGATIVE_INFINITY, element: null }).element;
-}
 </script>
 
 </body>
 </html>
-
 
 
