@@ -18,59 +18,12 @@
   .release  { border-color: rgba(0,180,0,0.8); background-color: rgba(0,180,0,0.25); }
   .inversion{ border-color: rgba(180,0,180,0.8); background-color: rgba(180,0,180,0.25); }
   .toss     { border-color: rgba(255,120,0,0.8); background-color: rgba(255,120,0,0.25); }
-
-  /* Draggable Row Styles */
-  .draggable-row { transition: background 0.2s; display: flex; align-items: center; }
-  .dragging { opacity: 0.4; }
-  .drag-over { border-top: 3px solid #800000; }
-
-  /* Table styles */
-  #skillCountsTable {
-    border-collapse: collapse;
-    width: 90%;
-    max-width: 600px;
-    margin-top: 15px;
-  }
-
-  #skillCountsTable th, #skillCountsTable td {
-    padding: 6px 10px;
-    vertical-align: middle;
-  }
-
-  #skillCountsTable th {
-    background-color: #f0f0f0;
-    text-align: left;
-  }
-
-  #skillCountsTable td {
-    display: flex;
-    align-items: center;
-  }
-
-  #skillCountsTable td:first-child {
-    flex: 1; /* skill name column stretches */
-    cursor: grab;
-  }
-
-  #skillCountsTable td input.skillCount {
-    width: 60px; 
-    padding: 4px;
-    font-size: 14px;
-    text-align: center;
-    margin-right: 10px;
-  }
-
-  #skillCountsTable td button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    padding: 0;
-  }
-
-  #skillCountsTable td button:hover {
-    color: red;
-  }
+  #output { margin-top: 20px; white-space: pre-wrap; background: #f7f7f7; padding: 10px; border-radius: 5px; max-width: 950px; }
+  table { width: 90%; max-width: 950px; border-collapse: collapse; margin-top: 10px; }
+  th, td { padding: 6px 10px; text-align: left; border-bottom: 1px solid #ccc; }
+  th { background: #f0f0f0; }
+  .drag-handle { cursor: grab; font-size: 18px; }
+  .delete-btn { cursor: pointer; color: #d00; font-size: 18px; text-align: center; }
 </style>
 </head>
 <body>
@@ -110,7 +63,8 @@
   </select>
 
   <h2>Stunt Skills Rubric</h2>
-  <p>Click on the rubric image to select skills. Each click creates a new entry.</p>
+  <p>Click on the rubric image to select skills.</p>
+  <p><strong>Enter number of groups for each selected skill. Please list skills in order of performance. Click the icon on the left to reorder or the trash can on the right to delete.</strong></p>
 
   <div class="wrapper">
     <img id="rubricImage" src="Stunt_Rubric.png" alt="VHSL Rubric">
@@ -160,7 +114,7 @@ Use the ⇅ icon to reorder or the 🗑️ icon to delete.
     <tbody id="skillCounts"></tbody>
   </table>
 
-  <!-- The rest of your form fields -->
+  <!-- Remaining Google Form fields (Pyramid, Tumbling, Jump, etc.) -->
   <label>Intended Pyramid Range</label>
   <select id="pyramidRange">
     <option value="">--Select--</option>
@@ -209,7 +163,7 @@ Use the ⇅ icon to reorder or the 🗑️ icon to delete.
     <option>No</option>
   </select>
 
-  <!-- Hidden Google Form Fields -->
+  <!-- Hidden Google Form fields -->
   <textarea name="entry.853885754" id="gStuntSkills" style="display:none;"></textarea>
   <input type="hidden" name="entry.1305398481" id="gSchoolName">
   <input type="hidden" name="entry.1115196285" id="gTeamLevel">
@@ -237,25 +191,25 @@ Use the ⇅ icon to reorder or the 🗑️ icon to delete.
 
 <script>
 const regions = [
-  { id: 'i1', skill: 'Connected Inversions - Prep Level and Below to Below Prep' },
-  { id: 'i2', skill: 'Below Prep Level Inversions to Ground' },
-  { id: 'i3', skill: 'Released Inversion Prep Level or Below to Below Prep' },
-  { id: 'i4', skill: 'Connected Inversions - Prep Level and Below to Prep' },
-  { id: 'r1', skill: 'Release to Below Prep' },
-  { id: 'r2', skill: 'Horizontal Releases to Below Prep' },
-  { id: 'r3', skill: 'Extended Release to Below Prep' },
-  { id: 't1', skill: '1/4 or 1/2 Up to Prep Level' },
-  { id: 't2', skill: '1/4 Up to Extended' },
-  { id: 't3', skill: '1/4 or 1/2 Twisting Transitions' },
-  { id: 'c1', skill: 'Single Base at Prep Level' },
-  { id: 'c2', skill: 'Assisted Coed Skills to Prep' },
-  { id: 'c3', skill: 'Assisted Walk-In/Toss to Chair' },
-  { id: 'o1', skill: 'Prep Level and Below Stunts Not Previously Categorized' },
-  { id: 'o2', skill: 'Straight Ride or Pretty Girl Tosses' },
-  { id: 'o3', skill: 'Single Skill Tosses' },
-  { id: 'h1', skill: 'TEST' },
-  { id: 'h2', skill: 'TEST' },
-  { id: 'h3', skill: 'TEST' }
+  { id: 'i1', skill: 'Connected Inversions - Prep Level and Below to Below Prep', category: 'Inversion' },
+  { id: 'i2', skill: 'Below Prep Level Inversions to Ground', category: 'Inversion' },
+  { id: 'i3', skill: 'Released Inversion Prep Level or Below to Below Prep', category: 'Inversion' },
+  { id: 'i4', skill: 'Connected Inversions - Prep Level and Below to Prep', category: 'Inversion' },
+  { id: 'r1', skill: 'Release to Below Prep', category: 'Release' },
+  { id: 'r2', skill: 'Horizontal Releases to Below Prep', category: 'Release' },
+  { id: 'r3', skill: 'Extended Release to Below Prep', category: 'Release' },
+  { id: 't1', skill: '1/4 or 1/2 Up to Prep Level', category: 'Twisting' },
+  { id: 't2', skill: '1/4 Up to Extended', category: 'Twisting' },
+  { id: 't3', skill: '1/4 or 1/2 Twisting Transitions', category: 'Twisting' },
+  { id: 'c1', skill: 'Single Base at Prep Level', category: 'Coed' },
+  { id: 'c2', skill: 'Assisted Coed Skills to Prep', category: 'Coed' },
+  { id: 'c3', skill: 'Assisted Walk-In/Toss to Chair', category: 'Coed' },
+  { id: 'o1', skill: 'Prep Level and Below Stunts Not Previously Categorized', category: 'Toss' },
+  { id: 'o2', skill: 'Straight Ride or Pretty Girl Tosses', category: 'Toss' },
+  { id: 'o3', skill: 'Single Skill Tosses', category: 'Toss' },
+  { id: 'h1', skill: 'TEST', category: 'Inversion' },
+  { id: 'h2', skill: 'TEST', category: 'Release' },
+  { id: 'h3', skill: 'TEST', category: 'Twisting' }
 ];
 
 const wrapper = document.querySelector('.wrapper');
@@ -274,66 +228,96 @@ wrapper.addEventListener('click', e => {
     const height = parseFloat(box.style.height);
 
     if (x >= left && x <= left + width && y >= top && y <= top + height) {
+      const skillId = 'count_' + r.id;
 
       // flash highlight
       box.style.display = "block";
       setTimeout(() => box.style.display = "none", 150);
 
-      // Create a draggable new row
-      const uid = crypto.randomUUID();
+      // Allow duplicates, always create new row
       const row = document.createElement('tr');
-      row.id = uid;
-      row.classList.add("draggable-row");
-      row.setAttribute("draggable", "true");
-
+      row.id = skillId + '_' + Date.now();
       row.innerHTML = `
-        <td>⣿ <span class="skillName">${r.skill}</span></td>
-        <td><input type="number" min="1" value="1" class="skillCount"></td>
-        <td><button type="button" onclick="this.parentNode.parentNode.remove()">🗑️</button></td>
+        <td class="drag-handle">⇅</td>
+        <td>${r.skill}</td>
+        <td><input type="number" id="${skillId}" min="0" value="0"></td>
+        <td class="delete-btn">🗑️</td>
       `;
-
       skillCountsContainer.appendChild(row);
+
+      // Delete functionality
+      row.querySelector('.delete-btn').addEventListener('click', () => {
+        skillCountsContainer.removeChild(row);
+      });
 
       break;
     }
   }
 });
 
+// Drag-and-drop functionality
+let draggedRow = null;
+skillCountsContainer.addEventListener('dragstart', e => {
+  draggedRow = e.target;
+  e.dataTransfer.effectAllowed = 'move';
+});
+
+skillCountsContainer.addEventListener('dragover', e => {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  const target = e.target.closest('tr');
+  if (target && target !== draggedRow) {
+    const rect = target.getBoundingClientRect();
+    const next = (e.clientY - rect.top) / rect.height > 0.5;
+    skillCountsContainer.insertBefore(draggedRow, next ? target.nextSibling : target);
+  }
+});
+
+skillCountsContainer.addEventListener('drop', e => {
+  e.preventDefault();
+  draggedRow = null;
+});
+
+// Save & submit
 document.getElementById('saveBtn').addEventListener('click', () => {
   let out = 'Selected VHSL Stunt Rubric Skills:\n\n';
   const rows = skillCountsContainer.querySelectorAll('tr');
-
   if (rows.length === 0) out += '(None selected)';
   else rows.forEach(row => {
-    const skill = row.querySelector('.skillName').textContent;
-    const count = row.querySelector('input').value;
+    const skill = row.cells[1].textContent;
+    const countInput = row.cells[2].querySelector('input');
+    const count = countInput ? countInput.value : 0;
     out += `${count} — ${skill}\n`;
   });
-
   document.getElementById('output').textContent = out;
 
-  // Hidden Google form fields
+  // Populate hidden fields
   document.getElementById('gStuntSkills').value = out;
-  document.getElementById('gSchoolName').value = schoolName.value;
-  document.getElementById('gTeamLevel').value = teamLevel.value;
-  document.getElementById('gNumAthletes').value = numAthletes.value;
-  document.getElementById('gLocation').value = competitionLocation.value;
-  document.getElementById('gDate').value = competitionDate.value;
-  document.getElementById('gStuntRange').value = stuntRange.value;
-  document.getElementById('gPyramidRange').value = pyramidRange.value;
-  document.getElementById('gPyramidSkills').value = pyramidSkills.value;
-  document.getElementById('gTumblingRange').value = tumblingRange.value;
-  document.getElementById('gTeamSync').value = teamSync.value;
-  document.getElementById('gAdditionalTumbling').value = additionalTumbling.value;
-  document.getElementById('gJumpRange').value = jumpRange.value;
-  document.getElementById('gJumpSequence').value = jumpSequence.value;
-  document.getElementById('gLegalityRulings').value = legalityRulings.value;
+  document.getElementById('gSchoolName').value = document.getElementById('schoolName').value;
+  document.getElementById('gTeamLevel').value = document.getElementById('teamLevel').value;
+  document.getElementById('gNumAthletes').value = document.getElementById('numAthletes').value;
+  document.getElementById('gLocation').value = document.getElementById('competitionLocation').value;
+  document.getElementById('gDate').value = document.getElementById('competitionDate').value;
+  document.getElementById('gStuntRange').value = document.getElementById('stuntRange').value;
+  document.getElementById('gPyramidRange').value = document.getElementById('pyramidRange').value;
+  document.getElementById('gPyramidSkills').value = document.getElementById('pyramidSkills').value;
+  document.getElementById('gTumblingRange').value = document.getElementById('tumblingRange').value;
+  document.getElementById('gTeamSync').value = document.getElementById('teamSync').value;
+  document.getElementById('gAdditionalTumbling').value = document.getElementById('additionalTumbling').value;
+  document.getElementById('gJumpRange').value = document.getElementById('jumpRange').value;
+  document.getElementById('gJumpSequence').value = document.getElementById('jumpSequence').value;
+  document.getElementById('gLegalityRulings').value = document.getElementById('legalityRulings').value;
 
+  // Submit form
   document.getElementById('fullForm').submit();
 });
 </script>
 
 </body>
 </html>
+
+
+
+
 
 
