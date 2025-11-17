@@ -18,7 +18,11 @@
   .release  { border-color: rgba(0,180,0,0.8); background-color: rgba(0,180,0,0.25); }
   .inversion{ border-color: rgba(180,0,180,0.8); background-color: rgba(180,0,180,0.25); }
   .toss     { border-color: rgba(255,120,0,0.8); background-color: rgba(255,120,0,0.25); }
-  #output { margin-top: 20px; white-space: pre-wrap; background: #f7f7f7; padding: 10px; border-radius: 5px; max-width: 950px; }
+
+  /* Draggable Row Styles */
+  .draggable-row { transition: background 0.2s; }
+  .dragging { opacity: 0.4; }
+  .drag-over { border-top: 3px solid #800000; }
 </style>
 </head>
 <body>
@@ -58,35 +62,36 @@
   </select>
 
   <h2>Stunt Skills Rubric</h2>
-  <p>Click on the rubric image to select skills. Enter number of groups for each selected skill.</p>
+  <p>Click on the rubric image to select skills. Each click creates a new entry.</p>
+
   <div class="wrapper">
     <img id="rubricImage" src="Stunt_Rubric.png" alt="VHSL Rubric">
-   <!-- Original 3 highlights -->
-  <div class="highlight inversion" id="i1" style="left:62px; top:131px; width:146px; height:17px;"></div>
-  <div class="highlight inversion" id="i2" style="left:62px; top:150px; width:146px; height:18px;"></div>
-  <div class="highlight inversion" id="i3" style="left:62px; top:169px; width:146px; height:17px;"></div>
-  <div class="highlight inversion" id="i4" style="left:209px; top:131px; width:146px; height:17px;"></div>
 
-  <!-- 15 additional example highlight boxes -->
-  <div class="highlight release" id="r1" style="left:62px; top:217px; width:146px; height:15px;"></div>
-  <div class="highlight release" id="r2" style="left:62px; top:233px; width:146px; height:13px;"></div>
-  <div class="highlight release" id="r3" style="left:62px; top:280px; width:146px; height:14px;"></div>
-  
-  <div class="highlight twisting" id="t1" style="left:62px; top:335px; width:146px; height:7px;"></div>
-  <div class="highlight twisting" id="t2" style="left:62px; top:342px; width:146px; height:14px;"></div>
-  <div class="highlight twisting" id="t3" style="left:62px; top:356px; width:146px; height:15px;"></div>
-  
-  <div class="highlight coed" id="c1" style="left:62px; top:410px; width:146px; height:14px;"></div>
-  <div class="highlight coed" id="c2" style="left:62px; top:439px; width:146px; height:15px;"></div>
-  <div class="highlight coed" id="c3" style="left:62px; top:455px; width:146px; height:15px;"></div>
-  
-  <div class="highlight toss" id="o1" style="left:62px; top:555px; width:146px; height:15px;"></div>
-  <div class="highlight toss" id="o2" style="left:62px; top:582px; width:146px; height:21px;"></div>
-  <div class="highlight toss" id="o3" style="left:62px; top:600px; width:146px; height:15px;"></div>
-  
-  <div class="highlight inversion" id="h1" style="left:140px; top:550px; width:180px; height:20px;"></div>
-  <div class="highlight release" id="h2" style="left:330px; top:550px; width:180px; height:20px;"></div>
-  <div class="highlight twisting" id="h3" style="left:630px; top:550px; width:180px; height:20px;"></div>
+    <!-- All highlight boxes -->
+    <div class="highlight inversion" id="i1" style="left:62px; top:131px; width:146px; height:17px;"></div>
+    <div class="highlight inversion" id="i2" style="left:62px; top:150px; width:146px; height:18px;"></div>
+    <div class="highlight inversion" id="i3" style="left:62px; top:169px; width:146px; height:17px;"></div>
+    <div class="highlight inversion" id="i4" style="left:209px; top:131px; width:146px; height:17px;"></div>
+
+    <div class="highlight release" id="r1" style="left:62px; top:217px; width:146px; height:15px;"></div>
+    <div class="highlight release" id="r2" style="left:62px; top:233px; width:146px; height:13px;"></div>
+    <div class="highlight release" id="r3" style="left:62px; top:280px; width:146px; height:14px;"></div>
+
+    <div class="highlight twisting" id="t1" style="left:62px; top:335px; width:146px; height:7px;"></div>
+    <div class="highlight twisting" id="t2" style="left:62px; top:342px; width:146px; height:14px;"></div>
+    <div class="highlight twisting" id="t3" style="left:62px; top:356px; width:146px; height:15px;"></div>
+
+    <div class="highlight coed" id="c1" style="left:62px; top:410px; width:146px; height:14px;"></div>
+    <div class="highlight coed" id="c2" style="left:62px; top:439px; width:146px; height:15px;"></div>
+    <div class="highlight coed" id="c3" style="left:62px; top:455px; width:146px; height:15px;"></div>
+
+    <div class="highlight toss" id="o1" style="left:62px; top:555px; width:146px; height:15px;"></div>
+    <div class="highlight toss" id="o2" style="left:62px; top:582px; width:146px; height:21px;"></div>
+    <div class="highlight toss" id="o3" style="left:62px; top:600px; width:146px; height:15px;"></div>
+
+    <div class="highlight inversion" id="h1" style="left:140px; top:550px; width:180px; height:20px;"></div>
+    <div class="highlight release" id="h2" style="left:330px; top:550px; width:180px; height:20px;"></div>
+    <div class="highlight twisting" id="h3" style="left:630px; top:550px; width:180px; height:20px;"></div>
   </div>
 
   <table id="skillCountsTable">
@@ -141,8 +146,8 @@
     <option>No</option>
   </select>
 
+  <!-- Required Hidden Google Fields -->
   <textarea name="entry.853885754" id="gStuntSkills" style="display:none;"></textarea>
-  <!-- Hidden fields for the other entries (replace ID placeholders with actual entry IDs) -->
   <input type="hidden" name="entry.1305398481" id="gSchoolName">
   <input type="hidden" name="entry.1115196285" id="gTeamLevel">
   <input type="hidden" name="entry.1591826976" id="gNumAthletes">
@@ -159,8 +164,8 @@
   <input type="hidden" name="entry.815911308" id="gLegalityRulings">
 
   <div style="text-align: center; margin-top: 30px;">
-  <button type="button" id="saveBtn" style="padding: 12px 20px; font-size: 16px;">Save & Submit</button>
-</div>
+    <button type="button" id="saveBtn" style="padding: 12px 20px; font-size: 16px;">Save & Submit</button>
+  </div>
 
 </form>
 
@@ -168,33 +173,33 @@
 <iframe name="hidden_iframe" style="display:none;"></iframe>
 
 <script>
-// Rubric selection logic (Option B)
+// ------- REGION DEFINITIONS -------
 const regions = [
-  { id: 'i1', skill: 'Connected Inversions - Prep Level and Below to Below Prep', category: 'Inversion' },
-  { id: 'i2', skill: 'Below Prep Level Inversions to Ground', category: 'Inversion' },
-  { id: 'i3', skill: 'Released Inversion Prep Level or Below to Below Prep', category: 'Inversion' },
-  { id: 'i4', skill: 'Connected Inversions - Prep Level and Below to Prep', category: 'Inversion' },
-  { id: 'r1', skill: 'Release to Below Prep', category: 'Release' },
-  { id: 'r2', skill: 'Horizontal Releases to Below Prep', category: 'Release' },
-  { id: 'r3', skill: 'Extended Release to Below Prep', category: 'Release' },
-  { id: 't1', skill: '1/4 or 1/2 Up to Prep Level', category: 'Twisting' },
-  { id: 't2', skill: '1/4 Up to Extended', category: 'Twisting' },
-  { id: 't3', skill: '1/4 or 1/2 Twisting Transitions', category: 'Twisting' },
-  { id: 'c1', skill: 'Single Base at Prep Level', category: 'Coed' },
-  { id: 'c2', skill: 'Assisted Coed Skills to Prep', category: 'Coed' },
-  { id: 'c3', skill: 'Assisted Walk-In/Toss to Chair', category: 'Coed' },
-  { id: 'o1', skill: 'Prep Level and Below Stunts Not Previously Categorized', category: 'Toss' },
-  { id: 'o2', skill: 'Straight Ride or Pretty Girl Tosses', category: 'Toss' },
-  { id: 'o3', skill: 'Single Skill Tosses', category: 'Toss' },
-  { id: 'h1', skill: 'TEST', category: 'Inversion' },
-  { id: 'h2', skill: 'TEST', category: 'Release' },
-  { id: 'h3', skill: 'TEST', category: 'Twisting' }
+  { id: 'i1', skill: 'Connected Inversions - Prep Level and Below to Below Prep' },
+  { id: 'i2', skill: 'Below Prep Level Inversions to Ground' },
+  { id: 'i3', skill: 'Released Inversion Prep Level or Below to Below Prep' },
+  { id: 'i4', skill: 'Connected Inversions - Prep Level and Below to Prep' },
+  { id: 'r1', skill: 'Release to Below Prep' },
+  { id: 'r2', skill: 'Horizontal Releases to Below Prep' },
+  { id: 'r3', skill: 'Extended Release to Below Prep' },
+  { id: 't1', skill: '1/4 or 1/2 Up to Prep Level' },
+  { id: 't2', skill: '1/4 Up to Extended' },
+  { id: 't3', skill: '1/4 or 1/2 Twisting Transitions' },
+  { id: 'c1', skill: 'Single Base at Prep Level' },
+  { id: 'c2', skill: 'Assisted Coed Skills to Prep' },
+  { id: 'c3', skill: 'Assisted Walk-In/Toss to Chair' },
+  { id: 'o1', skill: 'Prep Level and Below Stunts Not Previously Categorized' },
+  { id: 'o2', skill: 'Straight Ride or Pretty Girl Tosses' },
+  { id: 'o3', skill: 'Single Skill Tosses' },
+  { id: 'h1', skill: 'TEST' },
+  { id: 'h2', skill: 'TEST' },
+  { id: 'h3', skill: 'TEST' }
 ];
 
 const wrapper = document.querySelector('.wrapper');
 const skillCountsContainer = document.getElementById('skillCounts');
 
-// Create a new instance each time the user clicks a region
+// -------- OPTION B: DUPLICATE ROWS ON CLICK --------
 wrapper.addEventListener('click', e => {
   const rect = wrapper.getBoundingClientRect();
   const x = e.clientX - rect.left;
@@ -209,17 +214,19 @@ wrapper.addEventListener('click', e => {
 
     if (x >= left && x <= left + width && y >= top && y <= top + height) {
 
-      // Flash the highlight briefly
+      // flash highlight
       box.style.display = "block";
-      setTimeout(() => { box.style.display = "none"; }, 150);
+      setTimeout(() => box.style.display = "none", 150);
 
-      // Create a NEW row every click
+      // Create a draggable new row
       const uid = crypto.randomUUID();
       const row = document.createElement('tr');
       row.id = uid;
+      row.classList.add("draggable-row");
+      row.setAttribute("draggable", "true");
 
       row.innerHTML = `
-        <td>${r.skill}</td>
+        <td style="cursor:grab;">⣿ ${r.skill}</td>
         <td><input type="number" min="1" value="1" class="skillCount"></td>
         <td><button type="button" onclick="this.parentNode.parentNode.remove()">❌</button></td>
       `;
@@ -231,45 +238,83 @@ wrapper.addEventListener('click', e => {
   }
 });
 
-// Save & submit
+// -------- SAVE --------
 document.getElementById('saveBtn').addEventListener('click', () => {
   let out = 'Selected VHSL Stunt Rubric Skills:\n\n';
-
   const rows = skillCountsContainer.querySelectorAll('tr');
 
-  if (rows.length === 0) {
-    out += '(None selected)';
-  } else {
-    rows.forEach(row => {
-      const skill = row.children[0].textContent;
-      const count = row.querySelector('input').value;
-      out += `${count} — ${skill}\n`;
-    });
-  }
+  if (rows.length === 0) out += '(None selected)';
+  else rows.forEach(row => {
+    const skill = row.children[0].textContent.replace('⣿ ', '');
+    const count = row.querySelector('input').value;
+    out += `${count} — ${skill}\n`;
+  });
 
   document.getElementById('output').textContent = out;
 
-  // Populate hidden form fields
+  // Hidden Google form fields
   document.getElementById('gStuntSkills').value = out;
-  document.getElementById('gSchoolName').value = document.getElementById('schoolName').value;
-  document.getElementById('gTeamLevel').value = document.getElementById('teamLevel').value;
-  document.getElementById('gNumAthletes').value = document.getElementById('numAthletes').value;
-  document.getElementById('gLocation').value = document.getElementById('competitionLocation').value;
-  document.getElementById('gDate').value = document.getElementById('competitionDate').value;
-  document.getElementById('gStuntRange').value = document.getElementById('stuntRange').value;
-  document.getElementById('gPyramidRange').value = document.getElementById('pyramidRange').value;
-  document.getElementById('gPyramidSkills').value = document.getElementById('pyramidSkills').value;
-  document.getElementById('gTumblingRange').value = document.getElementById('tumblingRange').value;
-  document.getElementById('gTeamSync').value = document.getElementById('teamSync').value;
-  document.getElementById('gAdditionalTumbling').value = document.getElementById('additionalTumbling').value;
-  document.getElementById('gJumpRange').value = document.getElementById('jumpRange').value;
-  document.getElementById('gJumpSequence').value = document.getElementById('jumpSequence').value;
-  document.getElementById('gLegalityRulings').value = document.getElementById('legalityRulings').value;
+  document.getElementById('gSchoolName').value = schoolName.value;
+  document.getElementById('gTeamLevel').value = teamLevel.value;
+  document.getElementById('gNumAthletes').value = numAthletes.value;
+  document.getElementById('gLocation').value = competitionLocation.value;
+  document.getElementById('gDate').value = competitionDate.value;
+  document.getElementById('gStuntRange').value = stuntRange.value;
+  document.getElementById('gPyramidRange').value = pyramidRange.value;
+  document.getElementById('gPyramidSkills').value = pyramidSkills.value;
+  document.getElementById('gTumblingRange').value = tumblingRange.value;
+  document.getElementById('gTeamSync').value = teamSync.value;
+  document.getElementById('gAdditionalTumbling').value = additionalTumbling.value;
+  document.getElementById('gJumpRange').value = jumpRange.value;
+  document.getElementById('gJumpSequence').value = jumpSequence.value;
+  document.getElementById('gLegalityRulings').value = legalityRulings.value;
 
   document.getElementById('fullForm').submit();
   alert('Form submitted! You may now close this page.');
 });
 
+// -------- DRAGGABLE ROW LOGIC --------
+let draggedRow = null;
+
+document.addEventListener("dragstart", e => {
+  if (e.target.classList.contains("draggable-row")) {
+    draggedRow = e.target;
+    e.target.classList.add("dragging");
+  }
+});
+
+document.addEventListener("dragend", e => {
+  if (e.target.classList.contains("draggable-row")) {
+    e.target.classList.remove("dragging");
+    draggedRow = null;
+  }
+});
+
+document.addEventListener("dragover", e => {
+  e.preventDefault();
+  const after = getAfterElement(skillCountsContainer, e.clientY);
+  const dragging = document.querySelector(".dragging");
+  if (!dragging) return;
+
+  if (after == null) {
+    skillCountsContainer.appendChild(dragging);
+  } else {
+    skillCountsContainer.insertBefore(dragging, after);
+  }
+});
+
+function getAfterElement(container, y) {
+  const elements = [...container.querySelectorAll(".draggable-row:not(.dragging)")];
+  return elements.reduce((closest, child) => {
+    const rect = child.getBoundingClientRect();
+    const offset = y - rect.top - rect.height / 2;
+    if (offset < 0 && offset > closest.offset) {
+      return { offset, element: child };
+    } else {
+      return closest;
+    }
+  }, { offset: Number.NEGATIVE_INFINITY, element: null }).element;
+}
 </script>
 
 </body>
