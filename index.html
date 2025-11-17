@@ -12,18 +12,20 @@
   button:hover { background: #a00000; }
   .wrapper { position: relative; display: inline-block; margin-top: 20px; }
   #rubricImage { width: 90%; max-width: 950px; display: block; }
-  .highlight { position: absolute; border: 2px solid transparent; background-color: transparent; pointer-events: none; display: none; }
+  .highlight { position: absolute; border: 2px solid transparent; background-color: transparent; pointer-events: none; }
   .twisting { border-color: rgba(255,0,0,0.8); background-color: rgba(255,0,0,0.25); }
   .coed     { border-color: rgba(0,0,255,0.8); background-color: rgba(0,0,255,0.25); }
   .release  { border-color: rgba(0,180,0,0.8); background-color: rgba(0,180,0,0.25); }
   .inversion{ border-color: rgba(180,0,180,0.8); background-color: rgba(180,0,180,0.25); }
   .toss     { border-color: rgba(255,120,0,0.8); background-color: rgba(255,120,0,0.25); }
   #output { margin-top: 20px; white-space: pre-wrap; background: #f7f7f7; padding: 10px; border-radius: 5px; max-width: 950px; }
-  table { width: 90%; max-width: 950px; border-collapse: collapse; margin-top: 10px; }
-  th, td { padding: 6px 10px; text-align: left; border-bottom: 1px solid #ccc; }
-  th { background: #f0f0f0; }
-  .drag-handle { cursor: grab; font-size: 18px; }
-  .delete-btn { cursor: pointer; color: #d00; font-size: 18px; text-align: center; }
+  table { margin-top: 15px; border-collapse: collapse; width: 90%; max-width: 950px; }
+  td, th { border: 1px solid #ccc; padding: 8px; vertical-align: middle; }
+  th { background: #eee; }
+  .drag-handle { cursor: move; margin-right: 8px; font-weight: bold; }
+  .delete-btn { cursor: pointer; color: #c00; margin-left: 8px; font-size: 1.1em; }
+  .instruction-text { margin-top: 15px; margin-bottom: 10px; font-size: 0.95em; }
+  .hot-pink { color: hotpink; font-weight: bold; }
 </style>
 </head>
 <body>
@@ -64,58 +66,28 @@
 
   <h2>Stunt Skills Rubric</h2>
   <p>Click on the rubric image to select skills.</p>
-  <p><strong>Enter number of groups for each selected skill. Please list skills in order of performance. Click the icon on the left to reorder or the trash can on the right to delete.</strong></p>
-
   <div class="wrapper">
     <img id="rubricImage" src="Stunt_Rubric.png" alt="VHSL Rubric">
-    <!-- Highlight boxes -->
+
+    <!-- Highlight boxes (example) -->
     <div class="highlight inversion" id="i1" style="left:62px; top:131px; width:146px; height:17px;"></div>
-    <div class="highlight inversion" id="i2" style="left:62px; top:150px; width:146px; height:18px;"></div>
-    <div class="highlight inversion" id="i3" style="left:62px; top:169px; width:146px; height:17px;"></div>
-    <div class="highlight inversion" id="i4" style="left:209px; top:131px; width:146px; height:17px;"></div>
-
     <div class="highlight release" id="r1" style="left:62px; top:217px; width:146px; height:15px;"></div>
-    <div class="highlight release" id="r2" style="left:62px; top:233px; width:146px; height:13px;"></div>
-    <div class="highlight release" id="r3" style="left:62px; top:280px; width:146px; height:14px;"></div>
-
     <div class="highlight twisting" id="t1" style="left:62px; top:335px; width:146px; height:7px;"></div>
-    <div class="highlight twisting" id="t2" style="left:62px; top:342px; width:146px; height:14px;"></div>
-    <div class="highlight twisting" id="t3" style="left:62px; top:356px; width:146px; height:15px;"></div>
-
     <div class="highlight coed" id="c1" style="left:62px; top:410px; width:146px; height:14px;"></div>
-    <div class="highlight coed" id="c2" style="left:62px; top:439px; width:146px; height:15px;"></div>
-    <div class="highlight coed" id="c3" style="left:62px; top:455px; width:146px; height:15px;"></div>
-
     <div class="highlight toss" id="o1" style="left:62px; top:555px; width:146px; height:15px;"></div>
-    <div class="highlight toss" id="o2" style="left:62px; top:582px; width:146px; height:21px;"></div>
-    <div class="highlight toss" id="o3" style="left:62px; top:600px; width:146px; height:15px;"></div>
-
-    <div class="highlight inversion" id="h1" style="left:140px; top:550px; width:180px; height:20px;"></div>
-    <div class="highlight release" id="h2" style="left:330px; top:550px; width:180px; height:20px;"></div>
-    <div class="highlight twisting" id="h3" style="left:630px; top:550px; width:180px; height:20px;"></div>
   </div>
 
-<p><strong>
-Enter the number of groups for each skill. 
-<span style="color: hotpink;">Please list skills in order of performance.</span> 
-Use the ⇅ icon to reorder or the 🗑️ icon to delete.
-</strong></p>
+  <div class="instruction-text">
+    Enter the number of groups for each skill. <span class="hot-pink">Please list skills in order of performance.</span> Use the <span>⇅</span> to reorder or the <span>🗑️</span> to delete.
+  </div>
 
-  
-  <!-- Drag & drop table -->
   <table id="skillCountsTable">
     <thead>
-      <tr>
-        <th style="width:30px;">⇅</th>
-        <th>Skill</th>
-        <th>Groups</th>
-        <th style="width:40px;">🗑️</th>
-      </tr>
+      <tr><th>Skill</th><th>Groups</th></tr>
     </thead>
     <tbody id="skillCounts"></tbody>
   </table>
 
-  <!-- Remaining Google Form fields (Pyramid, Tumbling, Jump, etc.) -->
   <label>Intended Pyramid Range</label>
   <select id="pyramidRange">
     <option value="">--Select--</option>
@@ -164,7 +136,7 @@ Use the ⇅ icon to reorder or the 🗑️ icon to delete.
     <option>No</option>
   </select>
 
-  <!-- Hidden Google Form fields -->
+  <!-- Hidden Google Form Fields -->
   <textarea name="entry.853885754" id="gStuntSkills" style="display:none;"></textarea>
   <input type="hidden" name="entry.1305398481" id="gSchoolName">
   <input type="hidden" name="entry.1115196285" id="gTeamLevel">
@@ -192,25 +164,11 @@ Use the ⇅ icon to reorder or the 🗑️ icon to delete.
 
 <script>
 const regions = [
-  { id: 'i1', skill: 'Connected Inversions - Prep Level and Below to Below Prep', category: 'Inversion' },
-  { id: 'i2', skill: 'Below Prep Level Inversions to Ground', category: 'Inversion' },
-  { id: 'i3', skill: 'Released Inversion Prep Level or Below to Below Prep', category: 'Inversion' },
-  { id: 'i4', skill: 'Connected Inversions - Prep Level and Below to Prep', category: 'Inversion' },
+  { id: 'i1', skill: 'Connected Inversions', category: 'Inversion' },
   { id: 'r1', skill: 'Release to Below Prep', category: 'Release' },
-  { id: 'r2', skill: 'Horizontal Releases to Below Prep', category: 'Release' },
-  { id: 'r3', skill: 'Extended Release to Below Prep', category: 'Release' },
   { id: 't1', skill: '1/4 or 1/2 Up to Prep Level', category: 'Twisting' },
-  { id: 't2', skill: '1/4 Up to Extended', category: 'Twisting' },
-  { id: 't3', skill: '1/4 or 1/2 Twisting Transitions', category: 'Twisting' },
   { id: 'c1', skill: 'Single Base at Prep Level', category: 'Coed' },
-  { id: 'c2', skill: 'Assisted Coed Skills to Prep', category: 'Coed' },
-  { id: 'c3', skill: 'Assisted Walk-In/Toss to Chair', category: 'Coed' },
-  { id: 'o1', skill: 'Prep Level and Below Stunts Not Previously Categorized', category: 'Toss' },
-  { id: 'o2', skill: 'Straight Ride or Pretty Girl Tosses', category: 'Toss' },
-  { id: 'o3', skill: 'Single Skill Tosses', category: 'Toss' },
-  { id: 'h1', skill: 'TEST', category: 'Inversion' },
-  { id: 'h2', skill: 'TEST', category: 'Release' },
-  { id: 'h3', skill: 'TEST', category: 'Twisting' }
+  { id: 'o1', skill: 'Prep Level and Below Stunts', category: 'Toss' }
 ];
 
 const wrapper = document.querySelector('.wrapper');
@@ -229,22 +187,20 @@ wrapper.addEventListener('click', e => {
     const height = parseFloat(box.style.height);
 
     if (x >= left && x <= left + width && y >= top && y <= top + height) {
-      const skillId = 'count_' + r.id;
+      // Blink effect
+      box.style.opacity = '0.25';
+      setTimeout(() => box.style.opacity = '1', 150);
 
-      // Allow duplicates, always create new row
+      // Add a new row for every click
       const row = document.createElement('tr');
-      row.id = skillId + '_' + Date.now();
-      row.innerHTML = `
-        <td class="drag-handle">⇅</td>
-        <td>${r.skill}</td>
-        <td><input type="number" id="${skillId}" min="0" value="0"></td>
-        <td class="delete-btn">🗑️</td>
-      `;
+      row.innerHTML = `<td><span class="drag-handle">⇅</span>${r.skill}</td>
+                       <td><input type="number" min="0" value="0"></td>
+                       <td><span class="delete-btn">🗑️</span></td>`;
       skillCountsContainer.appendChild(row);
 
-      // Delete functionality
+      // Delete button
       row.querySelector('.delete-btn').addEventListener('click', () => {
-        skillCountsContainer.removeChild(row);
+        row.remove();
       });
 
       break;
@@ -252,28 +208,51 @@ wrapper.addEventListener('click', e => {
   }
 });
 
-// Drag-and-drop functionality
-let draggedRow = null;
-skillCountsContainer.addEventListener('dragstart', e => {
-  draggedRow = e.target;
+// Drag & drop rows
+let dragSrcEl = null;
+function handleDragStart(e) {
+  dragSrcEl = this;
   e.dataTransfer.effectAllowed = 'move';
-});
-
-skillCountsContainer.addEventListener('dragover', e => {
-  e.preventDefault();
+  e.dataTransfer.setData('text/html', this.innerHTML);
+}
+function handleDragOver(e) {
+  if (e.preventDefault) e.preventDefault();
   e.dataTransfer.dropEffect = 'move';
-  const target = e.target.closest('tr');
-  if (target && target !== draggedRow) {
-    const rect = target.getBoundingClientRect();
-    const next = (e.clientY - rect.top) / rect.height > 0.5;
-    skillCountsContainer.insertBefore(draggedRow, next ? target.nextSibling : target);
-  }
-});
+  return false;
+}
+function handleDrop(e) {
+  if (e.stopPropagation) e.stopPropagation();
+  if (dragSrcEl !== this) {
+    dragSrcEl.innerHTML = this.innerHTML;
+    this.innerHTML = e.dataTransfer.getData('text/html');
 
-skillCountsContainer.addEventListener('drop', e => {
-  e.preventDefault();
-  draggedRow = null;
-});
+    addDeleteHandlers(dragSrcEl);
+    addDeleteHandlers(this);
+    addDragHandlers(dragSrcEl);
+    addDragHandlers(this);
+  }
+  return false;
+}
+function addDragHandlers(row) {
+  row.addEventListener('dragstart', handleDragStart);
+  row.addEventListener('dragover', handleDragOver);
+  row.addEventListener('drop', handleDrop);
+}
+function addDeleteHandlers(row) {
+  const delBtn = row.querySelector('.delete-btn');
+  if (delBtn) delBtn.addEventListener('click', () => row.remove());
+}
+new MutationObserver(mutations => {
+  mutations.forEach(m => {
+    m.addedNodes.forEach(node => {
+      if (node.tagName === 'TR') {
+        node.setAttribute('draggable', 'true');
+        addDragHandlers(node);
+        addDeleteHandlers(node);
+      }
+    });
+  });
+}).observe(skillCountsContainer, { childList: true });
 
 // Save & submit
 document.getElementById('saveBtn').addEventListener('click', () => {
@@ -281,11 +260,11 @@ document.getElementById('saveBtn').addEventListener('click', () => {
   const rows = skillCountsContainer.querySelectorAll('tr');
   if (rows.length === 0) out += '(None selected)';
   else rows.forEach(row => {
-    const skill = row.cells[1].textContent;
-    const countInput = row.cells[2].querySelector('input');
-    const count = countInput ? countInput.value : 0;
+    const skill = row.cells[0].textContent.replace('⇅','').trim();
+    const count = row.querySelector('input').value;
     out += `${count} — ${skill}\n`;
   });
+
   document.getElementById('output').textContent = out;
 
   // Populate hidden fields
@@ -305,17 +284,10 @@ document.getElementById('saveBtn').addEventListener('click', () => {
   document.getElementById('gJumpSequence').value = document.getElementById('jumpSequence').value;
   document.getElementById('gLegalityRulings').value = document.getElementById('legalityRulings').value;
 
-  // Submit form
   document.getElementById('fullForm').submit();
+  alert('Form submitted! You may now close this page.');
 });
 </script>
 
 </body>
 </html>
-
-
-
-
-
-
-
