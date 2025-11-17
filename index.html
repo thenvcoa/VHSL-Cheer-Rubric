@@ -168,7 +168,7 @@
 <iframe name="hidden_iframe" style="display:none;"></iframe>
 
 <script>
-// Rubric selection logic (same as your current JS)
+// Rubric selection logic (Option B)
 const regions = [
   { id: 'i1', skill: 'Connected Inversions - Prep Level and Below to Below Prep', category: 'Inversion' },
   { id: 'i2', skill: 'Below Prep Level Inversions to Ground', category: 'Inversion' },
@@ -189,13 +189,12 @@ const regions = [
   { id: 'h1', skill: 'TEST', category: 'Inversion' },
   { id: 'h2', skill: 'TEST', category: 'Release' },
   { id: 'h3', skill: 'TEST', category: 'Twisting' }
-  // Add all your other highlight objects here
 ];
 
-const selected = new Set();
 const wrapper = document.querySelector('.wrapper');
 const skillCountsContainer = document.getElementById('skillCounts');
 
+// Create a new instance each time the user clicks a region
 wrapper.addEventListener('click', e => {
   const rect = wrapper.getBoundingClientRect();
   const x = e.clientX - rect.left;
@@ -209,23 +208,24 @@ wrapper.addEventListener('click', e => {
     const height = parseFloat(box.style.height);
 
     if (x >= left && x <= left + width && y >= top && y <= top + height) {
-      const skillId = 'count_' + r.id;
 
-      if (selected.has(r.skill)) {
-        selected.delete(r.skill);
-        box.style.display = 'none';
-        const row = document.getElementById(skillId + '_div');
-        if (row) skillCountsContainer.removeChild(row);
-      } else {
-        selected.add(r.skill);
-        box.style.display = 'block';
-        if (!document.getElementById(skillId + '_div')) {
-          const row = document.createElement('tr');
-          row.id = skillId + '_div';
-          row.innerHTML = `<td>${r.skill}</td><td><input type="number" id="${skillId}" min="0" value="0"></td>`;
-          skillCountsContainer.appendChild(row);
-        }
-      }
+      // Flash the highlight briefly
+      box.style.display = "block";
+      setTimeout(() => { box.style.display = "none"; }, 150);
+
+      // Create a NEW row every click
+      const uid = crypto.randomUUID();
+      const row = document.createElement('tr');
+      row.id = uid;
+
+      row.innerHTML = `
+        <td>${r.skill}</td>
+        <td><input type="number" min="1" value="1" class="skillCount"></td>
+        <td><button type="button" onclick="this.parentNode.parentNode.remove()">❌</button></td>
+      `;
+
+      skillCountsContainer.appendChild(row);
+
       break;
     }
   }
@@ -234,16 +234,22 @@ wrapper.addEventListener('click', e => {
 // Save & submit
 document.getElementById('saveBtn').addEventListener('click', () => {
   let out = 'Selected VHSL Stunt Rubric Skills:\n\n';
-  if (selected.size === 0) out += '(None selected)';
-  else selected.forEach(skill => {
-    const region = regions.find(r => r.skill === skill);
-    const countInput = document.getElementById('count_' + region.id);
-    const count = countInput ? countInput.value : 0;
-    out += `${count} — ${skill}\n`;
-  });
+
+  const rows = skillCountsContainer.querySelectorAll('tr');
+
+  if (rows.length === 0) {
+    out += '(None selected)';
+  } else {
+    rows.forEach(row => {
+      const skill = row.children[0].textContent;
+      const count = row.querySelector('input').value;
+      out += `${count} — ${skill}\n`;
+    });
+  }
+
   document.getElementById('output').textContent = out;
 
-  // Populate hidden fields
+  // Populate hidden form fields
   document.getElementById('gStuntSkills').value = out;
   document.getElementById('gSchoolName').value = document.getElementById('schoolName').value;
   document.getElementById('gTeamLevel').value = document.getElementById('teamLevel').value;
@@ -263,10 +269,12 @@ document.getElementById('saveBtn').addEventListener('click', () => {
   document.getElementById('fullForm').submit();
   alert('Form submitted! You may now close this page.');
 });
+
 </script>
 
 </body>
 </html>
+
 
 
 
