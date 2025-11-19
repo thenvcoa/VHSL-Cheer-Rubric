@@ -19,11 +19,27 @@
   .inversion{ border-color: rgba(180,0,180,0.8); background-color: rgba(180,0,180,0.25); }
   .toss     { border-color: rgba(255,120,0,0.8); background-color: rgba(255,120,0,0.25); }
   #output { margin-top: 20px; white-space: pre-wrap; background: #f7f7f7; padding: 10px; border-radius: 5px; max-width: 950px; }
-  table { width: 90%; max-width: 950px; border-collapse: collapse; margin-top: 10px; }
+  table { width: 70%; max-width: 950px; border-collapse: collapse; margin-top: 10px; }
   th, td { padding: 6px 10px; text-align: left; border-bottom: 1px solid #ccc; }
   th { background: #f0f0f0; }
   .drag-handle { cursor: grab; font-size: 18px; }
   .delete-btn { cursor: pointer; color: #d00; font-size: 18px; text-align: center; }
+  .hotpink-underline {
+  color: hotpink;
+  text-decoration: underline;
+  }
+  .icon {
+  font-size: 24px;      /* Makes the icon bigger */
+  vertical-align: middle; /* Aligns icon nicely with text */
+  }
+  .majority {
+  background-color: rgba(0, 200, 0, 0.2); /* light green */
+  }
+  .non-majority {
+  background-color: rgba(255, 0, 0, 0.2); /* light red */
+  }
+
+  
 </style>
 </head>
 <body>
@@ -52,19 +68,8 @@
   <label>Competition Date</label>
   <input type="date" id="competitionDate">
 
-  <label>Intended Stunt Range</label>
-  <select id="stuntRange">
-    <option value="">--Select--</option>
-    <option>Beginner: 0.0 - 1.0</option>
-    <option>Intermediate: 1.25 - 3.25</option>
-    <option>Advanced: 3.5 - 5.5</option>
-    <option>Elite: 5.75 - 7.75</option>
-    <option>Super Elite: 8.0 - 10.0</option>
-  </select>
-
   <h2>Stunt Skills Rubric</h2>
-  <p>Click on the rubric image to select skills.</p>
-  <p><strong>Enter number of groups for each selected skill. Please list skills in order of performance. Click the icon on the left to reorder or the trash can on the right to delete.</strong></p>
+  <p><strong>Click on the rubric image to select skills.</strong></p>
 
   <div class="wrapper">
     <img id="rubricImage" src="Stunt_Rubric.png" alt="VHSL Rubric">
@@ -96,23 +101,35 @@
   </div>
 
 <p><strong>
-Enter the number of groups for each skill. 
-<span style="color: hotpink;">Please list skills in order of performance.</span> 
-Use the ⇅ icon to reorder or the 🗑️ icon to delete.
+Enter the number of stunt groups for each skill. 
+<span class="hotpink-underline">Please list skills in order of performance.</span> 
+Drag <span class="icon">⇅</span> to reorder skills or click <span class="icon">🗑️</span> to delete skills.
 </strong></p>
-  
+
   <!-- Drag & drop table -->
   <table id="skillCountsTable">
     <thead>
       <tr>
         <th style="width:30px;">⇅</th>
         <th>Skill</th>
-        <th>Groups</th>
-        <th style="width:40px;">🗑️</th>
+		<th>Difficulty</th>
+        <th># of Stunt Groups</th>
+        <th style="width:30px;">🗑️</th>
       </tr>
     </thead>
     <tbody id="skillCounts"></tbody>
   </table>
+
+<div style="display: flex; align-items: center; gap: 10px;">
+  <button onclick="runChecker()">Check Overall Difficulty</button>
+  <span style="font-style: italic; color: gray;">
+    Majority skills will highlight in green and non-majority skills will highlight in red.
+  </span>
+</div>
+
+  <div id="output"></div>
+
+
 
   <!-- Remaining Google Form fields (Pyramid, Tumbling, Jump, etc.) -->
   <label>Intended Pyramid Range</label>
@@ -165,12 +182,12 @@ Use the ⇅ icon to reorder or the 🗑️ icon to delete.
 
   <!-- Hidden Google Form fields -->
   <textarea name="entry.853885754" id="gStuntSkills" style="display:none;"></textarea>
+  <textarea name="entry.839382260" id="gStuntRange" style="display:none;"></textarea>
   <input type="hidden" name="entry.1305398481" id="gSchoolName">
   <input type="hidden" name="entry.1115196285" id="gTeamLevel">
   <input type="hidden" name="entry.1591826976" id="gNumAthletes">
   <input type="hidden" name="entry.213144247" id="gLocation">
   <input type="hidden" name="entry.350592538" id="gDate">
-  <input type="hidden" name="entry.839382260" id="gStuntRange">
   <input type="hidden" name="entry.1261324678" id="gPyramidRange">
   <input type="hidden" name="entry.1334475235" id="gPyramidSkills">
   <input type="hidden" name="entry.1257575335" id="gTumblingRange">
@@ -191,30 +208,31 @@ Use the ⇅ icon to reorder or the 🗑️ icon to delete.
 
 <script>
 const regions = [
-  { id: 'i1', skill: 'Connected Inversions - Prep Level and Below to Below Prep', category: 'Inversion' },
-  { id: 'i2', skill: 'Below Prep Level Inversions to Ground', category: 'Inversion' },
-  { id: 'i3', skill: 'Released Inversion Prep Level or Below to Below Prep', category: 'Inversion' },
-  { id: 'i4', skill: 'Connected Inversions - Prep Level and Below to Prep', category: 'Inversion' },
-  { id: 'r1', skill: 'Release to Below Prep', category: 'Release' },
-  { id: 'r2', skill: 'Horizontal Releases to Below Prep', category: 'Release' },
-  { id: 'r3', skill: 'Extended Release to Below Prep', category: 'Release' },
-  { id: 't1', skill: '1/4 or 1/2 Up to Prep Level', category: 'Twisting' },
-  { id: 't2', skill: '1/4 Up to Extended', category: 'Twisting' },
-  { id: 't3', skill: '1/4 or 1/2 Twisting Transitions', category: 'Twisting' },
-  { id: 'c1', skill: 'Single Base at Prep Level', category: 'Coed' },
-  { id: 'c2', skill: 'Assisted Coed Skills to Prep', category: 'Coed' },
-  { id: 'c3', skill: 'Assisted Walk-In/Toss to Chair', category: 'Coed' },
-  { id: 'o1', skill: 'Prep Level and Below Stunts Not Previously Categorized', category: 'Toss' },
-  { id: 'o2', skill: 'Straight Ride or Pretty Girl Tosses', category: 'Toss' },
-  { id: 'o3', skill: 'Single Skill Tosses', category: 'Toss' },
-  { id: 'h1', skill: 'TEST', category: 'Inversion' },
-  { id: 'h2', skill: 'TEST', category: 'Release' },
-  { id: 'h3', skill: 'TEST', category: 'Twisting' }
+  { id: 'i1', skill: 'Connected Inversions - Prep Level and Below to Below Prep', category: 'Inversion', difficulty: 'Beginner'},
+  { id: 'i2', skill: 'Below Prep Level Inversions to Ground', category: 'Inversion', difficulty: 'Beginner' },
+  { id: 'i3', skill: 'Released Inversion Prep Level or Below to Below Prep', category: 'Inversion', difficulty: 'Beginner' },
+  { id: 'i4', skill: 'Connected Inversions - Prep Level and Below to Prep', category: 'Inversion', difficulty: 'Intermediate' },
+  { id: 'r1', skill: 'Release to Below Prep', category: 'Release', difficulty: 'Beginner' },
+  { id: 'r2', skill: 'Horizontal Releases to Below Prep', category: 'Release', difficulty: 'Beginner' },
+  { id: 'r3', skill: 'Extended Release to Below Prep', category: 'Release', difficulty: 'Beginner' },
+  { id: 't1', skill: '1/4 or 1/2 Up to Prep Level', category: 'Twisting', difficulty: 'Beginner' },
+  { id: 't2', skill: '1/4 Up to Extended', category: 'Twisting', difficulty: 'Beginner' },
+  { id: 't3', skill: '1/4 or 1/2 Twisting Transitions', category: 'Twisting', difficulty: 'Beginner' },
+  { id: 'c1', skill: 'Single Base at Prep Level', category: 'Coed', difficulty: 'Beginner' },
+  { id: 'c2', skill: 'Assisted Coed Skills to Prep', category: 'Coed', difficulty: 'Beginner' },
+  { id: 'c3', skill: 'Assisted Walk-In/Toss to Chair', category: 'Coed', difficulty: 'Beginner' },
+  { id: 'o1', skill: 'Prep Level and Below Stunts Not Previously Categorized', category: 'Toss', difficulty: 'Beginner' },
+  { id: 'o2', skill: 'Straight Ride or Pretty Girl Tosses', category: 'Toss', difficulty: 'Beginner' },
+  { id: 'o3', skill: 'Single Skill Tosses', category: 'Toss', difficulty: 'Beginner' },
+  { id: 'h1', skill: 'TEST', category: 'Inversion', difficulty: 'Advanced' },
+  { id: 'h2', skill: 'TEST', category: 'Release', difficulty: 'Elite' },
+  { id: 'h3', skill: 'TEST', category: 'Twisting', difficulty: 'Super Elite' }
 ];
 
 const wrapper = document.querySelector('.wrapper');
 const skillCountsContainer = document.getElementById('skillCounts');
 
+// Click on rubric image to add skill row
 wrapper.addEventListener('click', e => {
   const rect = wrapper.getBoundingClientRect();
   const x = e.clientX - rect.left;
@@ -234,18 +252,20 @@ wrapper.addEventListener('click', e => {
       box.style.display = "block";
       setTimeout(() => box.style.display = "none", 150);
 
-      // Allow duplicates, always create new row
+      // Create new row
       const row = document.createElement('tr');
       row.id = skillId + '_' + Date.now();
+      row.draggable = true; // <-- Make row draggable
       row.innerHTML = `
         <td class="drag-handle">⇅</td>
         <td>${r.skill}</td>
+		 <td>${r.difficulty}</td>
         <td><input type="number" id="${skillId}" min="0" value="0"></td>
         <td class="delete-btn">🗑️</td>
       `;
       skillCountsContainer.appendChild(row);
 
-      // Delete functionality
+      // Delete row
       row.querySelector('.delete-btn').addEventListener('click', () => {
         skillCountsContainer.removeChild(row);
       });
@@ -255,28 +275,106 @@ wrapper.addEventListener('click', e => {
   }
 });
 
-// Drag-and-drop functionality
+// Drag and drop functionality
 let draggedRow = null;
+
 skillCountsContainer.addEventListener('dragstart', e => {
-  draggedRow = e.target;
-  e.dataTransfer.effectAllowed = 'move';
+  draggedRow = e.target.closest('tr');
+  if (draggedRow) e.dataTransfer.effectAllowed = 'move';
 });
 
 skillCountsContainer.addEventListener('dragover', e => {
   e.preventDefault();
-  e.dataTransfer.dropEffect = 'move';
-  const target = e.target.closest('tr');
-  if (target && target !== draggedRow) {
-    const rect = target.getBoundingClientRect();
-    const next = (e.clientY - rect.top) / rect.height > 0.5;
-    skillCountsContainer.insertBefore(draggedRow, next ? target.nextSibling : target);
-  }
+  const targetRow = e.target.closest('tr');
+  if (!targetRow || targetRow === draggedRow) return;
+
+  const rect = targetRow.getBoundingClientRect();
+  const next = (e.clientY - rect.top) > rect.height / 2;
+  skillCountsContainer.insertBefore(draggedRow, next ? targetRow.nextSibling : targetRow);
 });
 
 skillCountsContainer.addEventListener('drop', e => {
   e.preventDefault();
   draggedRow = null;
 });
+
+
+function runChecker() {
+  const numAthletes = parseInt(document.getElementById('numAthletes').value) || 0;
+  const majorityStunt = numAthletes <= 15 ? 2 : 3;
+
+  const rows = document.querySelectorAll('#skillCounts tr');
+  let majoritySkills = [];
+  let outputText = 'Selected VHSL Stunt Rubric Skills:\n\n';
+
+  // Step 1: Reset table coloring
+  rows.forEach((row, idx) => {
+    // skip header if (idx === 0) return; 
+    row.classList.remove('majority', 'non-majority');
+  });
+
+  // Step 2: Label Non-Majority Skills and gather majority skills
+  rows.forEach((row, idx) => {
+    // skip header if (idx === 0) return; 
+    const skill = row.cells[1].textContent;
+    const difficulty = row.cells[2].textContent;
+    const count = parseInt(row.cells[3].querySelector('input').value) || 0;
+
+    if (count >= majorityStunt) {
+      majoritySkills.push({ skill, difficulty });
+      row.classList.add('majority');
+      outputText += `${count} — ${skill} [${difficulty}]\n`;
+    } else {
+      row.classList.add('non-majority');
+      outputText += `${count} — ${skill} [${difficulty}] (Non Majority)\n`;
+    }
+  });
+
+  // Step 3: Define difficulty levels for sorting
+  const difficultyLevels = {
+    'Beginner': 1,
+    'Intermediate': 2,
+    'Advanced': 3,
+    'Elite': 4,
+    'Super Elite': 5
+  };
+
+  // Step 4: Count how many majority skills are at each difficulty
+  const difficultyCount = {};
+  majoritySkills.forEach(s => {
+    difficultyCount[s.difficulty] = (difficultyCount[s.difficulty] || 0) + 1;
+  });
+
+  // Step 5: Sort difficulties from highest to lowest
+  const sortedDifficulties = Object.keys(difficultyLevels).sort(
+    (a, b) => difficultyLevels[b] - difficultyLevels[a]
+  );
+
+  // Step 6: Determine overall difficulty based on cumulative majority
+  let overallDifficulty = null;
+  const startingIndex = sortedDifficulties.findIndex(d => difficultyCount[d] >= 1);
+
+  if (startingIndex !== -1) {
+    let cumulative = 0;
+    // Step down from highest to lowest, adding cumulative majority skills
+    for (let i = startingIndex; i < sortedDifficulties.length; i++) {
+      cumulative += (difficultyCount[sortedDifficulties[i]] || 0);
+      if (cumulative >= 2) {
+        overallDifficulty = sortedDifficulties[i]; // first range that meets cumulative majority
+        break;
+      }
+    }
+  }
+
+  // Step 7: Output results
+  outputText += `\nRequired Number of Groups for Majority: ${majorityStunt}`;
+  outputText += `\nOverall Difficulty Range: ${overallDifficulty || 'Selected skills do not meet rubric requirements for majority'}`;
+
+  document.getElementById('output').textContent = outputText;
+  document.getElementById('gStuntRange').value = overallDifficulty || '';
+}
+
+
 
 // Save & submit
 document.getElementById('saveBtn').addEventListener('click', () => {
@@ -285,9 +383,10 @@ document.getElementById('saveBtn').addEventListener('click', () => {
   if (rows.length === 0) out += '(None selected)';
   else rows.forEach(row => {
     const skill = row.cells[1].textContent;
-    const countInput = row.cells[2].querySelector('input');
+    const difficulty = row.cells[2].textContent;
+    const countInput = row.cells[3].querySelector('input');
     const count = countInput ? countInput.value : 0;
-    out += `${count} — ${skill}\n`;
+    out += `${count} — ${skill} [${difficulty}]\n`;
   });
   document.getElementById('output').textContent = out;
 
@@ -313,8 +412,12 @@ document.getElementById('saveBtn').addEventListener('click', () => {
 });
 </script>
 
+
 </body>
 </html>
+
+
+
 
 
 
