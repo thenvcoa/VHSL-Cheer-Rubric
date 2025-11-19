@@ -1,8 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>NVCOA Cheer Coaches Full Form + Rubric</title>
+<title>VHSL Cheer Coaches Rubric Submission</title>
+
+
 <style>
   body { font-family: Arial, sans-serif; margin: 30px; background: #fafafa; }
   h1 { color: #800000; }
@@ -11,15 +14,17 @@
   button { margin-top: 25px; padding: 10px 16px; background: #800000; color: white; border: none; border-radius: 5px; cursor: pointer; }
   button:hover { background: #a00000; }
   .wrapper { position: relative; display: inline-block; margin-top: 20px; }
-  #rubricImage { width: 90%; max-width: 950px; display: block; }
+  #StuntRubricImage { width: 90%; max-width: 950px; display: block; }
+  #PyramidRubricImage { width: 90%; max-width: 950px; display: block; }
   .highlight { position: absolute; border: 2px solid transparent; background-color: transparent; pointer-events: none; display: none; }
   .twisting { border-color: rgba(255,0,0,0.8); background-color: rgba(255,0,0,0.25); }
   .coed     { border-color: rgba(0,0,255,0.8); background-color: rgba(0,0,255,0.25); }
   .release  { border-color: rgba(0,180,0,0.8); background-color: rgba(0,180,0,0.25); }
   .inversion{ border-color: rgba(180,0,180,0.8); background-color: rgba(180,0,180,0.25); }
   .toss     { border-color: rgba(255,120,0,0.8); background-color: rgba(255,120,0,0.25); }
-  #output { margin-top: 20px; white-space: pre-wrap; background: #f7f7f7; padding: 10px; border-radius: 5px; max-width: 950px; }
-  table { width: 70%; max-width: 950px; border-collapse: collapse; margin-top: 10px; }
+  #output { margin-top: 20px; white-space: pre-wrap; background: #f7f7f7; padding: 10px; border-radius: 5px; max-width: 825px; }
+  #outputp { margin-top: 20px; white-space: pre-wrap; background: #f7f7f7; padding: 10px; border-radius: 5px; max-width: 825px; } 
+ table { width: 70%; max-width: 950px; border-collapse: collapse; margin-top: 10px; }
   th, td { padding: 6px 10px; text-align: left; border-bottom: 1px solid #ccc; }
   th { background: #f0f0f0; }
   .drag-handle { cursor: grab; font-size: 18px; }
@@ -29,26 +34,28 @@
   text-decoration: underline;
   }
   .icon {
-  font-size: 24px;      /* Makes the icon bigger */
-  vertical-align: middle; /* Aligns icon nicely with text */
+  font-size: 24px;     
+  vertical-align: middle; 
   }
   .majority {
-  background-color: rgba(0, 200, 0, 0.2); /* light green */
+  background-color: rgba(0, 200, 0, 0.2); 
   }
   .non-majority {
-  background-color: rgba(255, 0, 0, 0.2); /* light red */
+  background-color: rgba(255, 0, 0, 0.2);
   }
-
+  hr { border: none; 
+	height: 2px; 
+	background-color: #800000; 
+	margin: 30px 0; }
   
 </style>
 </head>
 <body>
 
-<h1>NVCOA Cheer Coaches Rubric + Full Form</h1>
+<!-- ========================START HTML VISUAL======================== -->
 
-<form id="fullForm" action="https://docs.google.com/forms/d/e/1FAIpQLSfQ3lyxpqbB0ej3RfpUok4s02UNwSfFExRDta7rATeTuqEg2g/formResponse" method="POST" target="hidden_iframe">
+<h1>VHSL Cheer Coaches Rubric Submission</h1>
 
-  <!-- Google Form Fields -->
   <label>School Name</label>
   <input type="text" id="schoolName">
 
@@ -59,6 +66,12 @@
     <option value="Junior Varsity">Junior Varsity</option>
   </select>
 
+  <label>Head Coach Name</label>
+  <input type="text" id="CoachName">
+ 
+   <label>Head Coach Email</label>
+  <input type="text" id="CoachEmail">
+
   <label>Number of Athletes Performing</label>
   <input type="number" id="numAthletes" min="1">
 
@@ -67,83 +80,123 @@
 
   <label>Competition Date</label>
   <input type="date" id="competitionDate">
+  
+<hr>
 
   <h2>Stunt Skills Rubric</h2>
   <p><strong>Click on the rubric image to select skills.</strong></p>
 
-  <div class="wrapper">
-    <img id="rubricImage" src="Stunt_Rubric.png" alt="VHSL Rubric">
-    <!-- Highlight boxes -->
-    <div class="highlight inversion" id="i1" style="left:62px; top:131px; width:146px; height:17px;"></div>
-    <div class="highlight inversion" id="i2" style="left:62px; top:150px; width:146px; height:18px;"></div>
-    <div class="highlight inversion" id="i3" style="left:62px; top:169px; width:146px; height:17px;"></div>
-    <div class="highlight inversion" id="i4" style="left:209px; top:131px; width:146px; height:17px;"></div>
+	<div class="wrapper">
+		<img id="StuntRubricImage" src="Stunt_Rubric.png" alt="VHSL Stunt Rubric">
+		<!-- Highlight boxes -->
+		<div class="highlight inversion" id="i1" style="left:62px; top:131px; width:146px; height:17px;"></div>
+		<div class="highlight inversion" id="i2" style="left:62px; top:150px; width:146px; height:18px;"></div>
+		<div class="highlight inversion" id="i3" style="left:62px; top:169px; width:146px; height:17px;"></div>
+		<div class="highlight inversion" id="i4" style="left:209px; top:131px; width:146px; height:17px;"></div>
 
-    <div class="highlight release" id="r1" style="left:62px; top:217px; width:146px; height:15px;"></div>
-    <div class="highlight release" id="r2" style="left:62px; top:233px; width:146px; height:13px;"></div>
-    <div class="highlight release" id="r3" style="left:62px; top:280px; width:146px; height:14px;"></div>
+		<div class="highlight release" id="r1" style="left:62px; top:217px; width:146px; height:15px;"></div>
+		<div class="highlight release" id="r2" style="left:62px; top:233px; width:146px; height:13px;"></div>
+		<div class="highlight release" id="r3" style="left:62px; top:280px; width:146px; height:14px;"></div>
 
-    <div class="highlight twisting" id="t1" style="left:62px; top:335px; width:146px; height:7px;"></div>
-    <div class="highlight twisting" id="t2" style="left:62px; top:342px; width:146px; height:14px;"></div>
-    <div class="highlight twisting" id="t3" style="left:62px; top:356px; width:146px; height:15px;"></div>
+		<div class="highlight twisting" id="t1" style="left:62px; top:335px; width:146px; height:7px;"></div>
+		<div class="highlight twisting" id="t2" style="left:62px; top:342px; width:146px; height:14px;"></div>
+		<div class="highlight twisting" id="t3" style="left:62px; top:356px; width:146px; height:15px;"></div>
 
-    <div class="highlight coed" id="c1" style="left:62px; top:410px; width:146px; height:14px;"></div>
-    <div class="highlight coed" id="c2" style="left:62px; top:439px; width:146px; height:15px;"></div>
-    <div class="highlight coed" id="c3" style="left:62px; top:455px; width:146px; height:15px;"></div>
+		<div class="highlight coed" id="c1" style="left:62px; top:410px; width:146px; height:14px;"></div>
+		<div class="highlight coed" id="c2" style="left:62px; top:439px; width:146px; height:15px;"></div>
+		<div class="highlight coed" id="c3" style="left:62px; top:455px; width:146px; height:15px;"></div>
 
-    <div class="highlight toss" id="o1" style="left:62px; top:555px; width:146px; height:15px;"></div>
-    <div class="highlight toss" id="o2" style="left:62px; top:582px; width:146px; height:21px;"></div>
-    <div class="highlight toss" id="o3" style="left:62px; top:600px; width:146px; height:15px;"></div>
+		<div class="highlight toss" id="o1" style="left:62px; top:555px; width:146px; height:15px;"></div>
+		<div class="highlight toss" id="o2" style="left:62px; top:582px; width:146px; height:21px;"></div>
+		<div class="highlight toss" id="o3" style="left:62px; top:600px; width:146px; height:15px;"></div>
 
-    <div class="highlight inversion" id="h1" style="left:140px; top:550px; width:180px; height:20px;"></div>
-    <div class="highlight release" id="h2" style="left:330px; top:550px; width:180px; height:20px;"></div>
-    <div class="highlight twisting" id="h3" style="left:630px; top:550px; width:180px; height:20px;"></div>
-  </div>
+		<div class="highlight inversion" id="h1" style="left:140px; top:550px; width:180px; height:20px;"></div>
+		<div class="highlight release" id="h2" style="left:330px; top:550px; width:180px; height:20px;"></div>
+		<div class="highlight twisting" id="h3" style="left:630px; top:550px; width:180px; height:20px;"></div>
+	</div>
 
-<p><strong>
-Enter the number of stunt groups for each skill. 
-<span class="hotpink-underline">Please list skills in order of performance.</span> 
-Drag <span class="icon">⇅</span> to reorder skills or click <span class="icon">🗑️</span> to delete skills.
-</strong></p>
+	<p><strong>
+	Enter the number of stunt groups for each skill. 
+	<span class="hotpink-underline">Please list skills in order of performance.</span> 
+	Drag <span class="icon">⇅</span> to reorder skills or click <span class="icon">🗑️</span> to delete skills.
+	</strong></p>
 
-  <!-- Drag & drop table -->
-  <table id="skillCountsTable">
-    <thead>
-      <tr>
-        <th style="width:30px;">⇅</th>
-        <th>Skill</th>
-		<th>Difficulty</th>
-        <th># of Stunt Groups</th>
-        <th style="width:30px;">🗑️</th>
-      </tr>
-    </thead>
-    <tbody id="skillCounts"></tbody>
-  </table>
+	<!-- Drag & drop table -->
+	<table id="skillCountsTable">
+		<thead>
+		<tr>
+			<th style="width:30px;">⇅</th>
+			<th>Skill</th>
+			<th>Difficulty</th>
+			<th># of Stunt Groups</th>
+			<th style="width:30px;">🗑️</th>
+		</tr>
+		</thead>
+		<tbody id="skillCounts"></tbody>
+	</table>
 
-<div style="display: flex; align-items: center; gap: 10px;">
-  <button onclick="runChecker()">Check Overall Difficulty</button>
-  <span style="font-style: italic; color: gray;">
-    Majority skills will highlight in green and non-majority skills will highlight in red.
-  </span>
-</div>
+	<div style="display: flex; align-items: center; gap: 10px;">
+	<button onclick="runChecker()">Calculate Stunt Difficulty Range</button>
+	<span style="font-style: italic; color: gray;">
+		Majority skills will highlight in green and non-majority skills will highlight in red.
+	</span>
+	</div>
 
-  <div id="output"></div>
+	<div id="output"></div>
+
+<hr>
+
+  <h2>Pyramid Skills Rubric</h2>
+  <p><strong>Click on the rubric image to select skills.</strong></p>
+
+	<div class="wrapper">
+		<img id="PyramidRubricImage" src="Pyramid_Rubric.png" alt="VHSL Pyramid Rubric">
+		<!-- Highlight boxes -->
+		<div class="highlight inversion" id="n1" style="left:162px; top:110px; width:125px; height:23px;"></div>
+		<div class="highlight inversion" id="n2" style="left:162px; top:134px; width:125px; height:26px;"></div>
+		<div class="highlight inversion" id="n3" style="left:162px; top:191px; width:125px; height:23px;"></div>
+		<div class="highlight inversion" id="n4" style="left:289px; top:110px; width:129px; height:23px;"></div>
+
+		<div class="highlight release" id="pr1" style="left:162px; top:248px; width:125px; height:27px;"></div>
+		<div class="highlight release" id="pr2" style="left:162px; top:277px; width:125px; height:28px;"></div>
+		<div class="highlight release" id="pr3" style="left:289px; top:248px; width:129px; height:27px;"></div>
+
+		<div class="highlight twisting" id="b1" style="left:162px; top:373px; width:125px; height:22px;"></div>
+		<div class="highlight twisting" id="b2" style="left:162px; top:396px; width:125px; height:28px;"></div>
+		<div class="highlight twisting" id="b3" style="left:289px; top:373px; width:129px; height:22px;"></div>
+	</div>
 
 
+	<p><strong>
+	Enter the number of trick flyers for each skill. 
+	<span class="hotpink-underline">Please list skills in order of performance.</span> 
+	Drag <span class="icon">⇅</span> to reorder skills or click <span class="icon">🗑️</span> to delete skills.
+	</strong></p>
 
-  <!-- Remaining Google Form fields (Pyramid, Tumbling, Jump, etc.) -->
-  <label>Intended Pyramid Range</label>
-  <select id="pyramidRange">
-    <option value="">--Select--</option>
-    <option>Beginner: 0.0 - 1.0</option>
-    <option>Intermediate: 1.25 - 3.25</option>
-    <option>Advanced: 3.5 - 5.5</option>
-    <option>Elite: 5.75 - 7.75</option>
-    <option>Super Elite: 8.0 - 10.0</option>
-  </select>
+	<!-- Drag & drop table -->
+	<table id="PyramidCountsTable">
+		<thead>
+		<tr>
+			<th style="width:30px;">⇅</th>
+			<th>Skill</th>
+			<th>Difficulty</th>
+			<th># of Trick Flyers</th>
+			<th style="width:30px;">🗑️</th>
+		</tr>
+		</thead>
+		<tbody id="PyramidCounts"></tbody>
+	</table>
 
-  <label>Pyramid Skills Description</label>
-  <textarea id="pyramidSkills" rows="3"></textarea>
+	<div style="display: flex; align-items: center; gap: 10px;">
+	<button onclick="runChecker2()">Calculate Pyramid Difficulty Range</button>
+	<span style="font-style: italic; color: gray;">
+		Majority skills will highlight in green and non-majority skills will highlight in red.
+	</span>
+	</div>
+
+	<div id="outputp"></div>
+  
+<hr>
 
   <label>Intended Tumbling Range</label>
   <select id="tumblingRange">
@@ -180,34 +233,36 @@ Drag <span class="icon">⇅</span> to reorder skills or click <span class="icon"
     <option>No</option>
   </select>
 
-  <!-- Hidden Google Form fields -->
-  <textarea name="entry.853885754" id="gStuntSkills" style="display:none;"></textarea>
-  <textarea name="entry.839382260" id="gStuntRange" style="display:none;"></textarea>
-  <input type="hidden" name="entry.1305398481" id="gSchoolName">
-  <input type="hidden" name="entry.1115196285" id="gTeamLevel">
-  <input type="hidden" name="entry.1591826976" id="gNumAthletes">
-  <input type="hidden" name="entry.213144247" id="gLocation">
-  <input type="hidden" name="entry.350592538" id="gDate">
-  <input type="hidden" name="entry.1261324678" id="gPyramidRange">
-  <input type="hidden" name="entry.1334475235" id="gPyramidSkills">
-  <input type="hidden" name="entry.1257575335" id="gTumblingRange">
-  <input type="hidden" name="entry.1061923490" id="gTeamSync">
-  <input type="hidden" name="entry.366964955" id="gAdditionalTumbling">
-  <input type="hidden" name="entry.1517156909" id="gJumpRange">
-  <input type="hidden" name="entry.1736401588" id="gJumpSequence">
-  <input type="hidden" name="entry.815911308" id="gLegalityRulings">
 
   <div style="text-align: center; margin-top: 30px;">
     <button type="button" id="saveBtn" style="padding: 12px 20px; font-size: 16px;">Save & Submit</button>
   </div>
 
-</form>
+<!-- Summary Output Results -->
 
-<pre id="output"></pre>
-<iframe name="hidden_iframe" style="display:none;"></iframe>
+<label>Stunt Skills Summary</label>
+<div id="StuntSkills" style="white-space: pre-wrap; background: #f0f0f0; padding: 8px; border-radius: 4px;"></div>
+
+<label>Overall Stunt Difficulty Range</label>
+<div id="StuntRange" style="background: #f0f0f0; padding: 8px; border-radius: 4px;"></div>
+
+<label>Pyramid Skills Summary</label>
+<div id="PyramidSkills" style="white-space: pre-wrap; background: #f0f0f0; padding: 8px; border-radius: 4px;"></div>
+
+<label>Overall Pyramid Difficulty Range</label>
+<div id="PyramidRange" style="background: #f0f0f0; padding: 8px; border-radius: 4px;"></div>
+
+
+
+
+
+<!-- ========================END HTML VISUAL======================== -->
+
 
 <script>
-const regions = [
+
+//Labels for all stunt & pyramid skills
+const StuntRegions = [
   { id: 'i1', skill: 'Connected Inversions - Prep Level and Below to Below Prep', category: 'Inversion', difficulty: 'Beginner'},
   { id: 'i2', skill: 'Below Prep Level Inversions to Ground', category: 'Inversion', difficulty: 'Beginner' },
   { id: 'i3', skill: 'Released Inversion Prep Level or Below to Below Prep', category: 'Inversion', difficulty: 'Beginner' },
@@ -229,16 +284,34 @@ const regions = [
   { id: 'h3', skill: 'TEST', category: 'Twisting', difficulty: 'Super Elite' }
 ];
 
+const PyramidRegions = [
+  { id: 'n1', skill: 'Braced Non-Released Transitions', category: 'Inversion', difficulty: 'Beginner' },
+  { id: 'n2', skill: 'Inverted Stunts to Prep Level and Below', category: 'Inversion', difficulty: 'Beginner' },
+  { id: 'n3', skill: 'Intermediate Twisting Stunt Variations', category: 'Inversion', difficulty: 'Beginner' },
+  { id: 'n4', skill: 'Unbraced Non-Released Transitions', category: 'Inversion', difficulty: 'Intermediate' },
+
+  { id: 'pr1', skill: 'Braced Release to Prep or Below (1 or 2)', category: 'Release', difficulty: 'Beginner' },
+  { id: 'pr2', skill: 'Braced Release to Extended (2)', category: 'Release', difficulty: 'Beginner' },
+  { id: 'pr3', skill: 'Braced Release to Extended (1)', category: 'Release', difficulty: 'Beginner' },
+ 
+  { id: 'b1', skill: 'Rolling Transition to Prep Level or Below', category: 'Twisting', difficulty: 'Advanced' },
+  { id: 'b2', skill: 'Flipping Transition Landing Below Prep Level (1 or 2)', category: 'Twisting', difficulty: 'Elite' },
+  { id: 'b3', skill: '1/4 Twisting Flipping Transition Landing at Prep or Below (1 or 2)', category: 'Twisting', difficulty: 'Super Elite' },
+];
+
 const wrapper = document.querySelector('.wrapper');
 const skillCountsContainer = document.getElementById('skillCounts');
 
-// Click on rubric image to add skill row
+const pyramidWrapper = document.querySelector('#PyramidRubricImage').parentElement;
+const pyramidCountsContainer = document.getElementById('PyramidCounts');
+
+// CLICK HANDLER FOR STUNT RUBRIC
 wrapper.addEventListener('click', e => {
   const rect = wrapper.getBoundingClientRect();
   const x = e.clientX - rect.left;
   const y = e.clientY - rect.top;
 
-  for (let r of regions) {
+  for (let r of StuntRegions) {
     const box = document.getElementById(r.id);
     const left = parseFloat(box.style.left);
     const top = parseFloat(box.style.top);
@@ -248,7 +321,7 @@ wrapper.addEventListener('click', e => {
     if (x >= left && x <= left + width && y >= top && y <= top + height) {
       const skillId = 'count_' + r.id;
 
-      // flash highlight
+      // Flash highlight when clicked
       box.style.display = "block";
       setTimeout(() => box.style.display = "none", 150);
 
@@ -275,30 +348,98 @@ wrapper.addEventListener('click', e => {
   }
 });
 
-// Drag and drop functionality
+// DRAG–DROP FOR STUNT TABLE
 let draggedRow = null;
 
-skillCountsContainer.addEventListener('dragstart', e => {
-  draggedRow = e.target.closest('tr');
-  if (draggedRow) e.dataTransfer.effectAllowed = 'move';
+	skillCountsContainer.addEventListener('dragstart', e => {
+	draggedRow = e.target.closest('tr');
+	if (draggedRow) e.dataTransfer.effectAllowed = 'move';
+	});
+
+	skillCountsContainer.addEventListener('dragover', e => {
+	e.preventDefault();
+	const targetRow = e.target.closest('tr');
+	if (!targetRow || targetRow === draggedRow) return;
+
+	const rect = targetRow.getBoundingClientRect();
+	const next = (e.clientY - rect.top) > rect.height / 2;
+	skillCountsContainer.insertBefore(draggedRow, next ? targetRow.nextSibling : targetRow);
+	});
+
+	skillCountsContainer.addEventListener('drop', e => {
+	e.preventDefault();
+	draggedRow = null;
+	});
+
+
+
+// CLICK HANDLER FOR PYRAMID RUBRIC
+pyramidWrapper.addEventListener('click', e => {
+  const rect = pyramidWrapper.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+
+  for (let r of PyramidRegions) {
+    const box = document.getElementById(r.id);
+    const left = parseFloat(box.style.left);
+    const top = parseFloat(box.style.top);
+    const width = parseFloat(box.style.width);
+    const height = parseFloat(box.style.height);
+
+    if (x >= left && x <= left + width && y >= top && y <= top + height) {
+      const skillId = 'pcount_' + r.id;
+
+      // Flash highlight when clicked
+      box.style.display = "block";
+      setTimeout(() => box.style.display = "none", 150);
+
+      // Create new row
+      const row = document.createElement('tr');
+      row.id = skillId + '_' + Date.now();
+      row.draggable = true;
+      row.innerHTML = `
+        <td class="drag-handle">⇅</td>
+        <td>${r.skill}</td>
+        <td>${r.difficulty}</td>
+        <td><input type="number" id="${skillId}" min="0" value="0"></td>
+        <td class="delete-btn">🗑️</td>
+      `;
+      pyramidCountsContainer.appendChild(row);
+
+      // Delete row
+      row.querySelector('.delete-btn').addEventListener('click', () => {
+        pyramidCountsContainer.removeChild(row);
+      });
+
+      break;
+    }
+  }
 });
 
-skillCountsContainer.addEventListener('dragover', e => {
-  e.preventDefault();
-  const targetRow = e.target.closest('tr');
-  if (!targetRow || targetRow === draggedRow) return;
+// DRAG–DROP FOR PYRAMID TABLE
+let draggedPyramidRow = null;
 
-  const rect = targetRow.getBoundingClientRect();
-  const next = (e.clientY - rect.top) > rect.height / 2;
-  skillCountsContainer.insertBefore(draggedRow, next ? targetRow.nextSibling : targetRow);
-});
+	pyramidCountsContainer.addEventListener('dragstart', e => {
+	draggedPyramidRow = e.target.closest('tr');
+	if (draggedPyramidRow) e.dataTransfer.effectAllowed = 'move';
+	});
 
-skillCountsContainer.addEventListener('drop', e => {
-  e.preventDefault();
-  draggedRow = null;
-});
+	pyramidCountsContainer.addEventListener('dragover', e => {
+	e.preventDefault();
+	const targetRow = e.target.closest('tr');
+	if (!targetRow || targetRow === draggedPyramidRow) return;
+	
+	const rect = targetRow.getBoundingClientRect();
+	const next = (e.clientY - rect.top) > rect.height / 2;
+	pyramidCountsContainer.insertBefore(draggedPyramidRow, next ? targetRow.nextSibling : targetRow);
+	});
 
+	pyramidCountsContainer.addEventListener('drop', e => {
+	e.preventDefault();
+	draggedPyramidRow = null;
+	});
 
+// DIFFICULTY CHECKER FOR STUNTS
 function runChecker() {
   const numAthletes = parseInt(document.getElementById('numAthletes').value) || 0;
   const majorityStunt = numAthletes <= 15 ? 2 : 3;
@@ -323,10 +464,10 @@ function runChecker() {
     if (count >= majorityStunt) {
       majoritySkills.push({ skill, difficulty });
       row.classList.add('majority');
-      outputText += `${count} — ${skill} [${difficulty}]\n`;
+      outputText += `${count} — ${difficulty} — ${skill} \n`;
     } else {
       row.classList.add('non-majority');
-      outputText += `${count} — ${skill} [${difficulty}] (Non Majority)\n`;
+      outputText += `${count} — ${difficulty} — ${skill} (Non Majority)\n`;
     }
   });
 
@@ -351,7 +492,7 @@ function runChecker() {
   );
 
   // Step 6: Determine overall difficulty based on cumulative majority
-  let overallDifficulty = null;
+  let overallStuntDifficulty = null;
   const startingIndex = sortedDifficulties.findIndex(d => difficultyCount[d] >= 1);
 
   if (startingIndex !== -1) {
@@ -360,7 +501,7 @@ function runChecker() {
     for (let i = startingIndex; i < sortedDifficulties.length; i++) {
       cumulative += (difficultyCount[sortedDifficulties[i]] || 0);
       if (cumulative >= 2) {
-        overallDifficulty = sortedDifficulties[i]; // first range that meets cumulative majority
+        overallStuntDifficulty = sortedDifficulties[i]; // first range that meets cumulative majority
         break;
       }
     }
@@ -368,54 +509,117 @@ function runChecker() {
 
   // Step 7: Output results
   outputText += `\nRequired Number of Groups for Majority: ${majorityStunt}`;
-  outputText += `\nOverall Difficulty Range: ${overallDifficulty || 'Selected skills do not meet rubric requirements for majority'}`;
+  outputText += `\nOverall Difficulty Range: ${overallStuntDifficulty || 'Selected skills do not meet rubric requirements for majority'}`;
 
   document.getElementById('output').textContent = outputText;
-  document.getElementById('gStuntRange').value = overallDifficulty || '';
+  
+ // Step 8: Populate Summary 
+	let StuntSkillListOutput = '';
+		rows.forEach(row => {
+    const skill = row.cells[1].textContent;
+    const difficulty = row.cells[2].textContent;
+    const count = parseInt(row.cells[3].querySelector('input').value) || 0;
+    StuntSkillListOutput += `${count} — ${difficulty} — ${skill} `;
+    if (!row.classList.contains('majority')) StuntSkillListOutput += ' (Non Majority)';
+    StuntSkillListOutput += '\n';
+});
+	document.getElementById('StuntSkills').textContent = StuntSkillListOutput;
+	document.getElementById('StuntRange').textContent = overallStuntDifficulty || 'N/A';
+	
 }
 
 
+// DIFFICULTY CHECKER FOR PYRAMID
+function runChecker2() {
+  const numAthletes = parseInt(document.getElementById('numAthletes').value) || 0;
+  const majorityPyramid = numAthletes <= 15 ? 2 : 3;
 
-// Save & submit
-document.getElementById('saveBtn').addEventListener('click', () => {
-  let out = 'Selected VHSL Stunt Rubric Skills:\n\n';
-  const rows = skillCountsContainer.querySelectorAll('tr');
-  if (rows.length === 0) out += '(None selected)';
-  else rows.forEach(row => {
+  const rows = document.querySelectorAll('#PyramidCounts tr');
+  let majoritySkills = [];
+  let outputText = 'Selected VHSL Pyramid Rubric Skills:\n\n';
+
+  // Step 1: Reset table coloring
+  rows.forEach(row => row.classList.remove('majority', 'non-majority'));
+
+  // Step 2: Label Non-Majority Skills and gather majority skills
+  rows.forEach(row => {
     const skill = row.cells[1].textContent;
     const difficulty = row.cells[2].textContent;
-    const countInput = row.cells[3].querySelector('input');
-    const count = countInput ? countInput.value : 0;
-    out += `${count} — ${skill} [${difficulty}]\n`;
+    const count = parseInt(row.cells[3].querySelector('input').value) || 0;
+
+    if (count >= majorityPyramid) {
+      majoritySkills.push({ skill, difficulty });
+      row.classList.add('majority');
+      outputText += `${count} — ${difficulty} — ${skill}\n`;
+    } else {
+      row.classList.add('non-majority');
+      outputText += `${count} — ${difficulty} — ${skill} (Non Majority)\n`;
+    }
   });
-  document.getElementById('output').textContent = out;
 
-  // Populate hidden fields
-  document.getElementById('gStuntSkills').value = out;
-  document.getElementById('gSchoolName').value = document.getElementById('schoolName').value;
-  document.getElementById('gTeamLevel').value = document.getElementById('teamLevel').value;
-  document.getElementById('gNumAthletes').value = document.getElementById('numAthletes').value;
-  document.getElementById('gLocation').value = document.getElementById('competitionLocation').value;
-  document.getElementById('gDate').value = document.getElementById('competitionDate').value;
-	
-  document.getElementById('gPyramidRange').value = document.getElementById('pyramidRange').value;
-  document.getElementById('gPyramidSkills').value = document.getElementById('pyramidSkills').value;
-  document.getElementById('gTumblingRange').value = document.getElementById('tumblingRange').value;
-  document.getElementById('gTeamSync').value = document.getElementById('teamSync').value;
-  document.getElementById('gAdditionalTumbling').value = document.getElementById('additionalTumbling').value;
-  document.getElementById('gJumpRange').value = document.getElementById('jumpRange').value;
-  document.getElementById('gJumpSequence').value = document.getElementById('jumpSequence').value;
-  document.getElementById('gLegalityRulings').value = document.getElementById('legalityRulings').value;
+ // Step 3: Define difficulty levels for sorting
+  const difficultyLevels = {
+    'Beginner': 1,
+    'Intermediate': 2,
+    'Advanced': 3,
+    'Elite': 4,
+    'Super Elite': 5
+  };
 
-  // Submit form
-  document.getElementById('fullForm').submit();
-});
+  // Step 4: Count how many majority skills are at each difficulty
+  const difficultyCount = {};
+  majoritySkills.forEach(s => {
+    difficultyCount[s.difficulty] = (difficultyCount[s.difficulty] || 0) + 1;
+  });
+
+  // Step 5: Sort difficulties from highest to lowest
+  const sortedDifficulties = Object.keys(difficultyLevels).sort(
+    (a, b) => difficultyLevels[b] - difficultyLevels[a]
+  );
+
+  // Step 6: Determine overall difficulty based on cumulative majority
+  let overallPyramidDifficulty = null;
+  const startingIndex = sortedDifficulties.findIndex(d => difficultyCount[d] >= 1);
+
+  if (startingIndex !== -1) {
+    let cumulative = 0;
+    for (let i = startingIndex; i < sortedDifficulties.length; i++) {
+      cumulative += (difficultyCount[sortedDifficulties[i]] || 0);
+      if (cumulative >= 3) {
+        overallPyramidDifficulty = sortedDifficulties[i];
+        break;
+      }
+    }
+  }
+
+  // Step 7: Output results
+  outputText += `\nRequired Number of Trick Flyers for Majority: ${majorityPyramid}`;
+  outputText += `\nOverall Difficulty Range: ${overallPyramidDifficulty || 'Selected skills do not meet rubric requirements for majority'}`;
+
+  document.getElementById('outputp').textContent = outputText;
+
+ // Step 8: Populate Summary 
+  let PyramidSkillListOutput = '';
+  rows.forEach(row => {
+    const skill = row.cells[1].textContent;
+    const difficulty = row.cells[2].textContent;
+    const count = parseInt(row.cells[3].querySelector('input').value) || 0;
+
+    PyramidSkillListOutput += `${count} — ${difficulty} — ${skill}`;
+    if (!row.classList.contains('majority')) PyramidSkillListOutput += ' (Non Majority)';
+    PyramidSkillListOutput += '\n';
+  });
+
+  document.getElementById('PyramidSkills').textContent = PyramidSkillListOutput;
+  document.getElementById('PyramidRange').textContent = overallPyramidDifficulty || 'N/A';
+}
+
+
 </script>
 
 
 </body>
 </html>
-
 
 
 
