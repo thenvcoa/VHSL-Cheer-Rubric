@@ -5,14 +5,14 @@
 <meta charset="UTF-8">
 <title>VHSL Cheer Coaches Rubric Submission</title>
 
-
+<!-- ========================STYLE COMMANDS======================== -->
 <style>
   body { font-family: Arial, sans-serif; margin: 30px; background: #fafafa; }
-  h1 { color: #607d8b; }
+  h1 { color: #2F317D; }
   label { display: block; margin-top: 15px; font-weight: bold; }
   input, select, textarea { width: 90%; max-width: 600px; padding: 8px; margin-top: 5px; }
-  button { margin-top: 25px; padding: 10px 16px; background: #607d8b; color: white; border: none; border-radius: 5px; cursor: pointer; }
-  button:hover { background: #a00000; }
+  button { margin-top: 25px; padding: 10px 16px; background: #2F317D; color: white; border: none; border-radius: 5px; cursor: pointer; }
+  button:hover { background: #c02025; }
   .wrapper { position: relative; display: inline-block; margin-top: 20px; }
   #StuntRubricImage { width: 90%; max-width: 950px; display: block; }
   #PyramidRubricImage { width: 90%; max-width: 950px; display: block; }
@@ -24,30 +24,29 @@
   .toss     { border-color: rgba(255,120,0,0.8); background-color: rgba(255,120,0,0.25); }
   #output { margin-top: 20px; white-space: pre-wrap; background: #f7f7f7; padding: 10px; border-radius: 5px; max-width: 825px; }
   #outputp { margin-top: 20px; white-space: pre-wrap; background: #f7f7f7; padding: 10px; border-radius: 5px; max-width: 825px; } 
- table { width: 70%; max-width: 950px; border-collapse: collapse; margin-top: 10px; }
+  table { width: 70%; max-width: 950px; border-collapse: collapse; margin-top: 10px; }
   th, td { padding: 6px 10px; text-align: left; border-bottom: 1px solid #ccc; }
   th { background: #f0f0f0; }
   .drag-handle { cursor: grab; font-size: 18px; }
   .delete-btn { cursor: pointer; color: #d00; font-size: 18px; text-align: center; }
-  .hotpink-underline {
-  color: #ff33ff;
-  text-decoration: underline;
-  }
-  .icon {
-  font-size: 24px;     
-  vertical-align: middle; 
-  }
-  .majority {
-  background-color: rgba(0, 200, 0, 0.2); 
-  }
-  .non-majority {
-  background-color: rgba(255, 0, 0, 0.2);
-  }
-  hr { border: none; 
-	height: 2px; 
-	background-color: #607d8b; 
-	margin: 30px 0; }
-  
+  .hotpink-underline {  color: #c02025;  text-decoration: underline;  }
+  .icon {  font-size: 24px;       vertical-align: middle;   }
+  .majority { background-color: rgba(0, 200, 0, 0.2);  }
+  .non-majority {  background-color: rgba(255, 0, 0, 0.2);  }
+  hr { border: none; 	height: 2px; 	background-color: #c02025; 	margin: 30px 0; }
+  .center-text { text-align: center;}
+  a { color: #2F317D;  text-decoration: underline; }
+  a:hover { color: #c02025; }
+  #customAlert { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5);
+                 display: flex; justify-content: center; align-items: center; z-index: 9999;}
+  #customAlertContent {background: #fff; padding: 20px 25px; border-radius: 8px;
+                       max-width: 400px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.3);}
+  #customAlertContent button { margin-top: 15px; padding: 8px 16px; background: #2F317D; color: white;
+                               border: none; border-radius: 5px; cursor: pointer;}
+  #customAlertContent button:hover {  background: #c02025;}
+  #customAlertText {  white-space: pre-line;}
+
+ 
 </style>
 </head>
 <body>
@@ -63,7 +62,20 @@
 		<h1>VHSL Cheer Coaches Rubric Submission</h1>
 	</div>
 
+<div class="center-text">
+<p>
+  For additional resources, visit 
+  <a href="https://www.vhsl.org/competition-cheer/" target="_blank" rel="noopener noreferrer">
+    VHSL Cheer Website</a>.
+</p>
+</div>
+
 <hr>
+
+<div class="center-text">
+  <p><strong>All fields are required.</strong></p>
+</div>
+
 
   <label>School Name</label>
   <input type="text" id="schoolName">
@@ -92,8 +104,11 @@
   
 <hr>
 
+<div class="center-text">
   <h2>Stunt Skills Rubric</h2>
   <p><strong>Click on the rubric image to select skills.</strong></p>
+</div>
+
 
 	<div class="wrapper">
 		<img id="StuntRubricImage" src="Stunt_Rubric.png" alt="VHSL Stunt Rubric">
@@ -155,8 +170,11 @@
 
 <hr>
 
+ <div class="center-text">
   <h2>Pyramid Skills Rubric</h2>
   <p><strong>Click on the rubric image to select skills.</strong></p>
+</div>
+
 
 	<div class="wrapper">
 		<img id="PyramidRubricImage" src="Pyramid_Rubric.png" alt="VHSL Pyramid Rubric">
@@ -174,7 +192,6 @@
 		<div class="highlight twisting" id="b2" style="left:162px; top:396px; width:125px; height:28px;"></div>
 		<div class="highlight twisting" id="b3" style="left:289px; top:373px; width:129px; height:22px;"></div>
 	</div>
-
 
 	<p><strong>
 	Enter the number of trick flyers for each skill. 
@@ -246,6 +263,7 @@
   <div style="text-align: center; margin-top: 30px;">
     <button type="button" id="saveBtn" style="padding: 12px 20px; font-size: 16px;">Save & Submit</button>
   </div>
+
 
 <!-- Summary Output Results -->
 
@@ -623,26 +641,92 @@ function runChecker2() {
   document.getElementById('PyramidRange').textContent = overallPyramidDifficulty || 'Rubric Requirements Not Met';
 }
 
-// AUTO-RUN BOTH CHECKERS WHEN SAVE & SUBMIT IS CLICKED
-document.getElementById("saveBtn").addEventListener("click", () => {
-    // Run both difficulty calculators
+
+
+// CHECK FOR ALL FIELDS TO BE POPULATED & OUTPUT ERROR MESSAGE FOR ANY MISSING
+function showCustomAlert(message) {
+  const alertDiv = document.getElementById('customAlert');
+  document.getElementById('customAlertText').textContent = message;
+  alertDiv.style.display = 'flex';
+
+  document.getElementById('customAlertOk').onclick = () => {
+    alertDiv.style.display = 'none';
+     };
+   }
+
+	// Save & Submit button logic
+	document.getElementById("saveBtn").addEventListener("click", () => {
+		
+	// Run checkers first
     runChecker();
     runChecker2();
+		
+	//Label output fields for error message	
+		const requiredFields = [
+			{ id: 'schoolName', label: 'School Name' },
+			{ id: 'teamLevel', label: 'Team Level' },
+			{ id: 'CoachName', label: 'Head Coach Name' },
+			{ id: 'CoachEmail', label: 'Head Coach Email' },
+			{ id: 'numAthletes', label: 'Number of Athletes Performing' },
+			{ id: 'competitionLocation', label: 'Competition Location' },
+			{ id: 'competitionDate', label: 'Competition Date' },
+			{ id: 'StuntSkills', label: 'Stunt Skills' },
+			{ id: 'PyramidSkills', label: 'Pyramid Skills' },
+			{ id: 'tumblingRange', label: 'Intended Tumbling Range' },
+			{ id: 'teamSync', label: 'Team Majority Sync Sequence Description' },
+			{ id: 'additionalTumbling', label: 'Additional Tumbling Skills Description' },
+			{ id: 'jumpRange', label: 'Intended Jump Range' },
+			{ id: 'jumpSequence', label: 'Jump Sequence Description' },
+			{ id: 'legalityRulings', label: 'Any Legality Rulings from Bill Ahern?' }
+		];
 
-    // (Optional)
-    // You can add additional save/submit actions here later
+    let missingFields = [];
+
+    requiredFields.forEach(f => {
+    const field = document.getElementById(f.id);
+
+    // Reset border
+    field.style.border = "";
+
+    // Get value for inputs/textareas, textContent for divs
+    const fieldValue = field.value !== undefined ? field.value : field.textContent;
+
+    if (!fieldValue || fieldValue.trim() === "") {
+        missingFields.push(f.label);
+        field.style.border = "2px solid red"; // highlight missing
+    }
+   });
+
+	//Error Message output
+    if (missingFields.length > 0) {
+        showCustomAlert("All fields are required before submission. Please fill out the missing fields:\n\n" + missingFields.join("\n"));
+        // Focus on the first missing field after closing error message
+        document.getElementById(requiredFields.find(f => missingFields.includes(f.label)).id).focus();
+        return; 
+    }
+
+
+
+   
+    // (Optional) ************************You can add additional save/submit actions here later**************************
 });
+
+
+
+
 
 </script>
 
+<!-- ========================ERROR ALERT MESSAGE======================== -->
+
+<div id="customAlert" style="display:none;">
+  <div id="customAlertContent">
+    <p id="customAlertText"></p>
+    <button id="customAlertOk">OK</button>
+  </div>
+</div>
 
 </body>
 </html>
-
-
-
-
-
-
 
 
