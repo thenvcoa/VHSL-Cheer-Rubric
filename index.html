@@ -8,10 +8,10 @@
 
 <style>
   body { font-family: Arial, sans-serif; margin: 30px; background: #fafafa; }
-  h1 { color: #800000; }
+  h1 { color: #607d8b; }
   label { display: block; margin-top: 15px; font-weight: bold; }
   input, select, textarea { width: 90%; max-width: 600px; padding: 8px; margin-top: 5px; }
-  button { margin-top: 25px; padding: 10px 16px; background: #800000; color: white; border: none; border-radius: 5px; cursor: pointer; }
+  button { margin-top: 25px; padding: 10px 16px; background: #607d8b; color: white; border: none; border-radius: 5px; cursor: pointer; }
   button:hover { background: #a00000; }
   .wrapper { position: relative; display: inline-block; margin-top: 20px; }
   #StuntRubricImage { width: 90%; max-width: 950px; display: block; }
@@ -30,7 +30,7 @@
   .drag-handle { cursor: grab; font-size: 18px; }
   .delete-btn { cursor: pointer; color: #d00; font-size: 18px; text-align: center; }
   .hotpink-underline {
-  color: hotpink;
+  color: #ff33ff;
   text-decoration: underline;
   }
   .icon {
@@ -45,7 +45,7 @@
   }
   hr { border: none; 
 	height: 2px; 
-	background-color: #800000; 
+	background-color: #607d8b; 
 	margin: 30px 0; }
   
 </style>
@@ -54,7 +54,16 @@
 
 <!-- ========================START HTML VISUAL======================== -->
 
-<h1>VHSL Cheer Coaches Rubric Submission</h1>
+
+	<div style="text-align: center; margin-bottom: 20px;">
+		<img src="vhsl_logo.png" alt="VHSL Logo" style="max-width: 250px; height: auto;">
+	</div>
+
+	<div style="text-align: center; margin-bottom: 40px;">
+		<h1>VHSL Cheer Coaches Rubric Submission</h1>
+	</div>
+
+<hr>
 
   <label>School Name</label>
   <input type="text" id="schoolName">
@@ -66,7 +75,7 @@
     <option value="Junior Varsity">Junior Varsity</option>
   </select>
 
-  <label>Head Coach Name</label>
+  <label>Head Coach First & Last Name</label>
   <input type="text" id="CoachName">
  
    <label>Head Coach Email</label>
@@ -524,7 +533,7 @@ function runChecker() {
     StuntSkillListOutput += '\n';
 });
 	document.getElementById('StuntSkills').textContent = StuntSkillListOutput;
-	document.getElementById('StuntRange').textContent = overallStuntDifficulty || 'N/A';
+	document.getElementById('StuntRange').textContent = overallStuntDifficulty || 'Rubric Requirements Not Met';
 	
 }
 
@@ -611,16 +620,24 @@ function runChecker2() {
   });
 
   document.getElementById('PyramidSkills').textContent = PyramidSkillListOutput;
-  document.getElementById('PyramidRange').textContent = overallPyramidDifficulty || 'N/A';
+  document.getElementById('PyramidRange').textContent = overallPyramidDifficulty || 'Rubric Requirements Not Met';
 }
 
+// AUTO-RUN BOTH CHECKERS WHEN SAVE & SUBMIT IS CLICKED
+document.getElementById("saveBtn").addEventListener("click", () => {
+    // Run both difficulty calculators
+    runChecker();
+    runChecker2();
+
+    // (Optional)
+    // You can add additional save/submit actions here later
+});
 
 </script>
 
 
 </body>
 </html>
-
 
 
 
