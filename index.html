@@ -33,10 +33,18 @@
   .icon {  font-size: 24px;       vertical-align: middle;   }
   .majority { background-color: rgba(0, 200, 0, 0.2);  }
   .non-majority {  background-color: rgba(255, 0, 0, 0.2);  }
-  hr { border: none; 	height: 2px; 	background-color: #c02025; 	margin: 30px 0; }
+ hs { border: none; 	height: 2px; 	background-color: #c02025; 	margin: 15px 0; } 
+ hr { border: none; 	height: 2px; 	background-color: #c02025; 	margin: 30px 0; }
   .center-text { text-align: center;}
   a { color: #2F317D;  text-decoration: underline; }
   a:hover { color: #c02025; }
+  input::placeholder, textarea::placeholder {  font-style: italic; color: #CFCFCE; white-space: pre-line;}
+  textarea { font-family: Arial, sans-serif;}
+  .highlight-bar {    background-color: #F8DF00;  padding: 6px 6px; border-radius: 6px; display: inline-block;}
+.jumphighlight.selected {   outline: 3px solid red;   background-color: rgba(255,0,0,0.15);}
+.jumphighlight {    position: absolute;    cursor: pointer;}
+.tumblinghighlight.selected {    outline: 3px solid red; background-color: rgba(255,0,0,0.15);}
+.tumblinghighlight {   position: absolute;   cursor: pointer;}
   #customAlert { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5);
                  display: flex; justify-content: center; align-items: center; z-index: 9999;}
   #customAlertContent {background: #fff; padding: 20px 25px; border-radius: 8px;
@@ -73,7 +81,7 @@
 <hr>
 
 <div class="center-text">
-  <p><strong>All fields are required.</strong></p>
+ <p class="highlight-bar">All fields are required.</p>
 </div>
 
 
@@ -91,13 +99,23 @@
   <input type="text" id="CoachName">
  
    <label>Head Coach Email</label>
-  <input type="text" id="CoachEmail">
+  <input type="text" id="CoachEmail" placeholder="myname@gmail.com">
 
   <label>Number of Athletes Performing</label>
   <input type="number" id="numAthletes" min="1">
 
-  <label>Competition Location</label>
-  <input type="text" id="competitionLocation">
+<!--
+  <label>Competition Name/Location</label>
+  <input type="text" id="competitionLocation" placeholder="e.g., Battle at the Beach @ Westside High School">
+--!>
+
+
+<label>Competition Location</label>
+<select id="competitionLocation">
+  <option value="">--Select--</option>
+</select>
+
+
 
   <label>Competition Date</label>
   <input type="date" id="competitionDate">
@@ -224,6 +242,42 @@
   
 <hr>
 
+<div class="center-text">
+  <h2>Tumbling Skills Rubric</h2>
+  <p><strong>Click on the rubric image to select skills.</strong></p>
+</div>
+
+<div class="wrapper">
+    <img id="TumblingRubricImage" src="Tumbling_Rubric.png" alt="Tumbling Rubric">
+
+    <!-- Highlight boxes (clickable areas) -->
+    <!-- Row 1: 0.0 – 1.5 -->
+    <div class="tumblinghighlight tumbling" id="tumbling1" 
+         style="left:7px; top:100px; width:595px; height:103px;" 
+         data-value="0.0 – 1.5"></div>
+
+    <!-- Row 2: 1.75 – 2.75 -->
+    <div class="tumblinghighlight tumbling" id="tumbling2" 
+         style="left:7px; top:205px; width:595px; height:83px;" 
+         data-value="1.75 – 2.75"></div>
+
+    <!-- Row 3: 3.00 – 4.00 -->
+    <div class="tumblinghighlight tumbling" id="tumbling3" 
+         style="left:7px; top:290px; width:595px; height:67px;" 
+         data-value="3.00 – 4.00"></div>
+
+    <!-- Row 4: 4.25 – 4.75 -->
+    <div class="tumblinghighlight tumbling" id="tumbling4" 
+         style="left:7px; top:359px; width:595px; height:92px;" 
+         data-value="4.25 – 4.75"></div>
+
+</div>
+
+<div id="TumblingOutput" style="margin-top:15px; font-size:1.2em; font-weight:bold;">
+    Tumbling Difficulty Range: None
+</div>
+
+<!--
   <label>Intended Tumbling Range</label>
   <select id="tumblingRange">
     <option value="">--Select--</option>
@@ -232,13 +286,67 @@
     <option>2.75 - 4.0</option>
     <option>4.25 - 5.0</option>
   </select>
+--!>
 
   <label>Team Majority Sync Sequence Description</label>
-  <textarea id="teamSync" rows="3"></textarea>
+  <textarea id="teamSync" rows="4" placeholder="Please note the number of athletes and any ripples.
+  
+  Example:
+  9 roundoff backhandsprings - rippled in 3 groups of 3"></textarea>
 
   <label>Additional Tumbling Skills Description</label>
-  <textarea id="additionalTumbling" rows="3"></textarea>
+  <textarea id="additionalTumbling" rows="9" placeholder="Please list any additional tumbling skills in the order of performance.
 
+Example:
+2 cartwheels
+3 round offs
+1 aerial
+4 round off backhandspring tucks
+1 roundoff layout
+8 forward rolls"></textarea>
+
+<hr>
+
+<div class="center-text">
+  <h2>Jump Skills Rubric</h2>
+  <p><strong>Click on the rubric image to select skills.</strong></p>
+</div>
+
+<div class="wrapper">
+    <img id="JumpRubricImage" src="Jump_Rubric.png" alt="Jump Rubric">
+
+    <!-- Highlight boxes (clickable areas) -->
+    <!-- Row 1: 0.0 – 1.5 -->
+    <div class="jumphighlight jump" id="jump1" 
+         style="left:10px; top:100px; width:440px; height:70px;" 
+         data-value="0.0 – 1.5"></div>
+
+    <!-- Row 2: 1.75 – 2.75 -->
+    <div class="jumphighlight jump" id="jump2" 
+         style="left:10px; top:172px; width:440px; height:55px;" 
+         data-value="1.75 – 2.75"></div>
+
+    <!-- Row 3: 3.00 – 4.00 -->
+    <div class="jumphighlight jump" id="jump3" 
+         style="left:10px; top:231px; width:440px; height:103px;" 
+         data-value="3.00 – 4.00"></div>
+
+    <!-- Row 4: 4.25 – 4.75 -->
+    <div class="jumphighlight jump" id="jump4" 
+         style="left:10px; top:338px; width:440px; height:41px;" 
+         data-value="4.25 – 4.75"></div>
+
+    <!-- Row 5: 5.0 -->
+    <div class="jumphighlight jump" id="jump5" 
+         style="left:10px; top:383px; width:440px; height:55px;" 
+         data-value="5.0"></div>
+</div>
+
+<div id="JumpOutput" style="margin-top:15px; font-size:1.2em; font-weight:bold;">
+    Jump Difficulty Range: None
+</div>
+
+<!--
   <label>Intended Jump Range</label>
   <select id="jumpRange">
     <option value="">--Select--</option>
@@ -248,9 +356,16 @@
     <option>4.25 - 4.75</option>
     <option>5.0</option>
   </select>
+--!>
 
   <label>Jump Sequence Description</label>
-  <textarea id="jumpSequence" rows="3"></textarea>
+  <textarea id="jumpSequence" rows="5" placeholder="Please describe your jump sequence in detail.
+
+Example:
+11 right hurdlers (in cheer)
+11 double toe touches"></textarea>
+
+<hr>
 
   <label>Any Legality Rulings from Bill Ahern?</label>
   <select id="legalityRulings">
@@ -267,6 +382,7 @@
 
 <!-- Summary Output Results -->
 
+<div id="SummaryWrapper" style="display:none;">
 <label>Stunt Skills Summary</label>
 <div id="StuntSkills" style="white-space: pre-wrap; background: #f0f0f0; padding: 8px; border-radius: 4px;"></div>
 
@@ -278,7 +394,7 @@
 
 <label>Overall Pyramid Difficulty Range</label>
 <div id="PyramidRange" style="background: #f0f0f0; padding: 8px; border-radius: 4px;"></div>
-
+</div>
 
 
 
@@ -287,6 +403,22 @@
 
 
 <script>
+
+// Fetch events from Apps Script
+fetch('https://script.google.com/macros/s/AKfycbw8DIaXoRRl2UaQLSuc4U1_bniKOcXc-Clu2oWwVxJo5qreetItn3wXthTyWCC3kz0K')
+  .then(res => res.json())
+  .then(events => {
+    const select = document.getElementById('competitionLocation');
+    events.forEach((e, index) => {
+      const opt = document.createElement('option');
+      opt.value = index; // store index temporarily
+      opt.textContent = e.display;
+      opt.dataset.association = e.association; // hidden association for submission
+      select.appendChild(opt);
+    });
+  })
+  .catch(err => console.error('Error fetching events:', err));
+
 
 //Labels for all stunt & pyramid skills
 const StuntRegions = [
@@ -643,76 +775,124 @@ function runChecker2() {
 
 
 
-// CHECK FOR ALL FIELDS TO BE POPULATED & OUTPUT ERROR MESSAGE FOR ANY MISSING
-function showCustomAlert(message) {
-  const alertDiv = document.getElementById('customAlert');
-  document.getElementById('customAlertText').textContent = message;
-  alertDiv.style.display = 'flex';
+//================== Tumbling Selection ==================
+document.querySelectorAll('.tumblinghighlight.tumbling').forEach(box => {
+    box.addEventListener('click', () => {
+        document.querySelectorAll('.tumblinghighlight.tumbling').forEach(b => b.classList.remove('selected'));
+        box.classList.add('selected');
 
-  document.getElementById('customAlertOk').onclick = () => {
-    alertDiv.style.display = 'none';
-     };
-   }
+        const output = document.getElementById('TumblingOutput');
+        const value = box.dataset.value || "";
+        output.dataset.selected = value; // store selected value for validation
+        output.innerText = value ? `Tumbling Difficulty Range: ${value}` : "";
+    });
+});
 
-	// Save & Submit button logic
-	document.getElementById("saveBtn").addEventListener("click", () => {
-		
-	// Run checkers first
-    runChecker();
-    runChecker2();
-		
-	//Label output fields for error message	
-		const requiredFields = [
-			{ id: 'schoolName', label: 'School Name' },
-			{ id: 'teamLevel', label: 'Team Level' },
-			{ id: 'CoachName', label: 'Head Coach Name' },
-			{ id: 'CoachEmail', label: 'Head Coach Email' },
-			{ id: 'numAthletes', label: 'Number of Athletes Performing' },
-			{ id: 'competitionLocation', label: 'Competition Location' },
-			{ id: 'competitionDate', label: 'Competition Date' },
-			{ id: 'StuntSkills', label: 'Stunt Skills' },
-			{ id: 'PyramidSkills', label: 'Pyramid Skills' },
-			{ id: 'tumblingRange', label: 'Intended Tumbling Range' },
-			{ id: 'teamSync', label: 'Team Majority Sync Sequence Description' },
-			{ id: 'additionalTumbling', label: 'Additional Tumbling Skills Description' },
-			{ id: 'jumpRange', label: 'Intended Jump Range' },
-			{ id: 'jumpSequence', label: 'Jump Sequence Description' },
-			{ id: 'legalityRulings', label: 'Any Legality Rulings from Bill Ahern?' }
-		];
+//================== Jump Selection ==================
+document.querySelectorAll('.jumphighlight.jump').forEach(box => {
+    box.addEventListener('click', () => {
+        document.querySelectorAll('.jumphighlight.jump').forEach(b => b.classList.remove('selected'));
+        box.classList.add('selected');
 
-    let missingFields = [];
-
-    requiredFields.forEach(f => {
-    const field = document.getElementById(f.id);
-
-    // Reset border
-    field.style.border = "";
-
-    // Get value for inputs/textareas, textContent for divs
-    const fieldValue = field.value !== undefined ? field.value : field.textContent;
-
-    if (!fieldValue || fieldValue.trim() === "") {
-        missingFields.push(f.label);
-        field.style.border = "2px solid red"; // highlight missing
-    }
-   });
-
-	//Error Message output
-    if (missingFields.length > 0) {
-        showCustomAlert("All fields are required before submission. Please fill out the missing fields:\n\n" + missingFields.join("\n"));
-        // Focus on the first missing field after closing error message
-        document.getElementById(requiredFields.find(f => missingFields.includes(f.label)).id).focus();
-        return; 
-    }
-
-
-
-   
-    // (Optional) ************************You can add additional save/submit actions here later**************************
+        const output = document.getElementById('JumpOutput');
+        const value = box.dataset.value || "";
+        output.dataset.selected = value; // store selected value for validation
+        output.innerText = value ? `Jump Difficulty Range: ${value}` : "";
+    });
 });
 
 
+// CHECK FOR ALL FIELDS TO BE POPULATED & OUTPUT ERROR MESSAGE FOR ANY MISSING
 
+//================== Custom Alert ==================
+function showCustomAlert(message) {
+    const alertDiv = document.getElementById('customAlert');
+    document.getElementById('customAlertText').textContent = message;
+    alertDiv.style.display = 'flex';
+    document.getElementById('customAlertOk').onclick = () => { alertDiv.style.display = 'none'; };
+}
+
+//================== Save & Submit Handler ==================
+document.getElementById("saveBtn").addEventListener("click", () => {
+
+    // Run the difficulty checkers first
+    runChecker();
+    runChecker2();
+
+    // Define required fields
+    const requiredFields = [
+        { id: 'schoolName', label: 'School Name' },
+        { id: 'teamLevel', label: 'Team Level' },
+        { id: 'CoachName', label: 'Head Coach Name' },
+        { id: 'CoachEmail', label: 'Head Coach Email' },
+        { id: 'numAthletes', label: 'Number of Athletes Performing' },
+        { id: 'competitionLocation', label: 'Competition Location' },
+        { id: 'competitionDate', label: 'Competition Date' },
+        { id: 'StuntSkills', label: 'Stunt Skills' },
+        { id: 'PyramidSkills', label: 'Pyramid Skills' },
+        { id: 'TumblingOutput', label: 'Tumbling Difficulty Range' },
+        { id: 'teamSync', label: 'Team Majority Sync Sequence Description' },
+        { id: 'additionalTumbling', label: 'Additional Tumbling Skills Description' },
+        { id: 'JumpOutput', label: 'Jump Difficulty Range' },
+        { id: 'jumpSequence', label: 'Jump Sequence Description' },
+        { id: 'legalityRulings', label: 'Any Legality Rulings from Bill Ahern?' }
+    ];
+
+    let missingFields = [];
+
+	//Validation of missing fields
+		requiredFields.forEach(f => {
+		const field = document.getElementById(f.id);
+		if (!field) return;
+
+		field.style.border = ""; // reset border
+		let fieldValue = "";
+
+    // Standard input/textarea/select
+		if (field.tagName === "INPUT" || field.tagName === "TEXTAREA" || field.tagName === "SELECT") {
+        fieldValue = field.value.trim();}
+    
+	// Tumbling/Jump output divs
+		else if (f.id === "TumblingOutput" || f.id === "JumpOutput") {
+   
+		// Use dataset.selected if it exists, otherwise check innerText after the colon
+		fieldValue = field.dataset.selected || "";	}
+
+    // Stunt/Pyramid tables
+    else if (f.id === "StuntSkills" || f.id === "PyramidSkills") {
+        const tableId = f.id === "StuntSkills" ? "#skillCounts" : "#PyramidCounts";
+        const rows = document.querySelectorAll(tableId + " tr");
+        const hasCount = Array.from(rows).some(row => {
+            const input = row.querySelector('input');
+            return input && parseInt(input.value, 10) > 0;   });
+        fieldValue = hasCount ? "filled" : ""; }
+    
+	// Any Other <div> options
+    else {fieldValue = field.textContent.trim(); }
+
+    if (!fieldValue) {
+        missingFields.push(f.label);
+        field.style.border = "2px solid red";}
+});
+
+
+    if (missingFields.length > 0) {
+        showCustomAlert(
+            "All fields are required before submission. Please fill out the missing fields:\n\n" +
+            missingFields.join("\n")
+        );
+
+        // Focus the first missing field
+        const firstMissing = requiredFields.find(f => missingFields.includes(f.label));
+        if (firstMissing) document.getElementById(firstMissing.id).focus();
+
+        return; // stop submission if anything is missing
+    }
+
+    // Everything is filled — add submission logic here
+    console.log("All fields validated. Ready to submit!");
+});
+ // Optional: continue with actual save/submit logic here
 
 
 </script>
