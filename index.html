@@ -523,28 +523,67 @@ wrapper.addEventListener('click', e => {
   }
 });
 
-// DRAG–DROP FOR STUNT TABLE
+// DRAG–DROP FOR STUNT TABLE (Desktop + Mobile)
 let draggedRow = null;
 
-	skillCountsContainer.addEventListener('dragstart', e => {
-	draggedRow = e.target.closest('tr');
-	if (draggedRow) e.dataTransfer.effectAllowed = 'move';
-	});
+// Helper: get pointer position for mouse or touch
+function getPointerY(e) {
+    if (e.touches && e.touches.length > 0) {
+        return e.touches[0].clientY;
+    } else {
+        return e.clientY;
+    }
+}
 
-	skillCountsContainer.addEventListener('dragover', e => {
-	e.preventDefault();
-	const targetRow = e.target.closest('tr');
-	if (!targetRow || targetRow === draggedRow) return;
+// --- START DRAG ---
+function startDrag(e) {
+    draggedRow = e.target.closest('tr');
+    if (!draggedRow) return;
 
-	const rect = targetRow.getBoundingClientRect();
-	const next = (e.clientY - rect.top) > rect.height / 2;
-	skillCountsContainer.insertBefore(draggedRow, next ? targetRow.nextSibling : targetRow);
-	});
+    // For desktop HTML5 drag
+    if (e.type === 'dragstart') {
+        e.dataTransfer.effectAllowed = 'move';
+    }
 
-	skillCountsContainer.addEventListener('drop', e => {
-	e.preventDefault();
-	draggedRow = null;
-	});
+    // Prevent scrolling on mobile
+    if (e.type.startsWith('touch')) e.preventDefault();
+}
+
+// --- DRAGGING ---
+function drag(e) {
+    if (!draggedRow) return;
+    const targetRow = e.target.closest('tr');
+    if (!targetRow || targetRow === draggedRow) return;
+
+    const rect = targetRow.getBoundingClientRect();
+    const pointerY = getPointerY(e);
+    const next = (pointerY - rect.top) > rect.height / 2;
+
+    skillCountsContainer.insertBefore(draggedRow, next ? targetRow.nextSibling : targetRow);
+
+    if (e.type.startsWith('touch')) e.preventDefault(); // Prevent scroll on mobile
+}
+
+// --- END DRAG ---
+function endDrag(e) {
+    draggedRow = null;
+    if (e.type.startsWith('touch')) e.preventDefault();
+}
+
+// --- Add Event Listeners ---
+skillCountsContainer.querySelectorAll('tr').forEach(row => {
+    // Desktop HTML5 drag
+    row.setAttribute('draggable', 'true');
+    row.addEventListener('dragstart', startDrag);
+    row.addEventListener('dragover', drag);
+    row.addEventListener('drop', endDrag);
+
+    // Mobile touch events
+    row.addEventListener('touchstart', startDrag, { passive: false });
+    row.addEventListener('touchmove', drag, { passive: false });
+    row.addEventListener('touchend', endDrag);
+});
+
 
 
 
@@ -924,5 +963,6 @@ document.getElementById("saveBtn").addEventListener("click", () => {
 
 </body>
 </html>
+
 
 
