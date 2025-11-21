@@ -13,7 +13,22 @@
   input, select, textarea { width: 90%; max-width: 600px; padding: 8px; margin-top: 5px; }
   button { margin-top: 25px; padding: 10px 16px; background: #2F317D; color: white; border: none; border-radius: 5px; cursor: pointer; }
   button:hover { background: #c02025; }
-  .wrapper { position: relative; display: inline-block; margin-top: 20px; }
+/* Center the entire wrapper, not the image */
+.wrapper {
+    width: fit-content;     /* wrapper becomes exactly the width of the image */
+    margin-left: auto;
+    margin-right: auto;     /* centers wrapper in the cell */
+    position: relative;     /* needed for hotspots */
+	margin-bottom: 40px;   /*  add spacing here */
+}
+
+/* DO NOT modify the image at all */
+.wrapper img {
+    display: block;         /* block is safe here because wrapper now fits exact width */
+}
+
+
+
   #StuntRubricImage { width: 90%; max-width: 950px; display: block; }
   #PyramidRubricImage { width: 90%; max-width: 950px; display: block; }
   .highlight { position: absolute; border: 2px solid transparent; background-color: transparent; pointer-events: none; display: none; }
@@ -605,7 +620,7 @@ function runChecker() {
 
   const rows = document.querySelectorAll('#skillCounts tr');
   let majoritySkills = [];
-  let outputText = 'Selected VHSL Stunt Rubric Skills:\n\n';
+  let outputText = 'Selected Stunt Skills:\n\n';
 
   // Step 1: Reset table coloring
   rows.forEach((row, idx) => {
@@ -695,7 +710,7 @@ function runChecker2() {
 
   const rows = document.querySelectorAll('#PyramidCounts tr');
   let majoritySkills = [];
-  let outputText = 'Selected VHSL Pyramid Rubric Skills:\n\n';
+  let outputText = 'Selected Pyramid Skills:\n\n';
 
   // Step 1: Reset table coloring
   rows.forEach(row => row.classList.remove('majority', 'non-majority'));
@@ -908,5 +923,4 @@ document.getElementById("saveBtn").addEventListener("click", () => {
 
 </body>
 </html>
-
 
