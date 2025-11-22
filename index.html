@@ -27,33 +27,6 @@
     display: block;         /* block is safe here because wrapper now fits exact width */
 }
 
-.stunt-table {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-
-.stuntRow {
-  display: flex;
-  border: 1px solid #ccc;
-  background: white;
-  margin-bottom: 4px;
-  cursor: grab;
-}
-
-.stuntRow.dragging {
-  opacity: 0.5;
-}
-
-.cell {
-  flex: 1;
-  padding: 8px;
-  text-align: center;
-}
-
-.drag-handle {
-  flex: 0 0 30px;
-}
 
 
   #StuntRubricImage { width: 90%; max-width: 950px; display: block; }
@@ -206,9 +179,18 @@
 	</strong></p>
 
 	<!-- Drag & drop table -->
-<!-- Mobile‑friendly drag & drop container for Stunts -->
-<div id="stuntList" class="stunt‑table"></div>
-
+	<table id="skillCountsTable">
+		<thead>
+		<tr>
+			
+			<th>Skill</th>
+			<th>Difficulty</th>
+			<th># of Stunt Groups</th>
+			<th style="width:30px;">🗑️</th>
+		</tr>
+		</thead>
+		<tbody id="skillCounts"></tbody>
+	</table>
 
 	<div style="display: flex; align-items: center; gap: 10px;">
 	<button onclick="runChecker()">Calculate Stunt Difficulty Range</button>
@@ -434,9 +416,11 @@ Example:
 
 <!-- ========================END HTML VISUAL======================== -->
 
-<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
 
 <script>
+
+
+
 
 //Labels for all stunt & pyramid skills
 const StuntRegions = [
@@ -483,89 +467,70 @@ const pyramidWrapper = document.querySelector('#PyramidRubricImage').parentEleme
 const pyramidCountsContainer = document.getElementById('PyramidCounts');
 
 // CLICK HANDLER FOR STUNT RUBRIC
-const stuntList = document.getElementById('stuntList');
+wrapper.addEventListener('click', e => {
+  const rect = wrapper.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
 
-// Initialize Sortable.js for drag & drop
-const sortable = new Sortable(stuntList, {
-  animation: 150,
-  ghostClass: 'dragging',
-  handle: '.drag-handle',
-  onEnd: function(evt) {
-    updateStuntOrder();
+  for (let r of StuntRegions) {
+    const box = document.getElementById(r.id);
+    const left = parseFloat(box.style.left);
+    const top = parseFloat(box.style.top);
+    const width = parseFloat(box.style.width);
+    const height = parseFloat(box.style.height);
+
+    if (x >= left && x <= left + width && y >= top && y <= top + height) {
+      const skillId = 'count_' + r.id;
+
+      // Flash highlight when clicked
+      box.style.display = "block";
+      setTimeout(() => box.style.display = "none", 150);
+
+      // Create new row
+      const row = document.createElement('tr');
+      row.id = skillId + '_' + Date.now();
+      row.draggable = true; // <-- Make row draggable
+      row.innerHTML = `
+        <td class="drag-handle">${r.skill}</td>
+		 <td>${r.difficulty}</td>
+        <td><input type="number" id="${skillId}" min="0" value="0"></td>
+        <td class="delete-btn">🗑️</td>
+      `;
+      skillCountsContainer.appendChild(row);
+
+      // Delete row
+      row.querySelector('.delete-btn').addEventListener('click', () => {
+        skillCountsContainer.removeChild(row);
+      });
+
+      break;
+    }
   }
 });
 
-// Function to add a row dynamically
-function addStuntRow(skillName, difficulty, count) {
-  const row = document.createElement('div');
-  row.className = 'stuntRow';
-  row.dataset.skill = skillName;
-  row.dataset.difficulty = difficulty;
-  row.dataset.count = count;
+// DRAG–DROP FOR STUNT TABLE
+let draggedRow = null;
 
-  // Drag handle
-  const handleCell = document.createElement('div');
-  handleCell.className = 'cell drag-handle';
-  handleCell.textContent = '⇅';
+	skillCountsContainer.addEventListener('dragstart', e => {
+	draggedRow = e.target.closest('tr');
+	if (draggedRow) e.dataTransfer.effectAllowed = 'move';
+	});
 
-  // Skill cell
-  const skillCell = document.createElement('div');
-  skillCell.className = 'cell';
-  skillCell.textContent = skillName;
+	skillCountsContainer.addEventListener('dragover', e => {
+	e.preventDefault();
+	const targetRow = e.target.closest('tr');
+	if (!targetRow || targetRow === draggedRow) return;
 
-  // Difficulty cell
-  const difficultyCell = document.createElement('div');
-  difficultyCell.className = 'cell';
-  difficultyCell.textContent = difficulty;
+	const rect = targetRow.getBoundingClientRect();
+	const next = (e.clientY - rect.top) > rect.height / 2;
+	skillCountsContainer.insertBefore(draggedRow, next ? targetRow.nextSibling : targetRow);
+	});
 
-  // Count cell
-  const countCell = document.createElement('div');
-  countCell.className = 'cell';
-  countCell.textContent = count;
+	skillCountsContainer.addEventListener('drop', e => {
+	e.preventDefault();
+	draggedRow = null;
+	});
 
-  // Delete button
-  const deleteCell = document.createElement('div');
-  deleteCell.className = 'cell';
-  deleteCell.textContent = '🗑️';
-  deleteCell.style.cursor = 'pointer';
-  deleteCell.onclick = () => {
-    row.remove();
-    updateStuntOrder();
-  };
-
-  row.append(handleCell, skillCell, difficultyCell, countCell, deleteCell);
-  stuntList.appendChild(row);
-
-  updateStuntOrder();
-}
-
-// Update highlights/output logic
-function updateStuntOrder() {
-  const rows = Array.from(stuntList.children);
-  const data = rows.map(r => ({
-    skill: r.dataset.skill,
-    difficulty: r.dataset.difficulty,
-    count: r.dataset.count
-  }));
-  console.log('Stunt order:', data);
-
-  // TODO: call your existing highlight/output logic here
-	      // Flash highlight when clicked
-      box.style.display = "block";
-      setTimeout(() => box.style.display = "none", 150);
-}
-
-// ------------------------
-// Integrate with rubric image clicks
-document.querySelectorAll('.rubric-image').forEach(img => {
-  img.addEventListener('click', e => {
-    const skillName = img.dataset.skill;
-    const difficulty = img.dataset.difficulty;
-    const count = 1; // Or calculate dynamically if needed
-
-    addStuntRow(skillName, difficulty, count);
-  });
-});
 
 
 // CLICK HANDLER FOR PYRAMID RUBRIC
@@ -940,6 +905,4 @@ document.getElementById("saveBtn").addEventListener("click", () => {
 
 </body>
 </html>
-
-
 
