@@ -13,25 +13,11 @@
   input, select, textarea { width: 90%; max-width: 600px; padding: 8px; margin-top: 5px; }
   button { margin-top: 25px; padding: 10px 16px; background: #2F317D; color: white; border: none; border-radius: 5px; cursor: pointer; }
   button:hover { background: #c02025; }
-/* Center the entire wrapper, not the image */
-.wrapper {
-    width: fit-content;     /* wrapper becomes exactly the width of the image */
-    margin-left: auto;
-    margin-right: auto;     /* centers wrapper in the cell */
-    position: relative;     /* needed for hotspots */
-	margin-bottom: 40px;   /*  add spacing here */
-}
-
-/* DO NOT modify the image at all */
-.wrapper img {
-    display: block;         /* block is safe here because wrapper now fits exact width */
-}
-
-
-
+  .wrapper {    width: fit-content;  margin-left: auto; margin-right: auto;  position: relative; 	margin-bottom: 40px; cursor: pointer;}
+  .wrapper img {  display: block; }
   #StuntRubricImage { width: 90%; max-width: 950px; display: block; }
   #PyramidRubricImage { width: 90%; max-width: 950px; display: block; }
-  .highlight { position: absolute; border: 2px solid transparent; background-color: transparent; pointer-events: none; display: none; }
+  .highlight { position: absolute; border: 2px solid transparent; background-color: transparent; pointer-events: none; display: none;}
   .twisting { border-color: rgba(255,0,0,0.8); background-color: rgba(255,0,0,0.25); }
   .coed     { border-color: rgba(0,0,255,0.8); background-color: rgba(0,0,255,0.25); }
   .release  { border-color: rgba(0,180,0,0.8); background-color: rgba(0,180,0,0.25); }
@@ -48,18 +34,17 @@
   .icon {  font-size: 24px;       vertical-align: middle;   }
   .majority { background-color: rgba(0, 200, 0, 0.2);  }
   .non-majority {  background-color: rgba(255, 0, 0, 0.2);  }
- hs { border: none; 	height: 2px; 	background-color: #c02025; 	margin: 15px 0; } 
- hr { border: none; 	height: 2px; 	background-color: #c02025; 	margin: 30px 0; }
+  hr { border: none; 	height: 2px; 	background-color: #c02025; 	margin: 30px 0; }
   .center-text { text-align: center;}
   a { color: #2F317D;  text-decoration: underline; }
   a:hover { color: #c02025; }
   input::placeholder, textarea::placeholder {  font-style: italic; color: #CFCFCE; white-space: pre-line;}
   textarea { font-family: Arial, sans-serif;}
   .highlight-bar {    background-color: #F8DF00;  padding: 6px 6px; border-radius: 6px; display: inline-block;}
-.jumphighlight.selected {   outline: 3px solid red;   background-color: rgba(255,0,0,0.15);}
-.jumphighlight {    position: absolute;    cursor: pointer;}
-.tumblinghighlight.selected {    outline: 3px solid red; background-color: rgba(255,0,0,0.15);}
-.tumblinghighlight {   position: absolute;   cursor: pointer;}
+  .jumphighlight.selected {   outline: 3px solid red;   background-color: rgba(255,0,0,0.15);}
+  .jumphighlight {    position: absolute;    cursor: pointer;}
+  .tumblinghighlight.selected {    outline: 3px solid red; background-color: rgba(255,0,0,0.15);}
+  .tumblinghighlight {   position: absolute;   cursor: pointer;}
   #customAlert { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5);
                  display: flex; justify-content: center; align-items: center; z-index: 9999;}
   #customAlertContent {background: #fff; padding: 20px 25px; border-radius: 8px;
