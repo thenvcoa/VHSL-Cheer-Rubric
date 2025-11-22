@@ -21,7 +21,7 @@
 	
 /* Flashing effect for highlight boxes */
 .highlight.flash {
-  animation: flash 0.5s ease-out forwards;
+  animation: flash 1.0s ease-out forwards;
 }
 
 /* Keyframe animation for flashing */
@@ -560,7 +560,7 @@ wrapper.addEventListener('click', e => {
       setTimeout(() => {
         box.classList.remove('flash');  // Remove flash effect
         box.style.display = "none";     // Hide the highlight box again
-      }, 150);  // Hide after 150ms (flash duration)
+      }, 500);  // Hide after 150ms (flash duration)
 
       // Create new row in the table
       const skillId = 'count_' + r.id;
@@ -987,6 +987,7 @@ document.getElementById("saveBtn").addEventListener("click", () => {
 
 </body>
 </html>
+
 
 
 
