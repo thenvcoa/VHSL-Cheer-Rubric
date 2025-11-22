@@ -456,7 +456,6 @@ const pyramidWrapper = document.querySelector('#PyramidRubricImage').parentEleme
 const pyramidCountsContainer = document.getElementById('PyramidCounts');
 
 // CLICK HANDLER FOR STUNT RUBRIC
-// Debugging the wrapper click event
 wrapper.addEventListener('click', e => {
   console.log('Wrapper clicked!'); // Confirm the click event is firing
 
@@ -466,18 +465,35 @@ wrapper.addEventListener('click', e => {
 
   console.log(`Click coordinates: x = ${x}, y = ${y}`); // Debug coordinates
 
+  // Get the width and height of the wrapper in pixels
+  const wrapperWidth = rect.width;
+  const wrapperHeight = rect.height;
+
+  // Convert the click coordinates to percentage values relative to the wrapper
+  const xPercent = (x / wrapperWidth) * 100;
+  const yPercent = (y / wrapperHeight) * 100;
+
+  console.log(`Click percentages: x = ${xPercent}%, y = ${yPercent}%`); // Debug percentage coordinates
+
   for (let r of StuntRegions) {
     const box = document.getElementById(r.id);
 
-    // Get bounding box data
-    const left = parseFloat(box.style.left);
-    const top = parseFloat(box.style.top);
-    const width = parseFloat(box.style.width);
-    const height = parseFloat(box.style.height);
+    // Get percentage-based positions and dimensions
+    const leftPercent = parseFloat(box.style.left);  // left in percentage
+    const topPercent = parseFloat(box.style.top);   // top in percentage
+    const widthPercent = parseFloat(box.style.width); // width in percentage
+    const heightPercent = parseFloat(box.style.height); // height in percentage
 
-    console.log(`Checking region ${r.id}: left = ${left}, top = ${top}, width = ${width}, height = ${height}`); // Debug region dimensions
+    console.log(`Checking region ${r.id}: left = ${leftPercent}%, top = ${topPercent}%, width = ${widthPercent}%, height = ${heightPercent}%`); // Debug region dimensions
 
-    if (x >= left && x <= left + width && y >= top && y <= top + height) {
+    // Calculate the pixel values based on the percentage
+    const left = (leftPercent / 100) * wrapperWidth;
+    const top = (topPercent / 100) * wrapperHeight;
+    const width = (widthPercent / 100) * wrapperWidth;
+    const height = (heightPercent / 100) * wrapperHeight;
+
+    // Check if the click is inside the bounding box
+    if (xPercent >= leftPercent && xPercent <= leftPercent + widthPercent && yPercent >= topPercent && yPercent <= topPercent + heightPercent) {
       console.log(`Clicked inside ${r.id} region`); // Log if the click is inside the box
 
       const skillId = 'count_' + r.id;
@@ -507,6 +523,7 @@ wrapper.addEventListener('click', e => {
     }
   }
 });
+
 
 
 
@@ -907,6 +924,7 @@ document.getElementById("saveBtn").addEventListener("click", () => {
 
 </body>
 </html>
+
 
 
 
