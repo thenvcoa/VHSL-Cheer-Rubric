@@ -18,7 +18,7 @@
   #StuntRubricImage { width: 90%; max-width: 950px; display: block; }
   #PyramidRubricImage { width: 90%; max-width: 950px; display: block; }
   .highlight { position: absolute; border: 2px solid transparent; background-color: transparent; pointer-events: none; 
-			  display: none;  cursor: pointer;   z-index: 10;   pointer-events: all;   transition: all 0.2s ease;}
+			  display: none;  cursor: pointer;   z-index: 10;   pointer-events: none;   transition: all 0.2s ease;}
 	.highlight.active {
   display: block;
   pointer-events: all; /* Ensure it's clickable */
@@ -458,27 +458,35 @@ const pyramidCountsContainer = document.getElementById('PyramidCounts');
 // CLICK HANDLER FOR STUNT RUBRIC
 // Debugging the wrapper click event
 wrapper.addEventListener('click', e => {
-  console.log('Wrapper clicked!'); // This will confirm if the event fires
+  console.log('Wrapper clicked!'); // Confirm the click event is firing
+
   const rect = wrapper.getBoundingClientRect();
   const x = e.clientX - rect.left;
   const y = e.clientY - rect.top;
 
+  console.log(`Click coordinates: x = ${x}, y = ${y}`); // Debug coordinates
+
   for (let r of StuntRegions) {
     const box = document.getElementById(r.id);
+
+    // Get bounding box data
     const left = parseFloat(box.style.left);
     const top = parseFloat(box.style.top);
     const width = parseFloat(box.style.width);
     const height = parseFloat(box.style.height);
 
+    console.log(`Checking region ${r.id}: left = ${left}, top = ${top}, width = ${width}, height = ${height}`); // Debug region dimensions
+
     if (x >= left && x <= left + width && y >= top && y <= top + height) {
+      console.log(`Clicked inside ${r.id} region`); // Log if the click is inside the box
+
       const skillId = 'count_' + r.id;
 
       // Flash highlight when clicked by showing and hiding it
-      console.log(`Clicked inside ${r.id} region`); // Debug output
       box.classList.add('active');  // Add active class to show and make clickable
       setTimeout(() => box.classList.remove('active'), 150);  // Remove after flashing
 
-      // Create new row (this will be logged as well)
+      // Create new row
       const row = document.createElement('tr');
       row.id = skillId + '_' + Date.now();
       row.draggable = true; // Make row draggable
@@ -495,10 +503,11 @@ wrapper.addEventListener('click', e => {
         skillCountsContainer.removeChild(row);
       });
 
-      break;
+      break; // Stop checking after the first match
     }
   }
 });
+
 
 
 
@@ -898,6 +907,7 @@ document.getElementById("saveBtn").addEventListener("click", () => {
 
 </body>
 </html>
+
 
 
 
