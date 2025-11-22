@@ -437,22 +437,7 @@ Example:
 
 <script>
 
-// Fetch events from Apps Script
-fetch('https://script.google.com/macros/s/AKfycbw8DIaXoRRl2UaQLSuc4U1_bniKOcXc-Clu2oWwVxJo5qreetItn3wXthTyWCC3kz0K')
-  .then(res => res.json())
-  .then(events => {
-    const select = document.getElementById('competitionLocation');
-    events.forEach((e, index) => {
-      const opt = document.createElement('option');
-      opt.value = index; // store index temporarily
-      opt.textContent = e.display;
-      opt.dataset.association = e.association; // hidden association for submission
-      select.appendChild(opt);
-    });
-  })
-  .catch(err => console.error('Error fetching events:', err));
-
-
+	
 //Labels for all stunt & pyramid skills
 const StuntRegions = [
   { id: 'i1', skill: 'Connected Inversions - Prep Level and Below to Below Prep', category: 'Inversion', difficulty: 'Beginner'},
@@ -999,6 +984,7 @@ document.getElementById("saveBtn").addEventListener("click", () => {
 
 </body>
 </html>
+
 
 
 
