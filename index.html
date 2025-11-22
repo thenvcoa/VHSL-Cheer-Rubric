@@ -13,22 +13,8 @@
   input, select, textarea { width: 90%; max-width: 600px; padding: 8px; margin-top: 5px; }
   button { margin-top: 25px; padding: 10px 16px; background: #2F317D; color: white; border: none; border-radius: 5px; cursor: pointer; }
   button:hover { background: #c02025; }
-/* Center the entire wrapper, not the image */
-.wrapper {
-    width: fit-content;     /* wrapper becomes exactly the width of the image */
-    margin-left: auto;
-    margin-right: auto;     /* centers wrapper in the cell */
-    position: relative;     /* needed for hotspots */
-	margin-bottom: 40px;   /*  add spacing here */
-}
-
-/* DO NOT modify the image at all */
-.wrapper img {
-    display: block;         /* block is safe here because wrapper now fits exact width */
-}
-
-
-
+  .wrapper {    width: fit-content;  margin-left: auto; margin-right: auto;  position: relative;	margin-bottom: 40px; }
+  .wrapper img { display: block; }
   #StuntRubricImage { width: 90%; max-width: 950px; display: block; }
   #PyramidRubricImage { width: 90%; max-width: 950px; display: block; }
   .highlight { position: absolute; border: 2px solid transparent; background-color: transparent; pointer-events: none; display: none; }
@@ -235,7 +221,6 @@
 	<table id="PyramidCountsTable">
 		<thead>
 		<tr>
-			<th style="width:30px;">⇅</th>
 			<th>Skill</th>
 			<th>Difficulty</th>
 			<th># of Trick Flyers</th>
@@ -418,22 +403,6 @@ Example:
 
 <script>
 
-// Fetch events from Apps Script
-fetch('https://script.google.com/macros/s/AKfycbw8DIaXoRRl2UaQLSuc4U1_bniKOcXc-Clu2oWwVxJo5qreetItn3wXthTyWCC3kz0K')
-  .then(res => res.json())
-  .then(events => {
-    const select = document.getElementById('competitionLocation');
-    events.forEach((e, index) => {
-      const opt = document.createElement('option');
-      opt.value = index; // store index temporarily
-      opt.textContent = e.display;
-      opt.dataset.association = e.association; // hidden association for submission
-      select.appendChild(opt);
-    });
-  })
-  .catch(err => console.error('Error fetching events:', err));
-
-
 //Labels for all stunt & pyramid skills
 const StuntRegions = [
   { id: 'i1', skill: 'Connected Inversions - Prep Level and Below to Below Prep', category: 'Inversion', difficulty: 'Beginner'},
@@ -502,8 +471,8 @@ wrapper.addEventListener('click', e => {
       const row = document.createElement('tr');
       row.id = skillId + '_' + Date.now();
       row.draggable = true; // <-- Make row draggable
-      row.innerHTML = `
-         <td>${r.skill}</td>
+      row.innerHTML = 
+		 <td class="drag-handle">${r.skill}</td>
 		 <td>${r.difficulty}</td>
         <td><input type="number" id="${skillId}" min="0" value="0"></td>
         <td class="delete-btn">🗑️</td>
@@ -570,8 +539,7 @@ pyramidWrapper.addEventListener('click', e => {
       row.id = skillId + '_' + Date.now();
       row.draggable = true;
       row.innerHTML = `
-        <td class="drag-handle">⇅</td>
-        <td>${r.skill}</td>
+        <td class="drag-handle">${r.skill}</td>
         <td>${r.difficulty}</td>
         <td><input type="number" id="${skillId}" min="0" value="0"></td>
         <td class="delete-btn">🗑️</td>
@@ -715,9 +683,9 @@ function runChecker2() {
 
   // Step 2: Label Non-Majority Skills and gather majority skills
   rows.forEach(row => {
-    const skill = row.cells[1].textContent;
-    const difficulty = row.cells[2].textContent;
-    const count = parseInt(row.cells[3].querySelector('input').value) || 0;
+    const skill = row.cells[0].textContent;
+    const difficulty = row.cells[1].textContent;
+    const count = parseInt(row.cells[2].querySelector('input').value) || 0;
 
     if (count >= majorityPyramid) {
       majoritySkills.push({ skill, difficulty });
@@ -773,9 +741,9 @@ function runChecker2() {
  // Step 8: Populate Summary 
   let PyramidSkillListOutput = '';
   rows.forEach(row => {
-    const skill = row.cells[1].textContent;
-    const difficulty = row.cells[2].textContent;
-    const count = parseInt(row.cells[3].querySelector('input').value) || 0;
+    const skill = row.cells[0].textContent;
+    const difficulty = row.cells[1].textContent;
+    const count = parseInt(row.cells[2].querySelector('input').value) || 0;
 
     PyramidSkillListOutput += `${count} — ${difficulty} — ${skill}`;
     if (!row.classList.contains('majority')) PyramidSkillListOutput += ' (Non Majority)';
@@ -917,6 +885,7 @@ document.getElementById("saveBtn").addEventListener("click", () => {
 
 </body>
 </html>
+
 
 
 
