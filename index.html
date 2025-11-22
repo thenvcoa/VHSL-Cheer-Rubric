@@ -456,7 +456,9 @@ const pyramidWrapper = document.querySelector('#PyramidRubricImage').parentEleme
 const pyramidCountsContainer = document.getElementById('PyramidCounts');
 
 // CLICK HANDLER FOR STUNT RUBRIC
+// Debugging the wrapper click event
 wrapper.addEventListener('click', e => {
+  console.log('Wrapper clicked!'); // This will confirm if the event fires
   const rect = wrapper.getBoundingClientRect();
   const x = e.clientX - rect.left;
   const y = e.clientY - rect.top;
@@ -472,10 +474,11 @@ wrapper.addEventListener('click', e => {
       const skillId = 'count_' + r.id;
 
       // Flash highlight when clicked by showing and hiding it
+      console.log(`Clicked inside ${r.id} region`); // Debug output
       box.classList.add('active');  // Add active class to show and make clickable
       setTimeout(() => box.classList.remove('active'), 150);  // Remove after flashing
 
-      // Create new row
+      // Create new row (this will be logged as well)
       const row = document.createElement('tr');
       row.id = skillId + '_' + Date.now();
       row.draggable = true; // Make row draggable
@@ -496,6 +499,7 @@ wrapper.addEventListener('click', e => {
     }
   }
 });
+
 
 
 // DRAG–DROP FOR STUNT TABLE
@@ -894,6 +898,7 @@ document.getElementById("saveBtn").addEventListener("click", () => {
 
 </body>
 </html>
+
 
 
 
