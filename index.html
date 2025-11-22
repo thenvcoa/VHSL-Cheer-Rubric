@@ -27,7 +27,7 @@
     display: block;         /* block is safe here because wrapper now fits exact width */
 }
 
-.stunt‑table {
+.stunt-table {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -51,7 +51,7 @@
   text-align: center;
 }
 
-.drag‑handle {
+.drag-handle {
   flex: 0 0 30px;
 }
 
@@ -485,15 +485,17 @@ const pyramidCountsContainer = document.getElementById('PyramidCounts');
 // CLICK HANDLER FOR STUNT RUBRIC
 const stuntList = document.getElementById('stuntList');
 
+// Initialize Sortable.js for drag & drop
 const sortable = new Sortable(stuntList, {
   animation: 150,
   ghostClass: 'dragging',
-  handle: '.drag‑handle',
+  handle: '.drag-handle',
   onEnd: function(evt) {
     updateStuntOrder();
   }
 });
 
+// Function to add a row dynamically
 function addStuntRow(skillName, difficulty, count) {
   const row = document.createElement('div');
   row.className = 'stuntRow';
@@ -501,9 +503,9 @@ function addStuntRow(skillName, difficulty, count) {
   row.dataset.difficulty = difficulty;
   row.dataset.count = count;
 
-  // Drag handle cell
+  // Drag handle
   const handleCell = document.createElement('div');
-  handleCell.className = 'cell drag‑handle';
+  handleCell.className = 'cell drag-handle';
   handleCell.textContent = '⇅';
 
   // Skill cell
@@ -512,16 +514,16 @@ function addStuntRow(skillName, difficulty, count) {
   skillCell.textContent = skillName;
 
   // Difficulty cell
-  const diffCell = document.createElement('div');
-  diffCell.className = 'cell';
-  diffCell.textContent = difficulty;
+  const difficultyCell = document.createElement('div');
+  difficultyCell.className = 'cell';
+  difficultyCell.textContent = difficulty;
 
   // Count cell
   const countCell = document.createElement('div');
   countCell.className = 'cell';
   countCell.textContent = count;
 
-  // Delete cell
+  // Delete button
   const deleteCell = document.createElement('div');
   deleteCell.className = 'cell';
   deleteCell.textContent = '🗑️';
@@ -531,12 +533,13 @@ function addStuntRow(skillName, difficulty, count) {
     updateStuntOrder();
   };
 
-  row.append(handleCell, skillCell, diffCell, countCell, deleteCell);
+  row.append(handleCell, skillCell, difficultyCell, countCell, deleteCell);
   stuntList.appendChild(row);
 
   updateStuntOrder();
 }
 
+// Update highlights/output logic
 function updateStuntOrder() {
   const rows = Array.from(stuntList.children);
   const data = rows.map(r => ({
@@ -546,11 +549,23 @@ function updateStuntOrder() {
   }));
   console.log('Stunt order:', data);
 
-	// Flash highlight when clicked
+  // TODO: call your existing highlight/output logic here
+	      // Flash highlight when clicked
       box.style.display = "block";
       setTimeout(() => box.style.display = "none", 150);
+}
 
+// ------------------------
+// Integrate with rubric image clicks
+document.querySelectorAll('.rubric-image').forEach(img => {
+  img.addEventListener('click', e => {
+    const skillName = img.dataset.skill;
+    const difficulty = img.dataset.difficulty;
+    const count = 1; // Or calculate dynamically if needed
 
+    addStuntRow(skillName, difficulty, count);
+  });
+});
 
 
 // CLICK HANDLER FOR PYRAMID RUBRIC
@@ -925,5 +940,6 @@ document.getElementById("saveBtn").addEventListener("click", () => {
 
 </body>
 </html>
+
 
 
