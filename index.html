@@ -464,17 +464,17 @@ wrapper.addEventListener('click', e => {
     if (x >= left && x <= left + width && y >= top && y <= top + height) {
       const skillId = 'count_' + r.id;
 
-      // Flash highlight when clicked
-      box.style.display = "block";
-      setTimeout(() => box.style.display = "none", 150);
+      // Flash highlight when clicked by showing and hiding it
+      box.classList.add('active');  // Add active class to show and make clickable
+      setTimeout(() => box.classList.remove('active'), 150);  // Remove after flashing
 
       // Create new row
       const row = document.createElement('tr');
       row.id = skillId + '_' + Date.now();
-      row.draggable = true; // <-- Make row draggable
+      row.draggable = true; // Make row draggable
       row.innerHTML = `
         <td class="drag-handle">${r.skill}</td>
-		 <td>${r.difficulty}</td>
+        <td>${r.difficulty}</td>
         <td><input type="number" id="${skillId}" min="0" value="0"></td>
         <td class="delete-btn">🗑️</td>
       `;
@@ -489,6 +489,7 @@ wrapper.addEventListener('click', e => {
     }
   }
 });
+
 
 // DRAG–DROP FOR STUNT TABLE
 let draggedRow = null;
@@ -886,6 +887,7 @@ document.getElementById("saveBtn").addEventListener("click", () => {
 
 </body>
 </html>
+
 
 
 
