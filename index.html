@@ -13,8 +13,22 @@
   input, select, textarea { width: 90%; max-width: 600px; padding: 8px; margin-top: 5px; }
   button { margin-top: 25px; padding: 10px 16px; background: #2F317D; color: white; border: none; border-radius: 5px; cursor: pointer; }
   button:hover { background: #c02025; }
-  .wrapper {    width: fit-content;  margin-left: auto; margin-right: auto;  position: relative;	margin-bottom: 40px; }
-  .wrapper img { display: block; }
+/* Center the entire wrapper, not the image */
+.wrapper {
+    width: fit-content;     /* wrapper becomes exactly the width of the image */
+    margin-left: auto;
+    margin-right: auto;     /* centers wrapper in the cell */
+    position: relative;     /* needed for hotspots */
+	margin-bottom: 40px;   /*  add spacing here */
+}
+
+/* DO NOT modify the image at all */
+.wrapper img {
+    display: block;         /* block is safe here because wrapper now fits exact width */
+}
+
+
+
   #StuntRubricImage { width: 90%; max-width: 950px; display: block; }
   #PyramidRubricImage { width: 90%; max-width: 950px; display: block; }
   .highlight { position: absolute; border: 2px solid transparent; background-color: transparent; pointer-events: none; display: none; }
@@ -403,6 +417,7 @@ Example:
 
 <script>
 
+
 //Labels for all stunt & pyramid skills
 const StuntRegions = [
   { id: 'i1', skill: 'Connected Inversions - Prep Level and Below to Below Prep', category: 'Inversion', difficulty: 'Beginner'},
@@ -471,8 +486,8 @@ wrapper.addEventListener('click', e => {
       const row = document.createElement('tr');
       row.id = skillId + '_' + Date.now();
       row.draggable = true; // <-- Make row draggable
-      row.innerHTML = 
-		 <td class="drag-handle">${r.skill}</td>
+      row.innerHTML = `
+        <td class="drag-handle">${r.skill}</td>
 		 <td>${r.difficulty}</td>
         <td><input type="number" id="${skillId}" min="0" value="0"></td>
         <td class="delete-btn">🗑️</td>
@@ -885,9 +900,4 @@ document.getElementById("saveBtn").addEventListener("click", () => {
 
 </body>
 </html>
-
-
-
-
-
 
