@@ -19,6 +19,13 @@
   #PyramidRubricImage { width: 90%; max-width: 950px; display: block; }
   .highlight { position: absolute; border: 2px solid transparent; background-color: transparent; pointer-events: none; 
 			  display: none;  cursor: pointer;   z-index: 10;   pointer-events: all;   transition: all 0.2s ease;}
+	.highlight.active {
+  display: block;
+  pointer-events: all; /* Ensure it's clickable */
+  background-color: rgba(255, 255, 0, 0.4); /* Optional: Give it a temporary highlight color */
+  transition: background-color 0.2s ease-out; /* Optional: Smooth fade */
+}
+
   .twisting { border-color: rgba(255,0,0,0.8); background-color: rgba(255,0,0,0.25); }
   .coed     { border-color: rgba(0,0,255,0.8); background-color: rgba(0,0,255,0.25); }
   .release  { border-color: rgba(0,180,0,0.8); background-color: rgba(0,180,0,0.25); }
@@ -887,6 +894,7 @@ document.getElementById("saveBtn").addEventListener("click", () => {
 
 </body>
 </html>
+
 
 
 
