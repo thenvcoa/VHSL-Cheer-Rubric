@@ -182,7 +182,6 @@
 	<table id="skillCountsTable">
 		<thead>
 		<tr>
-			<th style="width:30px;">⇅</th>
 			<th>Skill</th>
 			<th>Difficulty</th>
 			<th># of Stunt Groups</th>
@@ -504,8 +503,7 @@ wrapper.addEventListener('click', e => {
       row.id = skillId + '_' + Date.now();
       row.draggable = true; // <-- Make row draggable
       row.innerHTML = `
-        <td class="drag-handle">⇅</td>
-        <td>${r.skill}</td>
+         <td>${r.skill}</td>
 		 <td>${r.difficulty}</td>
         <td><input type="number" id="${skillId}" min="0" value="0"></td>
         <td class="delete-btn">🗑️</td>
@@ -919,6 +917,7 @@ document.getElementById("saveBtn").addEventListener("click", () => {
 
 </body>
 </html>
+
 
 
 
