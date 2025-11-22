@@ -492,8 +492,13 @@ wrapper.addEventListener('click', e => {
     const width = (widthPercent / 100) * wrapperWidth;
     const height = (heightPercent / 100) * wrapperHeight;
 
-    // Check if the click is inside the bounding box
-    if (xPercent >= leftPercent && xPercent <= leftPercent + widthPercent && yPercent >= topPercent && yPercent <= topPercent + heightPercent) {
+    // Check if the click is inside the bounding box (based on percentage comparison)
+    if (
+      xPercent >= leftPercent && 
+      xPercent <= (leftPercent + widthPercent) && 
+      yPercent >= topPercent && 
+      yPercent <= (topPercent + heightPercent)
+    ) {
       console.log(`Clicked inside ${r.id} region`); // Log if the click is inside the box
 
       const skillId = 'count_' + r.id;
@@ -523,6 +528,7 @@ wrapper.addEventListener('click', e => {
     }
   }
 });
+
 
 
 
@@ -924,6 +930,7 @@ document.getElementById("saveBtn").addEventListener("click", () => {
 
 </body>
 </html>
+
 
 
 
