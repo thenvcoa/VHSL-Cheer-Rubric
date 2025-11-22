@@ -457,13 +457,13 @@ const pyramidCountsContainer = document.getElementById('PyramidCounts');
 
 // CLICK HANDLER FOR STUNT RUBRIC
 wrapper.addEventListener('click', e => {
-  console.log('Wrapper clicked!'); // Confirm the click event is firing
+  console.log('Wrapper clicked!'); // Confirm wrapper click
 
-  const rect = wrapper.getBoundingClientRect();
-  const x = e.clientX - rect.left;
-  const y = e.clientY - rect.top;
+  const rect = wrapper.getBoundingClientRect(); // Get wrapper's position and size
+  const x = e.clientX - rect.left; // Get X position relative to wrapper
+  const y = e.clientY - rect.top;  // Get Y position relative to wrapper
 
-  console.log(`Click coordinates: x = ${x}, y = ${y}`); // Debug coordinates
+  console.log(`Click coordinates: x = ${x}, y = ${y}`); // Log click coordinates
 
   // Get the width and height of the wrapper in pixels
   const wrapperWidth = rect.width;
@@ -473,18 +473,19 @@ wrapper.addEventListener('click', e => {
   const xPercent = (x / wrapperWidth) * 100;
   const yPercent = (y / wrapperHeight) * 100;
 
-  console.log(`Click percentages: x = ${xPercent}%, y = ${yPercent}%`); // Debug percentage coordinates
+  console.log(`Click percentages: x = ${xPercent}%, y = ${yPercent}%`); // Log click percentages
 
+  // Loop through each region to check if the click is inside it
   for (let r of StuntRegions) {
     const box = document.getElementById(r.id);
 
-    // Get percentage-based positions and dimensions
+    // Get percentage-based positions and dimensions of the highlight box
     const leftPercent = parseFloat(box.style.left);  // left in percentage
     const topPercent = parseFloat(box.style.top);   // top in percentage
     const widthPercent = parseFloat(box.style.width); // width in percentage
     const heightPercent = parseFloat(box.style.height); // height in percentage
 
-    console.log(`Checking region ${r.id}: left = ${leftPercent}%, top = ${topPercent}%, width = ${widthPercent}%, height = ${heightPercent}%`); // Debug region dimensions
+    console.log(`Checking region ${r.id}: left = ${leftPercent}%, top = ${topPercent}%, width = ${widthPercent}%, height = ${heightPercent}%`);
 
     // Calculate the pixel values based on the percentage
     const left = (leftPercent / 100) * wrapperWidth;
@@ -492,22 +493,26 @@ wrapper.addEventListener('click', e => {
     const width = (widthPercent / 100) * wrapperWidth;
     const height = (heightPercent / 100) * wrapperHeight;
 
-    // Check if the click is inside the bounding box (based on percentage comparison)
+    console.log(`Box coordinates in pixels: left = ${left}, top = ${top}, width = ${width}, height = ${height}`);
+
+    // Check if the click is inside the bounding box
     if (
       xPercent >= leftPercent && 
       xPercent <= (leftPercent + widthPercent) && 
       yPercent >= topPercent && 
       yPercent <= (topPercent + heightPercent)
     ) {
-      console.log(`Clicked inside ${r.id} region`); // Log if the click is inside the box
+      console.log(`Clicked inside ${r.id} region!`); // Confirm if inside the region
 
       const skillId = 'count_' + r.id;
 
-      // Flash highlight when clicked by showing and hiding it
-      box.classList.add('active');  // Add active class to show and make clickable
-      setTimeout(() => box.classList.remove('active'), 150);  // Remove after flashing
+      // Flash highlight when clicked (showing and hiding it)
+      box.classList.add('active');  // Add active class to make it visible
+      setTimeout(() => {
+        box.classList.remove('active'); // Remove class to hide again
+      }, 150);  // Hide after 150ms
 
-      // Create new row
+      // Create new row in the table
       const row = document.createElement('tr');
       row.id = skillId + '_' + Date.now();
       row.draggable = true; // Make row draggable
@@ -519,7 +524,7 @@ wrapper.addEventListener('click', e => {
       `;
       skillCountsContainer.appendChild(row);
 
-      // Delete row
+      // Add event listener to delete row
       row.querySelector('.delete-btn').addEventListener('click', () => {
         skillCountsContainer.removeChild(row);
       });
@@ -930,6 +935,7 @@ document.getElementById("saveBtn").addEventListener("click", () => {
 
 </body>
 </html>
+
 
 
 
