@@ -629,9 +629,9 @@ function runChecker() {
   // Step 2: Label Non-Majority Skills and gather majority skills
   rows.forEach((row, idx) => {
     // skip header if (idx === 0) return; 
-    const skill = row.cells[1].textContent;
-    const difficulty = row.cells[2].textContent;
-    const count = parseInt(row.cells[3].querySelector('input').value) || 0;
+    const skill = row.cells[0].textContent;
+    const difficulty = row.cells[1].textContent;
+    const count = parseInt(row.cells[2].querySelector('input').value) || 0;
 
     if (count >= majorityStunt) {
       majoritySkills.push({ skill, difficulty });
@@ -688,9 +688,9 @@ function runChecker() {
  // Step 8: Populate Summary 
 	let StuntSkillListOutput = '';
 		rows.forEach(row => {
-    const skill = row.cells[1].textContent;
-    const difficulty = row.cells[2].textContent;
-    const count = parseInt(row.cells[3].querySelector('input').value) || 0;
+    const skill = row.cells[0].textContent;
+    const difficulty = row.cells[1].textContent;
+    const count = parseInt(row.cells[2].querySelector('input').value) || 0;
     StuntSkillListOutput += `${count} — ${difficulty} — ${skill} `;
     if (!row.classList.contains('majority')) StuntSkillListOutput += ' (Non Majority)';
     StuntSkillListOutput += '\n';
@@ -917,6 +917,7 @@ document.getElementById("saveBtn").addEventListener("click", () => {
 
 </body>
 </html>
+
 
 
 
