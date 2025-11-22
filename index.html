@@ -26,7 +26,35 @@
 .wrapper img {
     display: block;         /* block is safe here because wrapper now fits exact width */
 }
+/* Table-like layout */
+.stunt-table {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
 
+.stuntRow {
+  display: flex;
+  border: 1px solid #ccc;
+  background: #fff;
+  margin-bottom: 2px;
+  cursor: grab;
+}
+
+.stuntRow.dragging {
+  opacity: 0.5;
+}
+
+.cell {
+  flex: 1;
+  padding: 8px;
+  text-align: center;
+}
+
+/* Optional: make drag handle smaller */
+.drag-handle {
+  flex: 0 0 30px;
+}
 
 
   #StuntRubricImage { width: 90%; max-width: 950px; display: block; }
@@ -179,18 +207,7 @@
 	</strong></p>
 
 	<!-- Drag & drop table -->
-	<table id="skillCountsTable">
-		<thead>
-		<tr>
-			<th style="width:30px;">⇅</th>
-			<th>Skill</th>
-			<th>Difficulty</th>
-			<th># of Stunt Groups</th>
-			<th style="width:30px;">🗑️</th>
-		</tr>
-		</thead>
-		<tbody id="skillCounts"></tbody>
-	</table>
+<div id="stuntList" class="stunt-table"></div>
 
 	<div style="display: flex; align-items: center; gap: 10px;">
 	<button onclick="runChecker()">Calculate Stunt Difficulty Range</button>
@@ -416,7 +433,7 @@ Example:
 
 <!-- ========================END HTML VISUAL======================== -->
 
-<script src="https://cdn.jsdelivr.net/npm/@dragdroptouch/drag-drop-touch@latest/dist/drag-drop-touch.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.17.0/Sortable.min.js"></script>
 
 <script>
 
@@ -524,65 +541,84 @@ wrapper.addEventListener('click', e => {
 });
 
 // DRAG–DROP FOR STUNT TABLE (Desktop + Mobile)
-let draggedRow = null;
+const stuntList = document.getElementById('stuntList');
 
-// Helper: get pointer position for mouse or touch
-function getPointerY(e) {
-    if (e.touches && e.touches.length > 0) {
-        return e.touches[0].clientY;
-    } else {
-        return e.clientY;
-    }
-}
-
-// --- START DRAG ---
-function startDrag(e) {
-    draggedRow = e.target.closest('tr');
-    if (!draggedRow) return;
-
-    // For desktop HTML5 drag
-    if (e.type === 'dragstart') {
-        e.dataTransfer.effectAllowed = 'move';
-    }
-
-    // Prevent scrolling on mobile
-    if (e.type.startsWith('touch')) e.preventDefault();
-}
-
-// --- DRAGGING ---
-function drag(e) {
-    if (!draggedRow) return;
-    const targetRow = e.target.closest('tr');
-    if (!targetRow || targetRow === draggedRow) return;
-
-    const rect = targetRow.getBoundingClientRect();
-    const pointerY = getPointerY(e);
-    const next = (pointerY - rect.top) > rect.height / 2;
-
-    skillCountsContainer.insertBefore(draggedRow, next ? targetRow.nextSibling : targetRow);
-
-    if (e.type.startsWith('touch')) e.preventDefault(); // Prevent scroll on mobile
-}
-
-// --- END DRAG ---
-function endDrag(e) {
-    draggedRow = null;
-    if (e.type.startsWith('touch')) e.preventDefault();
-}
-
-// --- Add Event Listeners ---
-skillCountsContainer.querySelectorAll('tr').forEach(row => {
-    // Desktop HTML5 drag
-    row.setAttribute('draggable', 'true');
-    row.addEventListener('dragstart', startDrag);
-    row.addEventListener('dragover', drag);
-    row.addEventListener('drop', endDrag);
-
-    // Mobile touch events
-    row.addEventListener('touchstart', startDrag, { passive: false });
-    row.addEventListener('touchmove', drag, { passive: false });
-    row.addEventListener('touchend', endDrag);
+// Initialize Sortable.js for drag & drop
+const sortable = new Sortable(stuntList, {
+  animation: 150,
+  ghostClass: 'dragging',
+  handle: '.drag-handle',
+  onEnd: function(evt) {
+    updateHighlights(); // Update output/highlights after reordering
+  }
 });
+
+// Function to dynamically add a stunt row
+function addStuntRow(skillName, difficulty, count) {
+  const row = document.createElement('div');
+  row.className = 'stuntRow';
+  row.dataset.skill = skillName;
+  row.dataset.difficulty = difficulty;
+  row.dataset.count = count;
+
+  // Drag handle
+  const handleCell = document.createElement('div');
+  handleCell.className = 'cell drag-handle';
+  handleCell.textContent = '⇅';
+
+  // Skill cell
+  const skillCell = document.createElement('div');
+  skillCell.className = 'cell';
+  skillCell.textContent = skillName;
+
+  // Difficulty cell
+  const difficultyCell = document.createElement('div');
+  difficultyCell.className = 'cell';
+  difficultyCell.textContent = difficulty;
+
+  // Count cell
+  const countCell = document.createElement('div');
+  countCell.className = 'cell';
+  countCell.textContent = count;
+
+  // Delete button cell
+  const deleteCell = document.createElement('div');
+  deleteCell.className = 'cell';
+  deleteCell.textContent = '🗑️';
+  deleteCell.style.cursor = 'pointer';
+  deleteCell.onclick = () => {
+    row.remove();
+    updateHighlights();
+  };
+
+  // Append all cells
+  row.append(handleCell, skillCell, difficultyCell, countCell, deleteCell);
+
+  // Add row to container
+  stuntList.appendChild(row);
+
+  // Update highlights/output immediately
+  updateHighlights();
+}
+
+// Function to update highlights/output
+function updateHighlights() {
+  const rows = Array.from(stuntList.children);
+  const data = rows.map(row => ({
+    skill: row.dataset.skill,
+    difficulty: row.dataset.difficulty,
+    count: row.dataset.count
+  }));
+  console.log('Current row order:', data);
+
+  // TODO: integrate your existing highlight/output logic here
+}
+
+// ------------------------
+// Example: simulate clicking rubric images
+addStuntRow('Skill 1', 'Intermediate', 5);
+addStuntRow('Skill 2', 'Advanced', 4);
+addStuntRow('Skill 3', 'Beginner', 3);
 
 
 
@@ -963,6 +999,7 @@ document.getElementById("saveBtn").addEventListener("click", () => {
 
 </body>
 </html>
+
 
 
 
