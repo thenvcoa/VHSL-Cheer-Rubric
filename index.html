@@ -17,62 +17,12 @@
   .wrapper img {  display: block; }
   #StuntRubricImage { width: 90%; max-width: 950px; display: block; }
   #PyramidRubricImage { width: 90%; max-width: 950px; display: block; }
-
-	
-/* Flashing effect for highlight boxes */
-.highlight.flash {
-  animation: flash 1.0s ease-out forwards;
-}
-
-/* Keyframe animation for flashing */
-@keyframes flash {
-  0% {
-    opacity: 0.75;   /* Start semi-visible */
-    transform: scale(1.05);  /* Slightly increase size */
-  }
-  100% {
-    opacity: 0;  /* End invisible */
-    transform: scale(1);  /* Reset size */
-  }
-}
-
-/* General highlight box styling */
-.highlight {
-  position: absolute;
-  border: 2px solid transparent;
-  background-color: transparent;
-  pointer-events: none;
-  display: none;  /* Initially hidden */
-  cursor: pointer;
-  z-index: 10;
-}
-
-.highlight.inversion { 
-  border-color: rgba(180, 0, 180, 0.8); 
-  background-color: rgba(180, 0, 180, 0.25); 
-}
-
-.highlight.release { 
-  border-color: rgba(0, 180, 0, 0.8); 
-  background-color: rgba(0, 180, 0, 0.25); 
-}
-
-.highlight.twisting { 
-  border-color: rgba(255, 0, 0, 0.8); 
-  background-color: rgba(255, 0, 0, 0.25); 
-}
-
-.highlight.coed { 
-  border-color: rgba(0, 0, 255, 0.8); 
-  background-color: rgba(0, 0, 255, 0.25); 
-}
-
-.highlight.toss { 
-  border-color: rgba(255, 120, 0, 0.8); 
-  background-color: rgba(255, 120, 0, 0.25); 
-}
-
-
+  .highlight { position: absolute; border: 2px solid transparent; background-color: transparent; pointer-events: none; display: none;}
+  .twisting { border-color: rgba(255,0,0,0.8); background-color: rgba(255,0,0,0.25); }
+  .coed     { border-color: rgba(0,0,255,0.8); background-color: rgba(0,0,255,0.25); }
+  .release  { border-color: rgba(0,180,0,0.8); background-color: rgba(0,180,0,0.25); }
+  .inversion{ border-color: rgba(180,0,180,0.8); background-color: rgba(180,0,180,0.25); }
+  .toss     { border-color: rgba(255,120,0,0.8); background-color: rgba(255,120,0,0.25); }
   #output { margin-top: 20px; white-space: pre-wrap; background: #f7f7f7; padding: 10px; border-radius: 5px; max-width: 825px; }
   #outputp { margin-top: 20px; white-space: pre-wrap; background: #f7f7f7; padding: 10px; border-radius: 5px; max-width: 825px; } 
   table { width: 70%; max-width: 950px; border-collapse: collapse; margin-top: 10px; }
@@ -179,35 +129,33 @@
 
 
 	<div class="wrapper">
-  <img id="StuntRubricImage" src="Stunt_Rubric.png" alt="VHSL Stunt Rubric">
+		<img id="StuntRubricImage" src="Stunt_Rubric.png" alt="VHSL Stunt Rubric">
+		<!-- Highlight boxes -->
+		<div class="highlight inversion" id="i1" style="left:62px; top:131px; width:146px; height:17px;"></div>
+		<div class="highlight inversion" id="i2" style="left:62px; top:150px; width:146px; height:18px;"></div>
+		<div class="highlight inversion" id="i3" style="left:62px; top:169px; width:146px; height:17px;"></div>
+		<div class="highlight inversion" id="i4" style="left:209px; top:131px; width:146px; height:17px;"></div>
 
-  <!-- Highlight boxes -->
-  <div class="highlight inversion" id="i1" style="left:10.62%; top:29.48%; width:24.99%; height:3.83%;"></div>
-  <div class="highlight inversion" id="i2" style="left:10.62%; top:33.78%; width:24.99%; height:4.05%;"></div>
-  <div class="highlight inversion" id="i3" style="left:10.62%; top:38.04%; width:24.99%; height:3.83%;"></div>
-  <div class="highlight inversion" id="i4" style="left:35.74%; top:29.48%; width:24.99%; height:3.83%;"></div>
+		<div class="highlight release" id="r1" style="left:62px; top:217px; width:146px; height:15px;"></div>
+		<div class="highlight release" id="r2" style="left:62px; top:233px; width:146px; height:13px;"></div>
+		<div class="highlight release" id="r3" style="left:62px; top:280px; width:146px; height:14px;"></div>
 
-  <div class="highlight release" id="r1" style="left:10.62%; top:48.89%; width:24.99%; height:3.37%;"></div>
-  <div class="highlight release" id="r2" style="left:10.62%; top:52.48%; width:24.99%; height:2.93%;"></div>
-  <div class="highlight release" id="r3" style="left:10.62%; top:63.03%; width:24.99%; height:3.15%;"></div>
+		<div class="highlight twisting" id="t1" style="left:62px; top:335px; width:146px; height:7px;"></div>
+		<div class="highlight twisting" id="t2" style="left:62px; top:342px; width:146px; height:14px;"></div>
+		<div class="highlight twisting" id="t3" style="left:62px; top:356px; width:146px; height:15px;"></div>
 
-  <div class="highlight twisting" id="t1" style="left:10.62%; top:75.42%; width:24.99%; height:1.57%;"></div>
-  <div class="highlight twisting" id="t2" style="left:10.62%; top:76.99%; width:24.99%; height:3.15%;"></div>
-  <div class="highlight twisting" id="t3" style="left:10.62%; top:80.14%; width:24.99%; height:3.38%;"></div>
+		<div class="highlight coed" id="c1" style="left:62px; top:410px; width:146px; height:14px;"></div>
+		<div class="highlight coed" id="c2" style="left:62px; top:439px; width:146px; height:15px;"></div>
+		<div class="highlight coed" id="c3" style="left:62px; top:455px; width:146px; height:15px;"></div>
 
-  <div class="highlight coed" id="c1" style="left:10.62%; top:92.32%; width:24.99%; height:3.37%;"></div>
-  <div class="highlight coed" id="c2" style="left:10.62%; top:98.84%; width:24.99%; height:3.38%;"></div>
-  <div class="highlight coed" id="c3" style="left:10.62%; top:102.42%; width:24.99%; height:3.38%;"></div>
+		<div class="highlight toss" id="o1" style="left:62px; top:555px; width:146px; height:15px;"></div>
+		<div class="highlight toss" id="o2" style="left:62px; top:582px; width:146px; height:21px;"></div>
+		<div class="highlight toss" id="o3" style="left:62px; top:600px; width:146px; height:15px;"></div>
 
-  <div class="highlight toss" id="o1" style="left:10.62%; top:124.96%; width:24.99%; height:3.38%;"></div>
-  <div class="highlight toss" id="o2" style="left:10.62%; top:131.04%; width:24.99%; height:4.73%;"></div>
-  <div class="highlight toss" id="o3" style="left:10.62%; top:135.13%; width:24.99%; height:3.38%;"></div>
-
-  <div class="highlight inversion" id="h1" style="left:23.92%; top:123.85%; width:30.77%; height:4.5%;"></div>
-  <div class="highlight release" id="h2" style="left:56.44%; top:123.85%; width:30.77%; height:4.5%;"></div>
-  <div class="highlight twisting" id="h3" style="left:107.69%; top:123.85%; width:30.77%; height:4.5%;"></div>
-</div>
-
+		<div class="highlight inversion" id="h1" style="left:140px; top:550px; width:180px; height:20px;"></div>
+		<div class="highlight release" id="h2" style="left:330px; top:550px; width:180px; height:20px;"></div>
+		<div class="highlight twisting" id="h3" style="left:630px; top:550px; width:180px; height:20px;"></div>
+	</div>
 
 	<p><strong>
 	Enter the number of stunt groups for each skill. 
@@ -314,7 +262,7 @@
          style="left:7px; top:290px; width:595px; height:67px;" 
          data-value="2.75 – 4.00"></div>
 
-    <!-- Row 4: 4.25 – 5.o -->
+    <!-- Row 4: 4.25 – 5.0 -->
     <div class="tumblinghighlight tumbling" id="tumbling4" 
          style="left:7px; top:359px; width:595px; height:92px;" 
          data-value="4.25 – 5.0"></div>
@@ -499,97 +447,45 @@ const pyramidCountsContainer = document.getElementById('PyramidCounts');
 
 // CLICK HANDLER FOR STUNT RUBRIC
 wrapper.addEventListener('click', e => {
-  console.log('Wrapper clicked!'); // Confirm wrapper click
+  const rect = wrapper.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
 
-  const rect = wrapper.getBoundingClientRect(); // Get wrapper's position and size
-  const x = e.clientX - rect.left; // Get X position relative to wrapper
-  const y = e.clientY - rect.top;  // Get Y position relative to wrapper
-
-  console.log(`Click coordinates: x = ${x}, y = ${y}`); // Log click coordinates
-
-  // Get the width and height of the wrapper in pixels
-  const wrapperWidth = rect.width;
-  const wrapperHeight = rect.height;
-
-  // Convert the click coordinates to percentage values relative to the wrapper
-  const xPercent = (x / wrapperWidth) * 100;
-  const yPercent = (y / wrapperHeight) * 100;
-
-  console.log(`Click percentages: x = ${xPercent}%, y = ${yPercent}%`); // Log click percentages
-
-  // Loop through each region to check if the click is inside it
   for (let r of StuntRegions) {
     const box = document.getElementById(r.id);
+    const left = parseFloat(box.style.left);
+    const top = parseFloat(box.style.top);
+    const width = parseFloat(box.style.width);
+    const height = parseFloat(box.style.height);
 
-    // Get percentage-based positions and dimensions of the highlight box
-    const leftPercent = parseFloat(box.style.left);  // left in percentage
-    const topPercent = parseFloat(box.style.top);   // top in percentage
-    const widthPercent = parseFloat(box.style.width); // width in percentage
-    const heightPercent = parseFloat(box.style.height); // height in percentage
-
-    console.log(`Checking region ${r.id}: left = ${leftPercent}%, top = ${topPercent}%, width = ${widthPercent}%, height = ${heightPercent}%`);
-
-    // Calculate the pixel values based on the percentage
-    const left = (leftPercent / 100) * wrapperWidth;
-    const top = (topPercent / 100) * wrapperHeight;
-    const width = (widthPercent / 100) * wrapperWidth;
-    const height = (heightPercent / 100) * wrapperHeight;
-
-    console.log(`Box coordinates in pixels: left = ${left}, top = ${top}, width = ${width}, height = ${height}`);
-
-    // Check if the click is inside the bounding box
-    if (
-      xPercent >= leftPercent && 
-      xPercent <= (leftPercent + widthPercent) && 
-      yPercent >= topPercent && 
-      yPercent <= (topPercent + heightPercent)
-    ) {
-      console.log(`Clicked inside ${r.id} region!`); // Confirm if inside the region
-
-      // Show the highlight box briefly
-      box.style.display = "block";  // Ensure it's visible when clicked
-      box.classList.add('flash');  // Add flash class for animation
-
-      // Ensure correct pixel-based positioning and size
-      box.style.left = `${left}px`;
-      box.style.top = `${top}px`;
-      box.style.width = `${width}px`;
-      box.style.height = `${height}px`;
-
-      // Remove flash class after 150ms to hide the box
-      setTimeout(() => {
-        box.classList.remove('flash');  // Remove flash effect
-        box.style.display = "none";     // Hide the highlight box again
-      }, 500);  // Hide after 150ms (flash duration)
-
-      // Create new row in the table
+    if (x >= left && x <= left + width && y >= top && y <= top + height) {
       const skillId = 'count_' + r.id;
+
+      // Flash highlight when clicked
+      box.style.display = "block";
+      setTimeout(() => box.style.display = "none", 150);
+
+      // Create new row
       const row = document.createElement('tr');
       row.id = skillId + '_' + Date.now();
-      row.draggable = true; // Make row draggable
+      row.draggable = true; // <-- Make row draggable
       row.innerHTML = `
         <td class="drag-handle">${r.skill}</td>
-        <td>${r.difficulty}</td>
+		 <td>${r.difficulty}</td>
         <td><input type="number" id="${skillId}" min="0" value="0"></td>
         <td class="delete-btn">🗑️</td>
       `;
       skillCountsContainer.appendChild(row);
 
-      // Add event listener to delete row
+      // Delete row
       row.querySelector('.delete-btn').addEventListener('click', () => {
         skillCountsContainer.removeChild(row);
       });
 
-      break; // Stop checking after the first match
+      break;
     }
   }
 });
-
-
-
-
-
-
 
 // DRAG–DROP FOR STUNT TABLE
 let draggedRow = null;
@@ -987,17 +883,4 @@ document.getElementById("saveBtn").addEventListener("click", () => {
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
