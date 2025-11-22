@@ -17,7 +17,8 @@
   .wrapper img {  display: block; }
   #StuntRubricImage { width: 90%; max-width: 950px; display: block; }
   #PyramidRubricImage { width: 90%; max-width: 950px; display: block; }
-  .highlight { position: absolute; border: 2px solid transparent; background-color: transparent; pointer-events: none; display: none;}
+  .highlight { position: absolute; border: 2px solid transparent; background-color: transparent; pointer-events: none; 
+			  display: none;  cursor: pointer;   z-index: 10;   pointer-events: all;   transition: all 0.2s ease;}
   .twisting { border-color: rgba(255,0,0,0.8); background-color: rgba(255,0,0,0.25); }
   .coed     { border-color: rgba(0,0,255,0.8); background-color: rgba(0,0,255,0.25); }
   .release  { border-color: rgba(0,180,0,0.8); background-color: rgba(0,180,0,0.25); }
@@ -885,5 +886,6 @@ document.getElementById("saveBtn").addEventListener("click", () => {
 
 </body>
 </html>
+
 
 
