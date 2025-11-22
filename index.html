@@ -21,7 +21,7 @@
 	
 /* Flashing effect for highlight boxes */
 .highlight.flash {
-  animation: flash 0.15s ease-out forwards;
+  animation: flash 0.5s ease-out forwards;
 }
 
 /* Keyframe animation for flashing */
@@ -550,6 +550,12 @@ wrapper.addEventListener('click', e => {
       box.style.display = "block";  // Ensure it's visible when clicked
       box.classList.add('flash');  // Add flash class for animation
 
+      // Ensure correct pixel-based positioning and size
+      box.style.left = `${left}px`;
+      box.style.top = `${top}px`;
+      box.style.width = `${width}px`;
+      box.style.height = `${height}px`;
+
       // Remove flash class after 150ms to hide the box
       setTimeout(() => {
         box.classList.remove('flash');  // Remove flash effect
@@ -981,6 +987,7 @@ document.getElementById("saveBtn").addEventListener("click", () => {
 
 </body>
 </html>
+
 
 
 
