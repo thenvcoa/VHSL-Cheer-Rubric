@@ -30,7 +30,7 @@
   th { background: #f0f0f0; }
   .drag-handle { cursor: grab; font-size: 18px; }
   .delete-btn { cursor: pointer; color: #d00; font-size: 18px; text-align: center; }
-  .hotpink-underline {  color: #c02025;  text-decoration: underline;  }
+  .text-underline {  color: #c02025;  text-decoration: underline;  }
   .icon {  font-size: 24px;       vertical-align: middle;   }
   .majority { background-color: rgba(0, 200, 0, 0.2);  }
   .non-majority {  background-color: rgba(255, 0, 0, 0.2);  }
@@ -159,7 +159,7 @@
 
 	<p><strong>
 	Enter the number of stunt groups for each skill. 
-	<span class="hotpink-underline">Please list skills in order of performance.</span> 
+	<span class="text-underline">Please list skills in order of performance.</span> 
 	</strong></p>
 
 	<!-- Drag & drop table -->
@@ -211,7 +211,7 @@
 
 	<p><strong>
 	Enter the number of trick flyers for each skill. 
-	<span class="hotpink-underline">Please list skills in order of performance.</span> 
+	<span class="text-underline">Please list skills in order of performance.</span> 
 	</strong></p>
 
 	<!-- Drag & drop table -->
@@ -463,7 +463,7 @@ wrapper.addEventListener('click', e => {
 
       // Flash highlight when clicked
       box.style.display = "block";
-      setTimeout(() => box.style.display = "none", 150);
+      setTimeout(() => box.style.display = "none", 350);
 
       // Create new row
       const row = document.createElement('tr');
@@ -530,7 +530,7 @@ pyramidWrapper.addEventListener('click', e => {
 
       // Flash highlight when clicked
       box.style.display = "block";
-      setTimeout(() => box.style.display = "none", 150);
+      setTimeout(() => box.style.display = "none", 350);
 
       // Create new row
       const row = document.createElement('tr');
