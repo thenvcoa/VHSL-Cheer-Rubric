@@ -8,7 +8,12 @@
 <!-- ========================STYLE COMMANDS======================== -->
 <style>
   body { font-family: Arial, sans-serif; margin: 30px; background: #fafafa; }
-  h1 { color: #2F317D; }
+ h1 {
+    color: #2F317D;
+    font-size: 40px;    /* Choose any size you like */
+    font-weight: 700;   /* Optional: makes it bolder */
+}
+
   label { display: block; margin-top: 15px; font-weight: bold; }
   input, select, textarea { width: 90%; max-width: 600px; padding: 8px; margin-top: 5px; }
   button { margin-top: 25px; padding: 10px 16px; background: #2F317D; color: white; border: none; border-radius: 5px; cursor: pointer; }
@@ -30,6 +35,13 @@
   .drag-handle { cursor: grab; font-size: 18px; }
   .delete-btn { cursor: pointer; color: #d00; font-size: 18px; text-align: center; }
   .text-underline {  color: #c02025;  text-decoration: underline;  }
+	.note-small {
+    font-size: 12px;
+    font-style: italic;
+    color: gray;
+    margin-top: 6px; /* adjust this number until perfect */
+}
+
   .icon {  font-size: 24px;       vertical-align: middle;   }
   .majority { background-color: rgba(0, 200, 0, 0.2);  }
   .non-majority {  background-color: rgba(255, 0, 0, 0.2);  }
@@ -189,9 +201,9 @@
 
 	<div style="display: flex; align-items: center; gap: 10px;">
 	<button onclick="runChecker()">Calculate Stunt Difficulty Range</button>
-	<span style="font-style: italic; color: gray;">
-		Majority skills will highlight in green and non-majority skills will highlight in red.
-	</span>
+    <span class="note-small">
+        Majority skills will highlight in green and non-majority skills will highlight in red.
+    </span>
 	</div>
 
 	<div id="output"></div>
@@ -895,6 +907,7 @@ document.getElementById("saveBtn").addEventListener("click", () => {
 
 </body>
 </html>
+
 
 
 
