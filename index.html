@@ -27,28 +27,9 @@
   table { width: 70%; max-width: 950px; border-collapse: collapse; margin-top: 10px; }
   th, td { padding: 6px 10px; text-align: left; border-bottom: 1px solid #ccc; }
   th { background: #f0f0f0; }
-	 /* Fixed width for the Counts column (Stunt table) */
-#skillCountsTable th:nth-child(3),
-#skillCountsTable td:nth-child(3) {
-    width: 80px;        /* choose your preferred fixed width */
-    min-width: 80px;    /* prevents shrinking */
-    max-width: 80px;    /* prevents expanding */
-    text-align: center; /* optional */
-}
-
-/* Fixed width for the Counts column (Pyramid table) */
-#PyramidCountsTable th:nth-child(3),
-#PyramidCountsTable td:nth-child(3) {
-    width: 80px;
-    min-width: 80px;
-    max-width: 80px;
-    text-align: center;
-}
-#skillCounts input,
-#PyramidCounts input {
-    width: 60px;  /* or smaller/larger */
-}
-
+  #skillCountsTable th:nth-child(3), #skillCountsTable td:nth-child(3) { width: 80px; min-width: 80px; max-width: 80px; text-align: center; }
+  #PyramidCountsTable th:nth-child(3), #PyramidCountsTable td:nth-child(3) { width: 80px; min-width: 80px; max-width: 80px; text-align: center; }
+  #skillCounts input, #PyramidCounts input { width: 60px; }
   .drag-handle { cursor: grab; font-size: 18px; }
   .delete-btn { cursor: pointer; color: #d00; font-size: 18px; text-align: center; }
   .text-underline {  color: #c02025;  text-decoration: underline;  }
@@ -80,8 +61,8 @@
   input, select, textarea { background: #2a2a2a !important; color: #ffffff !important; border: 1px solid #444 !important; }
   #output,  #outputp,  #StuntSkills,  #StuntRange,  #PyramidSkills,  #PyramidRange 
 	{ background: #2a2a2a !important; color: #ffffff !important; border: 1px solid #444 !important; border-radius: 5px !important; padding: 10px !important; }
-  tr.majority td { background-color: rgba(0, 200, 0, 0.45) !important; color: #ffffff !important; }
-  tr.non-majority td { background-color: rgba(255, 0, 0, 0.45) !important; color: #ffffff !important; }
+  tr.majority td { background-color: rgba(0, 200, 0, 0.2) !important; color: #ffffff !important; }
+  tr.non-majority td { background-color: rgba(255, 0, 0, 0.2) !important; color: #ffffff !important; }
   table, th, td { background: #1f1f1f !important; color: #f2f2f2 !important; border-color: #444 !important; }
   th { background: #333 !important; }
   .highlight-bar { background-color: #F8DF00 !important;  color: #000000 !important;  border-radius: 6px; }
@@ -918,6 +899,7 @@ document.getElementById("saveBtn").addEventListener("click", () => {
 
 </body>
 </html>
+
 
 
 
