@@ -51,82 +51,21 @@
   #customAlertContent button:hover {  background: #c02025;}
   #customAlertText {  white-space: pre-line;}
   
-  
-/* === DARK MODE FIXES === */
+/* === DARK MODE ADJUSTMENTS FOR MOBILE === */
 @media (prefers-color-scheme: dark) {
-
-  /* Page background + global text */
-  body {
-      background: #1a1a1a !important;
-      color: #f2f2f2 !important;
-  }
-
-  /* Inputs, select, textarea */
-  input, select, textarea {
-      background: #2a2a2a !important;
-      color: #ffffff !important;
-      border: 1px solid #444 !important;
-  }
-
-  /* Stunt/Pyramid output boxes — match input fields */
-  #output,
-  #outputp,
-  #StuntSkills,
-  #StuntRange,
-  #PyramidSkills,
-  #PyramidRange {
-      background: #2a2a2a !important;
-      color: #ffffff !important;
-      border: 1px solid #444 !important;
-      border-radius: 5px !important;
-      padding: 10px !important;
-  }
-
-  /* Red/Green highlight visibility fix */
-  .majority {
-      background-color: rgba(0, 200, 0, 0.45) !important;
-      color: #ffffff !important;
-  }
-  .non-majority {
-      background-color: rgba(255, 0, 0, 0.45) !important;
-      color: #ffffff !important;
-  }
-
-  /* Table cells */
-  table, th, td {
-      background: #1f1f1f !important;
-      color: #f2f2f2 !important;
-      border-color: #444 !important;
-  }
-
-  th {
-      background: #333 !important;
-  }
-
- .highlight-bar {
-      background-color: #bfa700 !important; /* darker gold/yellow */
-      color: #000000 !important;            /* black text */
-      border-radius: 6px;
-  }
-	
-  /* Buttons */
-  button {
-      background: #c02025 !important;
-      color: white !important;
-  }
-  button:hover {
-      background: #92161c !important;
-  }
-
-  /* Custom alert box */
-  #customAlertContent {
-      background: #2a2a2a !important;
-      color: #ffffff !important;
-      border: 1px solid #555 !important;
-  }
+  body { background: #1a1a1a !important; color: #f2f2f2 !important; }
+  input, select, textarea { background: #2a2a2a !important; color: #ffffff !important; border: 1px solid #444 !important; }
+  #output,  #outputp,  #StuntSkills,  #StuntRange,  #PyramidSkills,  #PyramidRange 
+	{ background: #2a2a2a !important; color: #ffffff !important; border: 1px solid #444 !important; border-radius: 5px !important; padding: 10px !important; }
+  .majority { background-color: rgba(0, 200, 0, 0.45) !important; color: #ffffff !important; }
+  .non-majority { background-color: rgba(255, 0, 0, 0.45) !important; color: #ffffff !important; }
+  table, th, td { background: #1f1f1f !important; color: #f2f2f2 !important; border-color: #444 !important; }
+  th { background: #333 !important; }
+  .highlight-bar { background-color: #F8DF00 !important;  color: #000000 !important;  border-radius: 6px; }
+  button { background: #c02025 !important; color: white !important; }
+  button:hover { background: #92161c !important; }
+  #customAlertContent { background: #2a2a2a !important; color: #ffffff !important; border: 1px solid #555 !important; }
 }
-
-
  
 </style>
 </head>
@@ -956,6 +895,7 @@ document.getElementById("saveBtn").addEventListener("click", () => {
 
 </body>
 </html>
+
 
 
 
