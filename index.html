@@ -52,80 +52,71 @@
   #customAlertText {  white-space: pre-line;}
   
   
-  @media (prefers-color-scheme: dark) {
+/* === DARK MODE FIXES === */
+@media (prefers-color-scheme: dark) {
+
+  /* Page background + global text */
   body {
-    background: #1a1a1a;
-    color: #f2f2f2;
+      background: #1a1a1a !important;
+      color: #f2f2f2 !important;
   }
 
+  /* Inputs, select, textarea */
   input, select, textarea {
-    background: #2a2a2a;
-    color: #ffffff;
-    border: 1px solid #444;
+      background: #2a2a2a !important;
+      color: #ffffff !important;
+      border: 1px solid #444 !important;
   }
 
-  table {
-    background: #1f1f1f;
-  }
-
-  th {
-    background: #333;
-    color: #fff;
-  }
-
-  td {
-    background: #262626;
-    color: #e6e6e6;
-  }
-
-  .highlight-bar {
-    background:#c02025;
-    color:white;
-  }
-
-  button {
-    background: #c02025;
-    color: white;
-  }
-  button:hover {
-    background: #9a1a1f;
-  }
- .majority {
-      background-color: rgba(0, 200, 0, 0.35) !important;   /* brighter green */
-      color: #fff !important;
-  }
-
-  .non-majority {
-      background-color: rgba(255, 0, 0, 0.35) !important;   /* brighter red */
-      color: #fff !important;
-  }
-  /* Custom alert */
-  #customAlertContent {
-    background: #2a2a2a;
-    color: #ffffff;
-  }
-
-{
-
-  /* Stunt & Pyramid output boxes */
+  /* Stunt/Pyramid output boxes — match input fields */
   #output,
   #outputp,
   #StuntSkills,
   #StuntRange,
   #PyramidSkills,
   #PyramidRange {
-      background: #2a2a2a !important;   /* SAME as inputs */
-      color: #ffffff !important;        /* SAME as inputs */
-      border: 1px solid #444 !important;/* SAME as inputs */
-      padding: 10px;
-      border-radius: 5px;
+      background: #2a2a2a !important;
+      color: #ffffff !important;
+      border: 1px solid #444 !important;
+      border-radius: 5px !important;
+      padding: 10px !important;
   }
 
-  /* Jump & Tumbling selected highlight */
-  .jumphighlight.selected,
-  .tumblinghighlight.selected {
-     outline: 3px solid #c02025;
-     background-color: rgba(192, 32, 37, 0.25);
+  /* Red/Green highlight visibility fix */
+  .majority {
+      background-color: rgba(0, 200, 0, 0.45) !important;
+      color: #ffffff !important;
+  }
+  .non-majority {
+      background-color: rgba(255, 0, 0, 0.45) !important;
+      color: #ffffff !important;
+  }
+
+  /* Table cells */
+  table, th, td {
+      background: #1f1f1f !important;
+      color: #f2f2f2 !important;
+      border-color: #444 !important;
+  }
+
+  th {
+      background: #333 !important;
+  }
+
+  /* Buttons */
+  button {
+      background: #c02025 !important;
+      color: white !important;
+  }
+  button:hover {
+      background: #92161c !important;
+  }
+
+  /* Custom alert box */
+  #customAlertContent {
+      background: #2a2a2a !important;
+      color: #ffffff !important;
+      border: 1px solid #555 !important;
   }
 }
 
@@ -959,5 +950,6 @@ document.getElementById("saveBtn").addEventListener("click", () => {
 
 </body>
 </html>
+
 
 
