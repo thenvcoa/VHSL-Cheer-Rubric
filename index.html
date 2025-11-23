@@ -90,7 +90,15 @@
   button:hover {
     background: #9a1a1f;
   }
+ .majority {
+      background-color: rgba(0, 200, 0, 0.35) !important;   /* brighter green */
+      color: #fff !important;
+  }
 
+  .non-majority {
+      background-color: rgba(255, 0, 0, 0.35) !important;   /* brighter red */
+      color: #fff !important;
+  }
   /* Custom alert */
   #customAlertContent {
     background: #2a2a2a;
@@ -106,9 +114,11 @@
   #StuntRange,
   #PyramidSkills,
   #PyramidRange {
-    background: #2a2a2a;
-    color: #ffffff;
-    border: 1px solid #444;
+      background: #2a2a2a !important;   /* SAME as inputs */
+      color: #ffffff !important;        /* SAME as inputs */
+      border: 1px solid #444 !important;/* SAME as inputs */
+      padding: 10px;
+      border-radius: 5px;
   }
 
   /* Jump & Tumbling selected highlight */
@@ -949,4 +959,5 @@ document.getElementById("saveBtn").addEventListener("click", () => {
 
 </body>
 </html>
+
 
