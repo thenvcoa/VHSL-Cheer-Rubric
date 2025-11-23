@@ -27,6 +27,28 @@
   table { width: 70%; max-width: 950px; border-collapse: collapse; margin-top: 10px; }
   th, td { padding: 6px 10px; text-align: left; border-bottom: 1px solid #ccc; }
   th { background: #f0f0f0; }
+	 /* Fixed width for the Counts column (Stunt table) */
+#skillCountsTable th:nth-child(3),
+#skillCountsTable td:nth-child(3) {
+    width: 80px;        /* choose your preferred fixed width */
+    min-width: 80px;    /* prevents shrinking */
+    max-width: 80px;    /* prevents expanding */
+    text-align: center; /* optional */
+}
+
+/* Fixed width for the Counts column (Pyramid table) */
+#PyramidCountsTable th:nth-child(3),
+#PyramidCountsTable td:nth-child(3) {
+    width: 80px;
+    min-width: 80px;
+    max-width: 80px;
+    text-align: center;
+}
+#skillCounts input,
+#PyramidCounts input {
+    width: 60px;  /* or smaller/larger */
+}
+
   .drag-handle { cursor: grab; font-size: 18px; }
   .delete-btn { cursor: pointer; color: #d00; font-size: 18px; text-align: center; }
   .text-underline {  color: #c02025;  text-decoration: underline;  }
@@ -896,6 +918,7 @@ document.getElementById("saveBtn").addEventListener("click", () => {
 
 </body>
 </html>
+
 
 
 
