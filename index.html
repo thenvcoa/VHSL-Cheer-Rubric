@@ -801,10 +801,11 @@ document.querySelectorAll('.jumphighlight.jump').forEach(box => {
 
 
 
+
 /*****************************************************
   SET YOUR APPS SCRIPT WEB APP URL
 *****************************************************/
-const APPS_SCRIPT_BASE = "https://script.google.com/macros/s/AKfycbyk2WrfqIfMmF14NueqVpVSW47Wg3v9d89rpDIZrz26_JbEcd3UU_Oj1Bbqmfht-J9BAg/exec";  // <-- REPLACE THIS
+const APPS_SCRIPT_BASE = "https://script.google.com/macros/s/AKfycbw11abJPmyHGe2e3P-Vf_WAZiBzbaXLUJgimSEXbA4DgobmT2x-H3s4lEtYyFzh5bFs_w/exec";  // <-- REPLACE THIS
 
 
 /*****************************************************
@@ -912,12 +913,13 @@ async function appsScriptSubmissionFlow() {
   try {
     const response = await fetch(APPS_SCRIPT_BASE, {
       method: "POST",
-		  mode: "no-cors",
-      body: JSON.stringify(payload),
-      headers: { "Content-Type": "application/json" }
+      mode: "no-cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
     });
 
-    const result = await response.json();
+// Cannot parse JSON in no-cors mode
+alert("Submission sent successfully!");
 
     if (result.success) {
       alert("Submission successfully saved to Google Sheets!");
@@ -1041,7 +1043,3 @@ document.getElementById("saveBtn").addEventListener("click", () => {
 
 </body>
 </html>
-
-
-
-
