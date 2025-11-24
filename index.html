@@ -123,8 +123,7 @@
 
 <!--
   <label>Competition Name/Location</label>
-  <input type="text" id="competitionLocation" placeholder="e.g., Battle at the Beach @ Westside High School">
---!>
+  -->
 
 
 <label>Competition Location</label>
@@ -298,7 +297,7 @@
     <option>2.75 - 4.0</option>
     <option>4.25 - 5.0</option>
   </select>
---!>
+-->
 
   <label>Team Majority Sync Sequence Description</label>
   <textarea id="teamSync" rows="4" placeholder="Please note the number of athletes and any ripples.
@@ -368,7 +367,7 @@ Example:
     <option>4.25 - 4.75</option>
     <option>5.0</option>
   </select>
---!>
+-->
 
   <label>Jump Sequence Description</label>
   <textarea id="jumpSequence" rows="5" placeholder="Please describe your jump sequence in detail.
@@ -819,16 +818,14 @@ async function populateCompetitionLocations() {
     const select = document.getElementById("competitionLocation");
     select.innerHTML = `<option value="">--Select--</option>`;
 
-    
     data.forEach(item => {
       const option = document.createElement("option");
       const display = `${item.date} - ${item.eventname} @ ${item.location}`;
       option.textContent = display;
       option.value = JSON.stringify(item);
-      option.dataset.association = item.association;
+      option.dataset.association = item.association || "";
       select.appendChild(option);
     });
-
 
   } catch (err) {
     console.error("Competition fetch error:", err);
@@ -870,13 +867,16 @@ async function appsScriptSubmissionFlow() {
   const competition_raw = competitionValue ? JSON.parse(competitionValue) : {};
   const association = competition_raw.association || "Unknown";
 
+    const competitionValue = document.getElementById('competitionLocation').value;
+  const competition_raw = competitionValue ? JSON.parse(competitionValue) : {};
+  const association = competition_raw.association || 'Unknown';
+
   const payload = {
     association: association,
-    competition_selection: document.getElementById("competitionLocation").selectedOptions[0].textContent,
+    competition_selection: document.getElementById('competitionLocation').selectedOptions[0].textContent,
+    competition_raw: competition_raw,
 
-    competition_raw: JSON.parse(document.getElementById("competitionLocation").value),
-
-    fields: {
+fields: {
       schoolName: document.getElementById("schoolName").value,
       teamLevel: document.getElementById("teamLevel").value,
       CoachName: document.getElementById("CoachName").value,
@@ -895,39 +895,27 @@ async function appsScriptSubmissionFlow() {
       legalityRulings: document.getElementById("legalityRulings").value
     },
 
+    
     skillCounts: collectTableCounts("#skillCounts"),
     pyramidCounts: collectTableCounts("#PyramidCounts"),
-
     timestamp: new Date().toISOString()
   };
 
   try {
-    const response = await fetch(APPS_SCRIPT_BASE, {
-      method: "POST",
-      mode: "no-cors",
-      headers: { "Content-Type": "application/json" },
+    await fetch(APPS_SCRIPT_BASE, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     });
 
-// Cannot parse JSON in no-cors mode
-alert("Submission sent successfully!");
-
-     else {
-      alert("Save failed: " + JSON.stringify(result));
-    }
-
+    alert('Submission sent successfully! The form should appear in the destination spreadsheet shortly.');
+    return;
   } catch (err) {
-    alert("Network error sending submission: " + err.message);
+    alert('Network error sending submission: ' + err.message);
+    return;
   }
 }
-
-
-
-
-
-
-
-
 
 // CHECK FOR ALL FIELDS TO BE POPULATED & OUTPUT ERROR MESSAGE FOR ANY MISSING
 
@@ -954,7 +942,6 @@ document.getElementById("saveBtn").addEventListener("click", () => {
         { id: 'CoachEmail', label: 'Head Coach Email' },
         { id: 'numAthletes', label: 'Number of Athletes Performing' },
         { id: 'competitionLocation', label: 'Competition Location' },
-        { id: 'competitionDate', label: 'Competition Date' },
         { id: 'StuntSkills', label: 'Stunt Skills' },
         { id: 'PyramidSkills', label: 'Pyramid Skills' },
         { id: 'TumblingOutput', label: 'Tumbling Difficulty Range' },
