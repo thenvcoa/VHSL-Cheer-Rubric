@@ -872,10 +872,9 @@ async function appsScriptSubmissionFlow() {
 
   const payload = {
     association: association,
-    competition_selection:
-      document.getElementById("competitionLocation").selectedOptions[0].textContent,
+    competition_selection: document.getElementById("competitionLocation").selectedOptions[0].textContent,
 
-    competition_raw: competition_raw,
+    competition_raw: JSON.parse(document.getElementById("competitionLocation").value),
 
     fields: {
       schoolName: document.getElementById("schoolName").value,
@@ -883,7 +882,7 @@ async function appsScriptSubmissionFlow() {
       CoachName: document.getElementById("CoachName").value,
       CoachEmail: document.getElementById("CoachEmail").value,
       numAthletes: document.getElementById("numAthletes").value,
-      competitionDate: document.getElementById("competitionDate").value,
+      
       StuntSkills: document.getElementById("StuntSkills").textContent,
       StuntRange: document.getElementById("StuntRange").textContent,
       PyramidSkills: document.getElementById("PyramidSkills").textContent,
@@ -913,9 +912,7 @@ async function appsScriptSubmissionFlow() {
 // Cannot parse JSON in no-cors mode
 alert("Submission sent successfully!");
 
-    if (result.success) {
-      alert("Submission successfully saved to Google Sheets!");
-    } else {
+     else {
       alert("Save failed: " + JSON.stringify(result));
     }
 
