@@ -175,7 +175,7 @@
 	</div>
 
 	<p><strong>
-	Enter the number of stunt groups for each skill. 
+	Enter the number of stunt groups for each skill.
 	<span class="text-underline">Please list skills in order of performance.</span> 
 	</strong></p>
 
@@ -798,6 +798,145 @@ document.querySelectorAll('.jumphighlight.jump').forEach(box => {
 });
 
 
+
+
+
+/*****************************************************
+  SET YOUR APPS SCRIPT WEB APP URL
+*****************************************************/
+const APPS_SCRIPT_BASE = "https://script.google.com/macros/s/AKfycbzO_TWaNAOT1Nngwur8yI9CjrCJPa5qsmk8DHCRi0bPKOMcfb4kQBtW2jiC7Vp3TXkwZA/exec";  // <-- REPLACE THIS
+
+
+/*****************************************************
+  1) POPULATE COMPETITION LOCATION DROPDOWN
+*****************************************************/
+async function populateCompetitionLocations() {
+  try {
+    const response = await fetch(`${APPS_SCRIPT_BASE}?sheetName=Events`);
+    if (!response.ok) throw new Error("Failed to load competitions");
+    const data = await response.json();
+
+    const select = document.getElementById("competitionLocation");
+    select.innerHTML = `<option value="">--Select--</option>`;
+
+    data.forEach(item => {
+      const option = document.createElement("option");
+
+      const display = `${item.date} - ${item.eventname} @ ${item.location}`;
+
+      option.textContent = display;
+      option.dataset.association = item.association;
+
+      option.value = JSON.stringify({
+        date: item.date,
+        eventname: item.eventname,
+        location: item.location,
+        association: item.association
+      });
+
+      select.appendChild(option);
+    });
+
+  } catch (err) {
+    console.error("Competition fetch error:", err);
+  }
+}
+
+window.addEventListener("load", populateCompetitionLocations);
+
+
+
+/*****************************************************
+  2) COLLECT TABLE COUNTS
+*****************************************************/
+function collectTableCounts(selector) {
+  const rows = document.querySelectorAll(selector + " tr");
+  const arr = [];
+  rows.forEach(row => {
+    const tds = row.querySelectorAll("td");
+    if (tds.length < 3) return;
+
+    const skill = tds[0].textContent.trim();
+    const difficulty = tds[1].textContent.trim();
+    const input = tds[2].querySelector("input");
+    const count = input ? parseInt(input.value) || 0 : 0;
+
+    arr.push({ skill, difficulty, count });
+  });
+  return arr;
+}
+
+
+
+/*****************************************************
+  3) SUBMISSION → SEND TO GOOGLE APP SCRIPT
+*****************************************************/
+async function appsScriptSubmissionFlow() {
+
+  const competitionValue = document.getElementById("competitionLocation").value;
+  const competition_raw = competitionValue ? JSON.parse(competitionValue) : {};
+  const association = competition_raw.association || "Unknown";
+
+  const payload = {
+    association: association,
+    competition_selection:
+      document.getElementById("competitionLocation").selectedOptions[0].textContent,
+
+    competition_raw: competition_raw,
+
+    fields: {
+      schoolName: document.getElementById("schoolName").value,
+      teamLevel: document.getElementById("teamLevel").value,
+      CoachName: document.getElementById("CoachName").value,
+      CoachEmail: document.getElementById("CoachEmail").value,
+      numAthletes: document.getElementById("numAthletes").value,
+      competitionDate: document.getElementById("competitionDate").value,
+      StuntSkills: document.getElementById("StuntSkills").textContent,
+      StuntRange: document.getElementById("StuntRange").textContent,
+      PyramidSkills: document.getElementById("PyramidSkills").textContent,
+      PyramidRange: document.getElementById("PyramidRange").textContent,
+      TumblingOutput: document.getElementById("TumblingOutput").dataset.selected || "",
+      teamSync: document.getElementById("teamSync").value,
+      additionalTumbling: document.getElementById("additionalTumbling").value,
+      JumpOutput: document.getElementById("JumpOutput").dataset.selected || "",
+      jumpSequence: document.getElementById("jumpSequence").value,
+      legalityRulings: document.getElementById("legalityRulings").value
+    },
+
+    skillCounts: collectTableCounts("#skillCounts"),
+    pyramidCounts: collectTableCounts("#PyramidCounts"),
+
+    timestamp: new Date().toISOString()
+  };
+
+  try {
+    const response = await fetch(APPS_SCRIPT_BASE, {
+      method: "POST",
+      body: JSON.stringify(payload),
+      headers: { "Content-Type": "application/json" }
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+      alert("Submission successfully saved to Google Sheets!");
+    } else {
+      alert("Save failed: " + JSON.stringify(result));
+    }
+
+  } catch (err) {
+    alert("Network error sending submission: " + err.message);
+  }
+}
+
+
+
+
+
+
+
+
+
 // CHECK FOR ALL FIELDS TO BE POPULATED & OUTPUT ERROR MESSAGE FOR ANY MISSING
 
 //================== Custom Alert ==================
@@ -882,7 +1021,8 @@ document.getElementById("saveBtn").addEventListener("click", () => {
     }
 
     // Everything is filled — add submission logic here
-    console.log("All fields validated. Ready to submit!");
+   appsScriptSubmissionFlow();
+
 });
  // Optional: continue with actual save/submit logic here
 
@@ -900,19 +1040,3 @@ document.getElementById("saveBtn").addEventListener("click", () => {
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
