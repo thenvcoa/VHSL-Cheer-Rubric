@@ -280,29 +280,18 @@
 
 </div>
 
-<div id="TumblingOutput" style="margin-top:15px; font-size:1.2em; font-weight:bold;">
+<div id="TumblingRange" style="margin-top:15px; font-size:1.2em; font-weight:bold;">
     Tumbling Difficulty Range: None
 </div>
 
-<!--
-  <label>Intended Tumbling Range</label>
-  <select id="tumblingRange">
-    <option value="">--Select--</option>
-    <option>0.0 - 1.0</option>
-    <option>1.25 - 2.5</option>
-    <option>2.75 - 4.0</option>
-    <option>4.25 - 5.0</option>
-  </select>
--->
-
   <label>Team Majority Sync Sequence Description</label>
-  <textarea id="teamSync" rows="4" placeholder="Please note the number of athletes and any ripples.
+  <textarea id="TumblingMajority" rows="4" placeholder="Please note the number of athletes and any ripples.
   
   Example:
   9 roundoff backhandsprings - rippled in 3 groups of 3"></textarea>
 
   <label>Additional Tumbling Skills Description</label>
-  <textarea id="additionalTumbling" rows="9" placeholder="Please list any additional tumbling skills in the order of performance.
+  <textarea id="TumblingAdditional" rows="9" placeholder="Please list any additional tumbling skills in the order of performance.
 
 Example:
 2 cartwheels
@@ -349,24 +338,13 @@ Example:
          data-value="5.0"></div>
 </div>
 
-<div id="JumpOutput" style="margin-top:15px; font-size:1.2em; font-weight:bold;">
+<div id="JumpRange" style="margin-top:15px; font-size:1.2em; font-weight:bold;">
     Jump Difficulty Range: None
 </div>
 
-<!--
-  <label>Intended Jump Range</label>
-  <select id="jumpRange">
-    <option value="">--Select--</option>
-    <option>0.0 - 1.5</option>
-    <option>1.75 - 2.75</option>
-    <option>3.0 - 4.0</option>
-    <option>4.25 - 4.75</option>
-    <option>5.0</option>
-  </select>
--->
 
   <label>Jump Sequence Description</label>
-  <textarea id="jumpSequence" rows="5" placeholder="Please describe your jump sequence in detail.
+  <textarea id="JumpSequence" rows="5" placeholder="Please describe your jump sequence in detail.
 
 Example:
 11 right hurdlers (in cheer)
@@ -375,7 +353,7 @@ Example:
 <hr>
 
   <label>Any Legality Rulings from Bill Ahern?</label>
-  <select id="legalityRulings">
+  <select id="LegalityRuling">
     <option value="">--Select--</option>
     <option>Yes</option>
     <option>No</option>
@@ -771,7 +749,7 @@ document.querySelectorAll('.tumblinghighlight.tumbling').forEach(box => {
         document.querySelectorAll('.tumblinghighlight.tumbling').forEach(b => b.classList.remove('selected'));
         box.classList.add('selected');
 
-        const output = document.getElementById('TumblingOutput');
+        const output = document.getElementById('TumblingRange');
         const value = box.dataset.value || "";
         output.dataset.selected = value; // store selected value for validation
         output.innerText = value ? `Tumbling Difficulty Range: ${value}` : "";
@@ -784,7 +762,7 @@ document.querySelectorAll('.jumphighlight.jump').forEach(box => {
         document.querySelectorAll('.jumphighlight.jump').forEach(b => b.classList.remove('selected'));
         box.classList.add('selected');
 
-        const output = document.getElementById('JumpOutput');
+        const output = document.getElementById('JumpRange');
         const value = box.dataset.value || "";
         output.dataset.selected = value; // store selected value for validation
         output.innerText = value ? `Jump Difficulty Range: ${value}` : "";
@@ -799,7 +777,7 @@ document.querySelectorAll('.jumphighlight.jump').forEach(box => {
 /*****************************************************
   SET YOUR APPS SCRIPT WEB APP URL
 *****************************************************/
-const APPS_SCRIPT_BASE = "https://script.google.com/macros/s/AKfycbzA1BxBeDj23K-E_NLNlen__bTH0Iy7Q0lBTs6A0N_-sjhpznRGzFx7WLlBrFBww25AqA/exec";  // <-- REPLACE THIS
+const APPS_SCRIPT_BASE = "https://script.google.com/macros/s/AKfycbzJK_2dWEK5eh_DHzqQT5i5sPwalnoHB-AdmtNOMTADkwFuxHXXQPsdpno8HPZu5aJn0Q/exec";  // <-- REPLACE THIS
 
 
 /*****************************************************
@@ -833,27 +811,6 @@ window.addEventListener("load", populateCompetitionLocations);
 
 
 
-/*****************************************************
-  2) COLLECT TABLE COUNTS
-*****************************************************/
-function collectTableCounts(selector) {
-  const rows = document.querySelectorAll(selector + " tr");
-  const arr = [];
-  rows.forEach(row => {
-    const tds = row.querySelectorAll("td");
-    if (tds.length < 3) return;
-
-    const skill = tds[0].textContent.trim();
-    const difficulty = tds[1].textContent.trim();
-    const input = tds[2].querySelector("input");
-    const count = input ? parseInt(input.value) || 0 : 0;
-
-    arr.push({ skill, difficulty, count });
-  });
-  return arr;
-}
-
-
 
 /*****************************************************
   3) SUBMISSION → SEND TO GOOGLE APP SCRIPT
@@ -880,12 +837,12 @@ async function appsScriptSubmissionFlow() {
       StuntRange: document.getElementById("StuntRange").textContent,
       PyramidSkills: document.getElementById("PyramidSkills").textContent,
       PyramidRange: document.getElementById("PyramidRange").textContent,
-      TumblingOutput: document.getElementById("TumblingOutput").dataset.selected || "",
-      teamSync: document.getElementById("teamSync").value,
-      additionalTumbling: document.getElementById("additionalTumbling").value,
-      JumpOutput: document.getElementById("JumpOutput").dataset.selected || "",
-      jumpSequence: document.getElementById("jumpSequence").value,
-      legalityRulings: document.getElementById("legalityRulings").value
+      TumblingOutput: document.getElementById('TumblingRange').dataset.selected || "",
+      teamSync: document.getElementById("TumblingMajority").value,
+      additionalTumbling: document.getElementById("TumblingAdditional").value,
+      JumpOutput: document.getElementById('JumpRange').dataset.selected || "",
+      jumpSequence: document.getElementById("JumpSequence").value,
+      legalityRulings: document.getElementById("LegalityRuling").value
     },
 
     skillCounts: collectTableCounts("#skillCounts"),
@@ -936,12 +893,12 @@ document.getElementById("saveBtn").addEventListener("click", () => {
         { id: 'competitionLocation', label: 'Competition Location' },
         { id: 'StuntSkills', label: 'Stunt Skills' },
         { id: 'PyramidSkills', label: 'Pyramid Skills' },
-        { id: 'TumblingOutput', label: 'Tumbling Difficulty Range' },
-        { id: 'teamSync', label: 'Team Majority Sync Sequence Description' },
-        { id: 'additionalTumbling', label: 'Additional Tumbling Skills Description' },
-        { id: 'JumpOutput', label: 'Jump Difficulty Range' },
-        { id: 'jumpSequence', label: 'Jump Sequence Description' },
-        { id: 'legalityRulings', label: 'Any Legality Rulings from Bill Ahern?' }
+        { id: 'TumblingRange', label: 'Tumbling Difficulty Range' },
+        { id: 'TumblingMajority', label: 'Team Majority Sync Sequence Description' },
+        { id: 'TumblingAdditional', label: 'Additional Tumbling Skills Description' },
+        { id: 'JumpRange', label: 'Jump Difficulty Range' },
+        { id: 'JumpSequence', label: 'Jump Sequence Description' },
+        { id: 'LegalityRuling', label: 'Any Legality Rulings from Bill Ahern?' }
     ];
 
     let missingFields = [];
@@ -959,7 +916,7 @@ document.getElementById("saveBtn").addEventListener("click", () => {
         fieldValue = field.value.trim();}
     
 	// Tumbling/Jump output divs
-		else if (f.id === "TumblingOutput" || f.id === "JumpOutput") {
+		else if (f.id === "TumblingRange" || f.id === "JumpRange") {
    
 		// Use dataset.selected if it exists, otherwise check innerText after the colon
 		fieldValue = field.dataset.selected || "";	}
@@ -1011,6 +968,5 @@ document.getElementById("saveBtn").addEventListener("click", () => {
 
 </body>
 </html>
-
 
 
