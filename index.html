@@ -134,8 +134,7 @@
 
 
 
-  <label>Competition Date</label>
-  <input type="date" id="competitionDate">
+  
   
 <hr>
 
@@ -820,23 +819,16 @@ async function populateCompetitionLocations() {
     const select = document.getElementById("competitionLocation");
     select.innerHTML = `<option value="">--Select--</option>`;
 
+    
     data.forEach(item => {
       const option = document.createElement("option");
-
       const display = `${item.date} - ${item.eventname} @ ${item.location}`;
-
       option.textContent = display;
+      option.value = JSON.stringify(item);
       option.dataset.association = item.association;
-
-      option.value = JSON.stringify({
-        date: item.date,
-        eventname: item.eventname,
-        location: item.location,
-        association: item.association
-      });
-
       select.appendChild(option);
     });
+
 
   } catch (err) {
     console.error("Competition fetch error:", err);
@@ -1043,7 +1035,5 @@ document.getElementById("saveBtn").addEventListener("click", () => {
 
 </body>
 </html>
-
-
 
 
