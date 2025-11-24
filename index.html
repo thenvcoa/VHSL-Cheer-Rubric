@@ -121,7 +121,12 @@
   <label>Number of Athletes Performing</label>
   <input type="number" id="numAthletes" min="1">
 
+<!--
   <label>Competition Name/Location</label>
+  -->
+
+
+<label>Competition Location</label>
 <select id="competitionLocation">
   <option value="">--Select--</option>
 </select>
@@ -804,12 +809,13 @@ const APPS_SCRIPT_BASE = "https://script.google.com/macros/s/AKfycbw11abJPmyHGe2
 /*****************************************************
   1) POPULATE COMPETITION LOCATION DROPDOWN
 *****************************************************/
+
 async function populateCompetitionLocations() {
   try {
     const response = await fetch(`${APPS_SCRIPT_BASE}?sheetName=Events`);
     if (!response.ok) throw new Error("Failed to load competitions");
-    const data = await response.json();
 
+    const data = await response.json();
     const select = document.getElementById("competitionLocation");
     select.innerHTML = `<option value="">--Select--</option>`;
 
@@ -826,8 +832,8 @@ async function populateCompetitionLocations() {
     console.error("Competition fetch error:", err);
   }
 }
-
 window.addEventListener("load", populateCompetitionLocations);
+("load", populateCompetitionLocations);
 
 
 
@@ -856,28 +862,24 @@ function collectTableCounts(selector) {
 /*****************************************************
   3) SUBMISSION → SEND TO GOOGLE APP SCRIPT
 *****************************************************/
+
 async function appsScriptSubmissionFlow() {
 
   const competitionValue = document.getElementById("competitionLocation").value;
   const competition_raw = competitionValue ? JSON.parse(competitionValue) : {};
   const association = competition_raw.association || "Unknown";
 
-    const competitionValue = document.getElementById('competitionLocation').value;
-  const competition_raw = competitionValue ? JSON.parse(competitionValue) : {};
-  const association = competition_raw.association || 'Unknown';
-
   const payload = {
     association: association,
-    competition_selection: document.getElementById('competitionLocation').selectedOptions[0].textContent,
+    competition_selection: document.getElementById("competitionLocation").selectedOptions[0].textContent,
     competition_raw: competition_raw,
 
-fields: {
+    fields: {
       schoolName: document.getElementById("schoolName").value,
       teamLevel: document.getElementById("teamLevel").value,
       CoachName: document.getElementById("CoachName").value,
       CoachEmail: document.getElementById("CoachEmail").value,
       numAthletes: document.getElementById("numAthletes").value,
-      
       StuntSkills: document.getElementById("StuntSkills").textContent,
       StuntRange: document.getElementById("StuntRange").textContent,
       PyramidSkills: document.getElementById("PyramidSkills").textContent,
@@ -890,29 +892,29 @@ fields: {
       legalityRulings: document.getElementById("legalityRulings").value
     },
 
-    
     skillCounts: collectTableCounts("#skillCounts"),
     pyramidCounts: collectTableCounts("#PyramidCounts"),
+
     timestamp: new Date().toISOString()
   };
 
   try {
     await fetch(APPS_SCRIPT_BASE, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
     });
 
-    alert('Submission sent successfully! The form should appear in the destination spreadsheet shortly.');
-    return;
+    alert("Submission sent successfully! It will appear in the spreadsheet shortly.");
+
   } catch (err) {
-    alert('Network error sending submission: ' + err.message);
-    return;
+    alert("Network error sending submission: " + err.message);
   }
 }
 
-// CHECK FOR ALL FIELDS TO BE POPULATED & OUTPUT ERROR MESSAGE FOR ANY MISSING
+// CHECK FOR ALL FIELDS
+ TO BE POPULATED & OUTPUT ERROR MESSAGE FOR ANY MISSING
 
 //================== Custom Alert ==================
 function showCustomAlert(message) {
@@ -1014,6 +1016,5 @@ document.getElementById("saveBtn").addEventListener("click", () => {
 
 </body>
 </html>
-
 
 
