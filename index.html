@@ -46,6 +46,12 @@
   .highlight-bar {    background-color: #F8DF00;  padding: 6px 6px; border-radius: 6px; display: inline-block;}
   .jumphighlight.selected,  .tumblinghighlight.selected  {    outline: 3px solid #c02025;    background-color: rgba(192, 32, 37, 0.15);}
   .jumphighlight,   .tumblinghighlight{    position: absolute;    cursor: pointer;}
+  #loadingOverlay {  position: fixed;  top: 0; left: 0;  width: 100%; height: 100%;  background: rgba(0, 0, 0, 0.65);  display: none;
+  align-items: center;  flex-direction: column;  justify-content: center;  z-index: 99999;
+  /* Fade-out animation */  opacity: 1;  transition: opacity 0.6s ease;}
+  #loadingOverlay.fade-out {  opacity: 0;}
+  .spinner {  width: 70px;  height: 70px;  border: 7px solid #ffffff55;  border-top: 7px solid #F8DF00;  border-radius: 50%;  animation: spin 1s linear infinite;}
+  @keyframes spin {  0% { transform: rotate(0deg); }  100% { transform: rotate(360deg); }} 
   #customAlert { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5);
                  display: flex; justify-content: center; align-items: center; z-index: 9999;}
   #customAlertContent {background: #fff; padding: 20px 25px; border-radius: 8px;
@@ -892,10 +898,18 @@ const APPS_SCRIPT_BASE = "https://script.google.com/macros/s/AKfycbzA1BxBeDj23K-
 			body: JSON.stringify(payload)
 			});
 
-			alert("Submission sent successfully! It will appear in the spreadsheet shortly.");
+			alert("Submission sent successfully!");
+  
+			//  HIDE SPINNER AFTER SUCCESSFUL SUBMISSION
+				document.getElementById("loadingOverlay").style.display = "none";
+
 
 		} catch (err) {
-				alert("Network error sending submission: " + err.message);
+		
+		    // Also hide spinner if an error occurs too
+				document.getElementById("loadingOverlay").style.display = "none";
+	
+			alert("Network error sending submission: " + err.message);
 		}
 		}
 
@@ -917,8 +931,11 @@ const APPS_SCRIPT_BASE = "https://script.google.com/macros/s/AKfycbzA1BxBeDj23K-
 			document.getElementById('customAlertOk').onclick = () => { alertDiv.style.display = 'none'; };
 		}
 
-		//================== Save & Submit Handler ==================
+		//================== 👉Save & Submit Handler ==================
 		document.getElementById("saveBtn").addEventListener("click", () => {
+
+		//  Show spinner animation
+		document.getElementById("loadingOverlay").style.display = "flex";
 
 			// Run the difficulty checkers first
 			runChecker();
@@ -989,7 +1006,7 @@ const APPS_SCRIPT_BASE = "https://script.google.com/macros/s/AKfycbzA1BxBeDj23K-
 			return; // stop submission if anything is missing
 			}
 
-    // !!!!!!!EVERYTHING IS VALIDATED - SUBMIT TO GOOGLE SHEETS!!!!!!! //
+    // ✅!!!!!!!EVERYTHING IS VALIDATED - SUBMIT TO GOOGLE SHEETS!!!!!!!✅ //
 		appsScriptSubmissionFlow();
 
 		});
@@ -997,6 +1014,14 @@ const APPS_SCRIPT_BASE = "https://script.google.com/macros/s/AKfycbzA1BxBeDj23K-
 
 
 </script>
+
+<!-- ========================"SUBMITTING" LOADING SPINNER======================== -->
+<div id="loadingOverlay">
+  <div class="spinner"></div>
+  <p style="color:white; margin-top:10px; font-size:18px;">Submitting...</p>
+</div>
+
+
 
 <!-- ========================ERROR ALERT MESSAGE======================== -->
 
