@@ -121,21 +121,15 @@
   <label>Number of Athletes Performing</label>
   <input type="number" id="numAthletes" min="1">
 
-<!--
-  <label>Competition Name/Location</label>
-  <input type="text" id="competitionLocation" placeholder="e.g., Battle at the Beach @ Westside High School">
---!>
 
-
-<label>Competition Location</label>
+<label>Competition Date & Location</label>
 <select id="competitionLocation">
   <option value="">--Select--</option>
 </select>
 
 
 
-  <label>Competition Date</label>
-  <input type="date" id="competitionDate">
+  
   
 <hr>
 
@@ -299,7 +293,7 @@
     <option>2.75 - 4.0</option>
     <option>4.25 - 5.0</option>
   </select>
---!>
+-->
 
   <label>Team Majority Sync Sequence Description</label>
   <textarea id="teamSync" rows="4" placeholder="Please note the number of athletes and any ripples.
@@ -369,7 +363,7 @@ Example:
     <option>4.25 - 4.75</option>
     <option>5.0</option>
   </select>
---!>
+-->
 
   <label>Jump Sequence Description</label>
   <textarea id="jumpSequence" rows="5" placeholder="Please describe your jump sequence in detail.
@@ -805,36 +799,28 @@ document.querySelectorAll('.jumphighlight.jump').forEach(box => {
 /*****************************************************
   SET YOUR APPS SCRIPT WEB APP URL
 *****************************************************/
-const APPS_SCRIPT_BASE = "https://script.google.com/macros/s/AKfycbw11abJPmyHGe2e3P-Vf_WAZiBzbaXLUJgimSEXbA4DgobmT2x-H3s4lEtYyFzh5bFs_w/exec";  // <-- REPLACE THIS
+const APPS_SCRIPT_BASE = "https://script.google.com/macros/s/AKfycbzA1BxBeDj23K-E_NLNlen__bTH0Iy7Q0lBTs6A0N_-sjhpznRGzFx7WLlBrFBww25AqA/exec";  // <-- REPLACE THIS
 
 
 /*****************************************************
   1) POPULATE COMPETITION LOCATION DROPDOWN
 *****************************************************/
+
 async function populateCompetitionLocations() {
   try {
     const response = await fetch(`${APPS_SCRIPT_BASE}?sheetName=Events`);
     if (!response.ok) throw new Error("Failed to load competitions");
-    const data = await response.json();
 
+    const data = await response.json();
     const select = document.getElementById("competitionLocation");
     select.innerHTML = `<option value="">--Select--</option>`;
 
     data.forEach(item => {
       const option = document.createElement("option");
-
       const display = `${item.date} - ${item.eventname} @ ${item.location}`;
-
       option.textContent = display;
-      option.dataset.association = item.association;
-
-      option.value = JSON.stringify({
-        date: item.date,
-        eventname: item.eventname,
-        location: item.location,
-        association: item.association
-      });
-
+      option.value = JSON.stringify(item);
+      option.dataset.association = item.association || "";
       select.appendChild(option);
     });
 
@@ -842,8 +828,8 @@ async function populateCompetitionLocations() {
     console.error("Competition fetch error:", err);
   }
 }
-
 window.addEventListener("load", populateCompetitionLocations);
+("load", populateCompetitionLocations);
 
 
 
@@ -872,6 +858,7 @@ function collectTableCounts(selector) {
 /*****************************************************
   3) SUBMISSION → SEND TO GOOGLE APP SCRIPT
 *****************************************************/
+
 async function appsScriptSubmissionFlow() {
 
   const competitionValue = document.getElementById("competitionLocation").value;
@@ -880,9 +867,7 @@ async function appsScriptSubmissionFlow() {
 
   const payload = {
     association: association,
-    competition_selection:
-      document.getElementById("competitionLocation").selectedOptions[0].textContent,
-
+    competition_selection: document.getElementById("competitionLocation").selectedOptions[0].textContent,
     competition_raw: competition_raw,
 
     fields: {
@@ -891,7 +876,6 @@ async function appsScriptSubmissionFlow() {
       CoachName: document.getElementById("CoachName").value,
       CoachEmail: document.getElementById("CoachEmail").value,
       numAthletes: document.getElementById("numAthletes").value,
-      competitionDate: document.getElementById("competitionDate").value,
       StuntSkills: document.getElementById("StuntSkills").textContent,
       StuntRange: document.getElementById("StuntRange").textContent,
       PyramidSkills: document.getElementById("PyramidSkills").textContent,
@@ -911,34 +895,19 @@ async function appsScriptSubmissionFlow() {
   };
 
   try {
-    const response = await fetch(APPS_SCRIPT_BASE, {
+    await fetch(APPS_SCRIPT_BASE, {
       method: "POST",
       mode: "no-cors",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
     });
 
-// Cannot parse JSON in no-cors mode
-alert("Submission sent successfully!");
-
-    if (result.success) {
-      alert("Submission successfully saved to Google Sheets!");
-    } else {
-      alert("Save failed: " + JSON.stringify(result));
-    }
+    alert("Submission sent successfully! It will appear in the spreadsheet shortly.");
 
   } catch (err) {
     alert("Network error sending submission: " + err.message);
   }
 }
-
-
-
-
-
-
-
-
 
 // CHECK FOR ALL FIELDS TO BE POPULATED & OUTPUT ERROR MESSAGE FOR ANY MISSING
 
@@ -965,7 +934,6 @@ document.getElementById("saveBtn").addEventListener("click", () => {
         { id: 'CoachEmail', label: 'Head Coach Email' },
         { id: 'numAthletes', label: 'Number of Athletes Performing' },
         { id: 'competitionLocation', label: 'Competition Location' },
-        { id: 'competitionDate', label: 'Competition Date' },
         { id: 'StuntSkills', label: 'Stunt Skills' },
         { id: 'PyramidSkills', label: 'Pyramid Skills' },
         { id: 'TumblingOutput', label: 'Tumbling Difficulty Range' },
