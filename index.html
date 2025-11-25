@@ -667,7 +667,7 @@ function runChecker() {
 // DIFFICULTY CHECKER FOR PYRAMID
 function runChecker2() {
   const numAthletes = parseInt(document.getElementById('numAthletes').value) || 0;
-  const majorityPyramid = numAthletes <= 15 ? 2 : 3;
+  const majorityPyramid = numAthletes <= 15 ? 1 : 2;
 
   const rows = document.querySelectorAll('#PyramidCounts tr');
   let majoritySkills = [];
@@ -1034,6 +1034,7 @@ const APPS_SCRIPT_BASE = "https://script.google.com/macros/s/AKfycbzA1BxBeDj23K-
 
 </body>
 </html>
+
 
 
 
