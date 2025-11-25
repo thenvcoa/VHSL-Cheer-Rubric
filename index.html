@@ -854,6 +854,14 @@ const APPS_SCRIPT_BASE = "https://script.google.com/macros/s/AKfycbzA1BxBeDj23K-
 		/*****************************************************
 		3) SUBMISSION → SEND TO GOOGLE APP SCRIPT
 		*****************************************************/
+		
+				//================== Custom Alert ==================
+		function showCustomAlert(message) {
+			const alertDiv = document.getElementById('customAlert');
+			document.getElementById('customAlertText').textContent = message;
+			alertDiv.style.display = 'flex';
+			document.getElementById('customAlertOk').onclick = () => { alertDiv.style.display = 'none'; };
+		}
 
 		async function appsScriptSubmissionFlow() {
 
@@ -898,7 +906,7 @@ const APPS_SCRIPT_BASE = "https://script.google.com/macros/s/AKfycbzA1BxBeDj23K-
 			body: JSON.stringify(payload)
 			});
 
-			alert("Submission sent successfully!");
+			showCustomAlert("Submission sent successfully!");
   
 			//  HIDE SPINNER AFTER SUCCESSFUL SUBMISSION
 				document.getElementById("loadingOverlay").style.display = "none";
@@ -909,7 +917,7 @@ const APPS_SCRIPT_BASE = "https://script.google.com/macros/s/AKfycbzA1BxBeDj23K-
 		    // Also hide spinner if an error occurs too
 				document.getElementById("loadingOverlay").style.display = "none";
 	
-			alert("Network error sending submission: " + err.message);
+			showCustomAlert("Network error sending submission: " + err.message);
 		}
 		}
 
@@ -923,13 +931,6 @@ const APPS_SCRIPT_BASE = "https://script.google.com/macros/s/AKfycbzA1BxBeDj23K-
 
 //----CHECK FOR ALL FIELDS TO BE POPULATED & OUTPUT ERROR MESSAGE FOR ANY MISSING----//
 
-		//================== Custom Alert ==================
-		function showCustomAlert(message) {
-			const alertDiv = document.getElementById('customAlert');
-			document.getElementById('customAlertText').textContent = message;
-			alertDiv.style.display = 'flex';
-			document.getElementById('customAlertOk').onclick = () => { alertDiv.style.display = 'none'; };
-		}
 
 		//================== 👉Save & Submit Handler ==================
 		document.getElementById("saveBtn").addEventListener("click", () => {
