@@ -571,7 +571,7 @@ const PyramidRegions = [
   { id: 'b3', skill: '1/4 Twisting Flipping Transition Landing at Prep or Below (1 or 2)', category: 'Twisting', difficulty: 'Super Elite' },
 ];
 
-const wrapper = document.querySelector('.wrapper');
+const stuntWrapper = document.querySelector('#StuntRubricImage').parentElement;
 const skillCountsContainer = document.getElementById('skillCounts');
 
 const pyramidWrapper = document.querySelector('#PyramidRubricImage').parentElement;
@@ -579,8 +579,8 @@ const pyramidCountsContainer = document.getElementById('PyramidCounts');
 
 
 // CLICK HANDLER FOR STUNT RUBRIC
-wrapper.addEventListener('click', e => {
-  const rect = wrapper.getBoundingClientRect();
+stuntWrapper.addEventListener('click', e => {
+  const rect = stuntWrapper.getBoundingClientRect();
   const x = e.clientX - rect.left;
   const y = e.clientY - rect.top;
 
@@ -1168,6 +1168,7 @@ const APPS_SCRIPT_BASE = "https://script.google.com/macros/s/AKfycbzA1BxBeDj23K-
 
 </body>
 </html>
+
 
 
 
