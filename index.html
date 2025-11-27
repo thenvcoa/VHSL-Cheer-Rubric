@@ -13,30 +13,16 @@
   input, select, textarea { width: 90%; max-width: 600px; padding: 8px; margin-top: 5px; }
   button { margin-top: 25px; padding: 10px 16px; background: #2F317D; color: white; border: none; border-radius: 5px; cursor: pointer; }
   button:hover { background: #c02025; }
- 
+  .wrapper {    width: fit-content;  margin-left: auto; margin-right: auto;  position: relative; 	margin-bottom: 40px; cursor: pointer;}
+  .wrapper img {  display: block; }
   #StuntRubricImage { width: 90%; max-width: 950px; display: block; }
   #PyramidRubricImage { width: 90%; max-width: 950px; display: block; }
- 
-
-.highlight {
-  position: absolute !important;
-  pointer-events: none;            /* let clicks pass to the image/wrapper */
-  display: none;                   /* shown only when clicked (your flash) */
-  z-index: 9999 !important;
-  border: 2px solid rgba(255,255,0,0.9) !important;
-  background: rgba(255,255,0,0.30) !important;
-  box-sizing: border-box !important;
-}
-/* Keep category colors (override if needed) */
-.highlight.inversion { background: rgba(180,0,180,0.22) !important; border-color: rgba(180,0,180,0.9) !important; }
-.highlight.release   { background: rgba(0,180,0,0.22)   !important; border-color: rgba(0,180,0,0.9) !important; }
-.highlight.twisting  { background: rgba(255,0,0,0.22)   !important; border-color: rgba(255,0,0,0.9) !important; }
-.highlight.coed      { background: rgba(0,0,255,0.22)   !important; border-color: rgba(0,0,255,0.9) !important; }
-.highlight.toss      { background: rgba(255,120,0,0.22) !important; border-color: rgba(255,120,0,0.9) !important; }
-
-/* Ensure wrapper is the positioning reference */
-.wrapper { position: relative !important; }
-	
+  .highlight { position: absolute; border: 2px solid transparent; background-color: transparent; pointer-events: none; display: none;}
+  .twisting { border-color: rgba(255,0,0,0.8); background-color: rgba(255,0,0,0.25); }
+  .coed     { border-color: rgba(0,0,255,0.8); background-color: rgba(0,0,255,0.25); }
+  .release  { border-color: rgba(0,180,0,0.8); background-color: rgba(0,180,0,0.25); }
+  .inversion{ border-color: rgba(180,0,180,0.8); background-color: rgba(180,0,180,0.25); }
+  .toss     { border-color: rgba(255,120,0,0.8); background-color: rgba(255,120,0,0.25); }
   #output, #outputp { margin-top: 20px; white-space: pre-wrap; background: #f7f7f7; padding: 10px; border-radius: 5px; max-width: 825px; }
   table { width: 70%; max-width: 950px; border-collapse: collapse; margin-top: 10px; }
   th, td { padding: 6px 10px; text-align: left; border-bottom: 1px solid #ccc; }
@@ -405,180 +391,6 @@
 
 
 <script>
-/*
- Robust percent-based scaler + hit detection.
- Works from data-left/data-top/data-width/data-height expressed in NATURAL image pixels.
- It computes percentages, and then places boxes in display pixels each time the image size changes.
- It ALSO uses box.getBoundingClientRect() for click-hit detection (so visual & logical match).
-*/
-
-// Call this for a given image id to enable robust scaling and detection
-function enableResponsiveHighlights(imageId) {
-  const img = document.getElementById(imageId);
-  if (!img) return null;
-  const wrapper = img.parentElement;
-  if (!wrapper) return null;
-
-  // Ensure wrapper positioned
-  if (getComputedStyle(wrapper).position === 'static') wrapper.style.position = 'relative';
-
-  // Find highlight boxes that belong to this wrapper (only direct children avoids picking wrong ones)
-  const boxes = Array.from(wrapper.querySelectorAll('.highlight'));
-
-  // Precompute percentages from data-* natural coordinates
-  // Store percent values on dataset to avoid re-calculating strings each time
-  boxes.forEach(box => {
-    // prefer explicit data attributes; if absent, try style parsing
-    let left = box.dataset.left;
-    let top = box.dataset.top;
-    let width = box.dataset.width;
-    let height = box.dataset.height;
-
-    if (!left || !top || !width || !height) {
-      // try parsing inline style left/top/width/height px values
-      const s = box.getAttribute('style') || "";
-      const m = s.match(/left\s*:\s*(\d+)px.*top\s*:\s*(\d+)px.*width\s*:\s*(\d+)px.*height\s*:\s*(\d+)px/);
-      if (m) { left=m[1]; top=m[2]; width=m[3]; height=m[4]; }
-    }
-
-    // parse to floats and convert to percentage of natural image size
-    const nLeft = parseFloat(left || 0);
-    const nTop = parseFloat(top || 0);
-    const nWidth = parseFloat(width || 0);
-    const nHeight = parseFloat(height || 0);
-
-    // attach percent fields (as strings) to dataset for quick use
-    box.dataset._leftPct  = (nLeft / img.naturalWidth).toString();
-    box.dataset._topPct   = (nTop  / img.naturalHeight).toString();
-    box.dataset._widthPct = (nWidth / img.naturalWidth).toString();
-    box.dataset._heightPct= (nHeight/ img.naturalHeight).toString();
-
-    // ensure absolute positioning style present so rescale will work
-    box.style.position = 'absolute';
-    // keep display: none by default — your click handler toggles display for flash
-    if (!box.style.display) box.style.display = 'none';
-  });
-
-  // rescale function: computes display pixels and writes inline styles
-  function rescale() {
-    if (!img.complete || img.naturalWidth === 0) return;
-
-    const dispW = img.clientWidth;
-    const dispH = img.clientHeight;
-
-    // image starts at (0,0) inside wrapper (we ensure wrapper positioned)
-    boxes.forEach(box => {
-      const leftPct  = parseFloat(box.dataset._leftPct || 0);
-      const topPct   = parseFloat(box.dataset._topPct  || 0);
-      const widthPct = parseFloat(box.dataset._widthPct || 0);
-      const heightPct= parseFloat(box.dataset._heightPct|| 0);
-
-      const leftPx = Math.round(leftPct  * dispW);
-      const topPx  = Math.round(topPct   * dispH);
-      const wPx    = Math.round(widthPct * dispW);
-      const hPx    = Math.round(heightPct* dispH);
-
-      box.style.left = leftPx + 'px';
-      box.style.top  = topPx  + 'px';
-      box.style.width= wPx    + 'px';
-      box.style.height= hPx   + 'px';
-    });
-  }
-
-  // Debounce helper to avoid thrashing
-  let resizeTimer = null;
-  function scheduleRescale() {
-    if (resizeTimer) clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => { rescale(); resizeTimer = null; }, 60);
-  }
-
-  // Events
-  img.addEventListener('load', rescale);
-  window.addEventListener('resize', scheduleRescale);
-  window.addEventListener('orientationchange', scheduleRescale);
-
-  // initial call (some browsers lazy-load sizes)
-  scheduleRescale();
-  // additional safety
-  setTimeout(rescale, 200);
-  setTimeout(rescale, 800);
-
-  // Return helper for manual recalculation from outside if needed
-  return { rescale, boxes, wrapper, img };
-}
-
-// Replace click logic to use actual box bounding rects so hits match visuals
-function attachRobustClickHandler(imageId, regionsArray, countsContainerId) {
-  const img = document.getElementById(imageId);
-  if (!img) return;
-  const wrapper = img.parentElement;
-  const countsContainer = document.getElementById(countsContainerId);
-  if (!wrapper || !countsContainer) return;
-
-  // Ensure highlights are scaled before checking (call rescale if returned)
-  // We'll attempt to find the scaler we've attached (if any)
-  // For simplicity: call rescale for this wrapper's image quickly (if present)
-  // (if enableResponsiveHighlights returned an object stored elsewhere, you may call it instead)
-  // But to be robust: do a tiny synchronous style read of any .highlight to ensure styles applied
-  wrapper.addEventListener('click', e => {
-    // normalise coordinate reference to wrapper rect
-    const rect = wrapper.getBoundingClientRect();
-    const clickX = e.clientX - rect.left;
-    const clickY = e.clientY - rect.top;
-
-    // iterate through region definitions (regionsArray must be the JS array you already have)
-    for (let r of regionsArray) {
-      const box = document.getElementById(r.id);
-      if (!box) continue;
-
-      // Use getBoundingClientRect() for the current box and subtract wrapper.left/top
-      const bRect = box.getBoundingClientRect();
-      const bLeft = bRect.left - rect.left;
-      const bTop  = bRect.top  - rect.top;
-      const bW = bRect.width;
-      const bH = bRect.height;
-
-      if (clickX >= bLeft && clickX <= bLeft + bW && clickY >= bTop && clickY <= bTop + bH) {
-        // flash visual
-        box.style.display = 'block';
-        setTimeout(() => box.style.display = 'none', 350);
-
-        // create row (same format as your existing code) and append
-        const skillId = 'count_' + r.id;
-        const row = document.createElement('tr');
-        row.id = skillId + '_' + Date.now();
-        row.draggable = true;
-        row.innerHTML = `
-          <td class="drag-handle">${r.skill}</td>
-          <td>${r.difficulty}</td>
-          <td><input type="number" id="${skillId}" min="0" value="0"></td>
-          <td class="delete-btn">🗑️</td>
-        `;
-        countsContainer.appendChild(row);
-        // add delete listener
-        row.querySelector('.delete-btn').addEventListener('click', () => {
-          countsContainer.removeChild(row);
-        });
-
-        break; // stop after first match
-      }
-    }
-  });
-}
-
-/* ----------------- Activate for your page ----------------- */
-/* Replace existing scaling/click code with these calls. */
-document.addEventListener('DOMContentLoaded', () => {
-  // enable scaling
-  const stunt = enableResponsiveHighlights('StuntRubricImage');
-  const pyramid = enableResponsiveHighlights('PyramidRubricImage');
-
-  // attach robust click handlers using your JS region arrays and table container ids
-  // Ensure these arrays (StuntRegions, PyramidRegions) exist in global scope as in your file
-  attachRobustClickHandler('StuntRubricImage', window.StuntRegions || [], 'skillCounts');
-  attachRobustClickHandler('PyramidRubricImage', window.PyramidRegions || [], 'PyramidCounts');
-});
-
 
 
 /************************************************ 
