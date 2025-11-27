@@ -449,56 +449,84 @@
 
 
 	<script>
-// -----------------------------------------------------------
-// SMART AUTO-SCALING FOR STUNT & PYRAMID HIGHLIGHT BOXES
-// -----------------------------------------------------------
+// SMART SCALING: keeps boxes hidden until your click handler shows them,
+// and positions boxes relative to the image's actual top-left inside the wrapper.
 
 function enableHighlightScaling(imageId) {
     const img = document.getElementById(imageId);
+    if (!img) return;
+    const container = img.parentElement; // wrapper that contains the image and the highlight divs
+    if (!container) return;
 
-    // The highlight boxes live in the SAME wrapper as the image
-    const container = img.parentElement;
+    // ensure container is positioned so absolutely positioned boxes align to it
+    if (getComputedStyle(container).position === 'static') {
+        container.style.position = 'relative';
+    }
 
     function rescale() {
-        if (!img.complete || img.naturalWidth === 0) return;
+        // require the image natural size (avoid division by zero)
+        if (!img.complete || img.naturalWidth === 0 || img.naturalHeight === 0) return;
 
         const naturalW = img.naturalWidth;
         const naturalH = img.naturalHeight;
 
-        const scaleX = img.clientWidth / naturalW;
-        const scaleY = img.clientHeight / naturalH;
+        const displayW = img.clientWidth;
+        const displayH = img.clientHeight;
 
-        container.querySelectorAll('.highlight').forEach(box => {
-            const left = parseFloat(box.dataset.left);
-            const top = parseFloat(box.dataset.top);
-            const width = parseFloat(box.dataset.width);
-            const height = parseFloat(box.dataset.height);
+        const scaleX = displayW / naturalW;
+        const scaleY = displayH / naturalH;
 
-            box.style.left = (left * scaleX) + "px";
-            box.style.top = (top * scaleY) + "px";
-            box.style.width = (width * scaleX) + "px";
-            box.style.height = (height * scaleY) + "px";
-            box.style.display = "block"; // Ensure they are visible
+        // image's position inside the container (in case image isn't at 0,0)
+        const imgOffsetLeft = img.offsetLeft || 0;
+        const imgOffsetTop  = img.offsetTop  || 0;
+
+        // only touch highlight boxes inside this container
+        const boxes = container.querySelectorAll('.highlight');
+
+        boxes.forEach(box => {
+            const left = parseFloat(box.dataset.left) || 0;
+            const top = parseFloat(box.dataset.top) || 0;
+            const width = parseFloat(box.dataset.width) || 0;
+            const height = parseFloat(box.dataset.height) || 0;
+
+            // apply scaled position relative to the image top-left
+            box.style.position = 'absolute';
+            box.style.left   = (imgOffsetLeft + left * scaleX) + 'px';
+            box.style.top    = (imgOffsetTop  + top  * scaleY) + 'px';
+            box.style.width  = (width  * scaleX) + 'px';
+            box.style.height = (height * scaleY) + 'px';
+
+            // keep display alone — do NOT force show here.
+            // Your existing click handler already does: box.style.display = "block"; setTimeout(... hide ...)
+            // So we avoid making boxes permanently visible here.
         });
     }
 
-    img.addEventListener("load", rescale);
-    window.addEventListener("resize", rescale);
+    // Rescale at appropriate times
+    img.addEventListener('load', rescale);
+    window.addEventListener('resize', rescale);
+    window.addEventListener('orientationchange', rescale);
 
-    // Safety rescale (important for mobile Safari)
+    // Extra safety timeouts for slow images / mobile layout quirks
     setTimeout(rescale, 200);
-    setTimeout(rescale, 500);
-    setTimeout(rescale, 1000);
+    setTimeout(rescale, 600);
+    setTimeout(rescale, 1200);
+
+    // return rescale in case you want to call it manually
+    return rescale;
 }
 
-// Enable scaling for BOTH rubrics
+// Enable scaling for both images (stunt & pyramid)
 enableHighlightScaling("StuntRubricImage");
 enableHighlightScaling("PyramidRubricImage");
 
-// Fire a resize to force recalculation
+// Force an initial calculation when DOM ready
 document.addEventListener("DOMContentLoaded", () => {
-    window.dispatchEvent(new Event("resize"));
+    // tiny delay to let layout finish on some mobile browsers
+    setTimeout(() => window.dispatchEvent(new Event("resize")), 100);
 });
+
+
 
 
 
@@ -1150,6 +1178,7 @@ scaleHighlightBoxes("PyramidRubricImage", "#PyramidRubricImage").parentElement;
 
 </body>
 </html>
+
 
 
 
