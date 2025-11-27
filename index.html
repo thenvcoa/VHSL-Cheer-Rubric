@@ -453,11 +453,11 @@
 // SMART AUTO-SCALING FOR STUNT & PYRAMID HIGHLIGHT BOXES
 // -----------------------------------------------------------
 
-// This function rescales all highlight boxes based on the
-// image size vs original "natural" pixel coordinate system.
-function enableHighlightScaling(imageId, highlightContainer) {
+function enableHighlightScaling(imageId) {
     const img = document.getElementById(imageId);
-    const container = document.querySelector(highlightContainer);
+
+    // The highlight boxes live in the SAME wrapper as the image
+    const container = img.parentElement;
 
     function rescale() {
         if (!img.complete || img.naturalWidth === 0) return;
@@ -474,47 +474,32 @@ function enableHighlightScaling(imageId, highlightContainer) {
             const width = parseFloat(box.dataset.width);
             const height = parseFloat(box.dataset.height);
 
-            // Apply scaled sizes
             box.style.left = (left * scaleX) + "px";
             box.style.top = (top * scaleY) + "px";
             box.style.width = (width * scaleX) + "px";
             box.style.height = (height * scaleY) + "px";
+            box.style.display = "block"; // Ensure they are visible
         });
     }
 
-    // Rescale on image load (important for slow network devices)
     img.addEventListener("load", rescale);
-
-    // Rescale when resizing window or rotating phone
     window.addEventListener("resize", rescale);
 
-    // Rescale after layout settles (extra safety)
-    setTimeout(rescale, 300);
-    setTimeout(rescale, 1000); // ensures proper scale on iOS Safari
+    // Safety rescale (important for mobile Safari)
+    setTimeout(rescale, 200);
+    setTimeout(rescale, 500);
+    setTimeout(rescale, 1000);
 }
 
+// Enable scaling for BOTH rubrics
+enableHighlightScaling("StuntRubricImage");
+enableHighlightScaling("PyramidRubricImage");
 
-// -----------------------------------------------------------
-// ACTIVATE SMART SCALING FOR BOTH RUBRICS
-// -----------------------------------------------------------
-
-// Stunt rubric wrapper = first .wrapper before Pyramid section
-enableHighlightScaling("StuntRubricImage", ".wrapper");
-
-// Pyramid rubric wrapper = wrapper containing Pyramid image
-enableHighlightScaling("PyramidRubricImage", "#PyramidRubricImage + *");
-
-
-// -----------------------------------------------------------
-// OPTIONAL: FORCE INITIAL RESCALE ON DOM READY
-// -----------------------------------------------------------
+// Fire a resize to force recalculation
 document.addEventListener("DOMContentLoaded", () => {
     window.dispatchEvent(new Event("resize"));
 });
-</script>
 
-
-<script>
 
 
 /************************************************ 
@@ -1165,6 +1150,7 @@ scaleHighlightBoxes("PyramidRubricImage", "#PyramidRubricImage").parentElement;
 
 </body>
 </html>
+
 
 
 
