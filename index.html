@@ -452,12 +452,9 @@ function enableHighlightScaling(imageId) {
         const scaleX = displayW / naturalW;
         const scaleY = displayH / naturalH;
 
-        // get the image’s actual position inside the wrapper
-        const imgRect = img.getBoundingClientRect();
-        const wrapperRect = wrapper.getBoundingClientRect();
-
-        const offsetX = imgRect.left - wrapperRect.left;
-        const offsetY = imgRect.top - wrapperRect.top;
+        // FIX: the img always starts at (0,0) inside the wrapper
+        const offsetX = 0;
+        const offsetY = 0;
 
         wrapper.querySelectorAll(".highlight").forEach(box => {
             const left = parseFloat(box.dataset.left) || 0;
@@ -465,7 +462,7 @@ function enableHighlightScaling(imageId) {
             const width = parseFloat(box.dataset.width) || 0;
             const height = parseFloat(box.dataset.height) || 0;
 
-            // scale
+            // scale to display size
             const newLeft = offsetX + (left * scaleX);
             const newTop = offsetY + (top * scaleY);
             const newWidth = width * scaleX;
@@ -476,11 +473,9 @@ function enableHighlightScaling(imageId) {
             box.style.top = newTop + "px";
             box.style.width = newWidth + "px";
             box.style.height = newHeight + "px";
-            // do not change box.style.display here — click handler manages visibility
         });
     }
 
-    // events
     img.addEventListener("load", rescale);
     window.addEventListener("resize", rescale);
     window.addEventListener("orientationchange", rescale);
@@ -491,15 +486,15 @@ function enableHighlightScaling(imageId) {
     setTimeout(rescale, 900);
 }
 
-// Activate scaling for both images
 enableHighlightScaling("StuntRubricImage");
 enableHighlightScaling("PyramidRubricImage");
 
-// small initial resize after DOM ready
 document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => window.dispatchEvent(new Event("resize")), 80);
 });
 
+
+	
 /************************************************ 
 |            STUNT & PYRAMID RUBRIC             |
 ************************************************/
@@ -1137,6 +1132,7 @@ const APPS_SCRIPT_BASE = "https://script.google.com/macros/s/AKfycbzA1BxBeDj23K-
 
 </body>
 </html>
+
 
 
 
