@@ -13,10 +13,30 @@
   input, select, textarea { width: 90%; max-width: 600px; padding: 8px; margin-top: 5px; }
   button { margin-top: 25px; padding: 10px 16px; background: #2F317D; color: white; border: none; border-radius: 5px; cursor: pointer; }
   button:hover { background: #c02025; }
-  .wrapper {    width: fit-content;  margin-left: auto; margin-right: auto;  position: relative; 	margin-bottom: 40px; cursor: pointer;}
-  .wrapper img {  display: block; }
-  #StuntRubricImage { width: 90%; max-width: 950px; display: block; }
-  #PyramidRubricImage { width: 90%; max-width: 950px; display: block; }
+  /* REPLACE existing .wrapper and #*RubricImage rules with the following: */
+.wrapper {
+  width: 100%;
+  max-width: 950px;      /* same max as your images */
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;    /* reference for absolutely-positioned boxes */
+  margin-bottom: 40px;
+  cursor: pointer;
+  display: block;        /* avoid flex-like centering side-effects */
+}
+
+.wrapper img {
+  display: block;
+  width: 100%;           /* image fills the wrapper — simple, consistent math */
+  height: auto;
+}
+
+#StuntRubricImage, #PyramidRubricImage {
+  width: 100%;
+  max-width: 950px;      /* redundant but safe */
+  display: block;
+}
+
   <!--.highlight { position: absolute; border: 2px solid transparent; background-color: transparent; pointer-events: none; display: none;} -->
 
 .highlight {
@@ -571,8 +591,10 @@ const PyramidRegions = [
   { id: 'b3', skill: '1/4 Twisting Flipping Transition Landing at Prep or Below (1 or 2)', category: 'Twisting', difficulty: 'Super Elite' },
 ];
 
+// use the wrapper that actually contains the stunt image
 const stuntWrapper = document.querySelector('#StuntRubricImage').parentElement;
 const skillCountsContainer = document.getElementById('skillCounts');
+
 
 const pyramidWrapper = document.querySelector('#PyramidRubricImage').parentElement;
 const pyramidCountsContainer = document.getElementById('PyramidCounts');
@@ -1168,6 +1190,7 @@ const APPS_SCRIPT_BASE = "https://script.google.com/macros/s/AKfycbzA1BxBeDj23K-
 
 </body>
 </html>
+
 
 
 
