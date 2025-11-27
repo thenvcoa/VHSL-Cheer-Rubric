@@ -448,6 +448,72 @@
 <!-- ========================END HTML VISUAL======================== -->
 
 
+	<script>
+// -----------------------------------------------------------
+// SMART AUTO-SCALING FOR STUNT & PYRAMID HIGHLIGHT BOXES
+// -----------------------------------------------------------
+
+// This function rescales all highlight boxes based on the
+// image size vs original "natural" pixel coordinate system.
+function enableHighlightScaling(imageId, highlightContainer) {
+    const img = document.getElementById(imageId);
+    const container = document.querySelector(highlightContainer);
+
+    function rescale() {
+        if (!img.complete || img.naturalWidth === 0) return;
+
+        const naturalW = img.naturalWidth;
+        const naturalH = img.naturalHeight;
+
+        const scaleX = img.clientWidth / naturalW;
+        const scaleY = img.clientHeight / naturalH;
+
+        container.querySelectorAll('.highlight').forEach(box => {
+            const left = parseFloat(box.dataset.left);
+            const top = parseFloat(box.dataset.top);
+            const width = parseFloat(box.dataset.width);
+            const height = parseFloat(box.dataset.height);
+
+            // Apply scaled sizes
+            box.style.left = (left * scaleX) + "px";
+            box.style.top = (top * scaleY) + "px";
+            box.style.width = (width * scaleX) + "px";
+            box.style.height = (height * scaleY) + "px";
+        });
+    }
+
+    // Rescale on image load (important for slow network devices)
+    img.addEventListener("load", rescale);
+
+    // Rescale when resizing window or rotating phone
+    window.addEventListener("resize", rescale);
+
+    // Rescale after layout settles (extra safety)
+    setTimeout(rescale, 300);
+    setTimeout(rescale, 1000); // ensures proper scale on iOS Safari
+}
+
+
+// -----------------------------------------------------------
+// ACTIVATE SMART SCALING FOR BOTH RUBRICS
+// -----------------------------------------------------------
+
+// Stunt rubric wrapper = first .wrapper before Pyramid section
+enableHighlightScaling("StuntRubricImage", ".wrapper");
+
+// Pyramid rubric wrapper = wrapper containing Pyramid image
+enableHighlightScaling("PyramidRubricImage", "#PyramidRubricImage + *");
+
+
+// -----------------------------------------------------------
+// OPTIONAL: FORCE INITIAL RESCALE ON DOM READY
+// -----------------------------------------------------------
+document.addEventListener("DOMContentLoaded", () => {
+    window.dispatchEvent(new Event("resize"));
+});
+</script>
+
+
 <script>
 
 
@@ -502,39 +568,6 @@ const skillCountsContainer = document.getElementById('skillCounts');
 const pyramidWrapper = document.querySelector('#PyramidRubricImage').parentElement;
 const pyramidCountsContainer = document.getElementById('PyramidCounts');
 
-
-
-function scaleHighlightBoxes(imageId, containerSelector) {
-    const img = document.getElementById(imageId);
-    const container = document.querySelector(containerSelector);
-
-    const naturalWidth = img.naturalWidth;
-    const naturalHeight = img.naturalHeight;
-
-    function rescale() {
-        const scaleX = img.clientWidth / naturalWidth;
-        const scaleY = img.clientHeight / naturalHeight;
-
-        container.querySelectorAll('.highlight').forEach(box => {
-            const left = parseFloat(box.dataset.left);
-            const top = parseFloat(box.dataset.top);
-            const width = parseFloat(box.dataset.width);
-            const height = parseFloat(box.dataset.height);
-
-            box.style.left = (left * scaleX) + "px";
-            box.style.top = (top * scaleY) + "px";
-            box.style.width = (width * scaleX) + "px";
-            box.style.height = (height * scaleY) + "px";
-        });
-    }
-
-    // Recalculate on:
-    img.onload = rescale;
-    window.addEventListener("resize", rescale);
-    setTimeout(rescale, 300); // fallback for slow-loading images
-}
-
-	
 
 // CLICK HANDLER FOR STUNT RUBRIC
 wrapper.addEventListener('click', e => {
@@ -1132,6 +1165,7 @@ scaleHighlightBoxes("PyramidRubricImage", "#PyramidRubricImage").parentElement;
 
 </body>
 </html>
+
 
 
 
