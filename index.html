@@ -13,37 +13,38 @@
   input, select, textarea { width: 90%; max-width: 600px; padding: 8px; margin-top: 5px; }
   button { margin-top: 25px; padding: 10px 16px; background: #2F317D; color: white; border: none; border-radius: 5px; cursor: pointer; }
   button:hover { background: #c02025; }
-  /* REPLACE existing .wrapper and #*RubricImage rules with the following: */
-.wrapper {
-  width: 100%;
-  max-width: 950px;      /* same max as your images */
-  margin-left: auto;
-  margin-right: auto;
-  position: relative;    /* reference for absolutely-positioned boxes */
-  margin-bottom: 40px;
-  cursor: pointer;
-  display: block;        /* avoid flex-like centering side-effects */
-}
 
-.wrapper img {
-  display: block;
-  width: 100%;           /* image fills the wrapper — simple, consistent math */
-  height: auto;
-}
+	
+  /* ====== UPDATED WRAPPER & IMAGE RULES (RELIABLE COORDS) ====== */
+  .wrapper {
+    width: 100%;
+    max-width: 950px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;    /* reference for absolutely-positioned boxes */
+    margin-bottom: 40px;
+    cursor: pointer;
+    display: block;
+  }
 
-#StuntRubricImage, #PyramidRubricImage {
-  width: 100%;
-  max-width: 950px;      /* redundant but safe */
-  display: block;
-}
+  .wrapper img {
+    display: block;
+    width: 100%;           /* image fills the wrapper — consistent math */
+    height: auto;
+  }
 
-  <!--.highlight { position: absolute; border: 2px solid transparent; background-color: transparent; pointer-events: none; display: none;} -->
+  #StuntRubricImage, #PyramidRubricImage {
+    width: 100%;
+    max-width: 950px;
+    display: block;
+  }
 
-.highlight {
-    position: absolute;
-    pointer-events: none;
-    display: none;
-}
+  /* ====== HIGHLIGHT STYLES ====== */
+  .highlight {
+      position: absolute;
+      pointer-events: none;
+      display: none;
+  }
 
 	.twisting { border-color: rgba(255,0,0,0.8); background-color: rgba(255,0,0,0.25); }
   .coed     { border-color: rgba(0,0,255,0.8); background-color: rgba(0,0,255,0.25); }
@@ -169,66 +170,34 @@
 
 
 	<div class="wrapper">
-		<img id="StuntRubricImage" src="Stunt_Rubric.png" alt="VHSL Stunt Rubric">
-		<!-- Highlight boxes -->
-	<!--	<div class="highlight inversion" id="i1" style="left:62px; top:131px; width:146px; height:17px;"></div>
-		<div class="highlight inversion" id="i2" style="left:62px; top:150px; width:146px; height:18px;"></div>
-		<div class="highlight inversion" id="i3" style="left:62px; top:169px; width:146px; height:17px;"></div>
-		<div class="highlight inversion" id="i4" style="left:209px; top:131px; width:146px; height:17px;"></div>
+    <img id="StuntRubricImage" src="Stunt_Rubric.png" alt="VHSL Stunt Rubric">
+    <!-- STUNT HIGHLIGHT BOXES — SMART SCALING VERSION -->
+    <div class="highlight inversion" id="i1" data-left="62" data-top="131" data-width="146" data-height="17"></div>
+    <div class="highlight inversion" id="i2" data-left="62" data-top="150" data-width="146" data-height="18"></div>
+    <div class="highlight inversion" id="i3" data-left="62" data-top="169" data-width="146" data-height="17"></div>
+    <div class="highlight inversion" id="i4" data-left="209" data-top="131" data-width="146" data-height="17"></div>
 
-		<div class="highlight release" id="r1" style="left:62px; top:217px; width:146px; height:15px;"></div>
-		<div class="highlight release" id="r2" style="left:62px; top:233px; width:146px; height:13px;"></div>
-		<div class="highlight release" id="r3" style="left:62px; top:280px; width:146px; height:14px;"></div>
+    <div class="highlight release" id="r1" data-left="62" data-top="217" data-width="146" data-height="15"></div>
+    <div class="highlight release" id="r2" data-left="62" data-top="233" data-width="146" data-height="13"></div>
+    <div class="highlight release" id="r3" data-left="62" data-top="280" data-width="146" data-height="14"></div>
 
-		<div class="highlight twisting" id="t1" style="left:62px; top:335px; width:146px; height:7px;"></div>
-		<div class="highlight twisting" id="t2" style="left:62px; top:342px; width:146px; height:14px;"></div>
-		<div class="highlight twisting" id="t3" style="left:62px; top:356px; width:146px; height:15px;"></div>
+    <div class="highlight twisting" id="t1" data-left="62" data-top="335" data-width="146" data-height="7"></div>
+    <div class="highlight twisting" id="t2" data-left="62" data-top="342" data-width="146" data-height="14"></div>
+    <div class="highlight twisting" id="t3" data-left="62" data-top="356" data-width="146" data-height="15"></div>
 
-		<div class="highlight coed" id="c1" style="left:62px; top:410px; width:146px; height:14px;"></div>
-		<div class="highlight coed" id="c2" style="left:62px; top:439px; width:146px; height:15px;"></div>
-		<div class="highlight coed" id="c3" style="left:62px; top:455px; width:146px; height:15px;"></div>
+    <div class="highlight coed" id="c1" data-left="62" data-top="410" data-width="146" data-height="14"></div>
+    <div class="highlight coed" id="c2" data-left="62" data-top="439" data-width="146" data-height="15"></div>
+    <div class="highlight coed" id="c3" data-left="62" data-top="455" data-width="146" data-height="15"></div>
 
-		<div class="highlight toss" id="o1" style="left:62px; top:555px; width:146px; height:15px;"></div>
-		<div class="highlight toss" id="o2" style="left:62px; top:582px; width:146px; height:21px;"></div>
-		<div class="highlight toss" id="o3" style="left:62px; top:600px; width:146px; height:15px;"></div>
+    <div class="highlight toss" id="o1" data-left="62" data-top="555" data-width="146" data-height="15"></div>
+    <div class="highlight toss" id="o2" data-left="62" data-top="582" data-width="146" data-height="21"></div>
+    <div class="highlight toss" id="o3" data-left="62" data-top="600" data-width="146" data-height="15"></div>
 
-		<div class="highlight inversion" id="h1" style="left:140px; top:550px; width:180px; height:20px;"></div>
-		<div class="highlight release" id="h2" style="left:330px; top:550px; width:180px; height:20px;"></div>
-		<div class="highlight twisting" id="h3" style="left:630px; top:550px; width:180px; height:20px;"></div> 
-		-->
+    <div class="highlight inversion" id="h1" data-left="140" data-top="550" data-width="180" data-height="20"></div>
+    <div class="highlight release" id="h2" data-left="330" data-top="550" data-width="180" data-height="20"></div>
+    <div class="highlight twisting" id="h3" data-left="630" data-top="550" data-width="180" data-height="20"></div>
+  </div>
 
-
-<!-- STUNT HIGHLIGHT BOXES — SMART SCALING VERSION -->
-<div class="highlight inversion" id="i1" data-left="62" data-top="131" data-width="146" data-height="17"></div>
-<div class="highlight inversion" id="i2" data-left="62" data-top="150" data-width="146" data-height="18"></div>
-<div class="highlight inversion" id="i3" data-left="62" data-top="169" data-width="146" data-height="17"></div>
-<div class="highlight inversion" id="i4" data-left="209" data-top="131" data-width="146" data-height="17"></div>
-
-<div class="highlight release" id="r1" data-left="62" data-top="217" data-width="146" data-height="15"></div>
-<div class="highlight release" id="r2" data-left="62" data-top="233" data-width="146" data-height="13"></div>
-<div class="highlight release" id="r3" data-left="62" data-top="280" data-width="146" data-height="14"></div>
-
-<div class="highlight twisting" id="t1" data-left="62" data-top="335" data-width="146" data-height="7"></div>
-<div class="highlight twisting" id="t2" data-left="62" data-top="342" data-width="146" data-height="14"></div>
-<div class="highlight twisting" id="t3" data-left="62" data-top="356" data-width="146" data-height="15"></div>
-
-<div class="highlight coed" id="c1" data-left="62" data-top="410" data-width="146" data-height="14"></div>
-<div class="highlight coed" id="c2" data-left="62" data-top="439" data-width="146" data-height="15"></div>
-<div class="highlight coed" id="c3" data-left="62" data-top="455" data-width="146" data-height="15"></div>
-
-<div class="highlight toss" id="o1" data-left="62" data-top="555" data-width="146" data-height="15"></div>
-<div class="highlight toss" id="o2" data-left="62" data-top="582" data-width="146" data-height="21"></div>
-<div class="highlight toss" id="o3" data-left="62" data-top="600" data-width="146" data-height="15"></div>
-
-<div class="highlight inversion" id="h1" data-left="140" data-top="550" data-width="180" data-height="20"></div>
-<div class="highlight release" id="h2" data-left="330" data-top="550" data-width="180" data-height="20"></div>
-<div class="highlight twisting" id="h3" data-left="630" data-top="550" data-width="180" data-height="20"></div>
-
-
-
-
-		
-	</div>
 
 	<p><strong>
 	Enter the number of stunt groups for each skill.
@@ -266,39 +235,22 @@
 
 
 	<div class="wrapper">
-		<img id="PyramidRubricImage" src="Pyramid_Rubric.png" alt="VHSL Pyramid Rubric">
-		<!-- Highlight boxes -->
-	<!--	<div class="highlight inversion" id="n1" style="left:162px; top:110px; width:125px; height:23px;"></div>
-		<div class="highlight inversion" id="n2" style="left:162px; top:134px; width:125px; height:26px;"></div>
-		<div class="highlight inversion" id="n3" style="left:162px; top:191px; width:125px; height:23px;"></div>
-		<div class="highlight inversion" id="n4" style="left:289px; top:110px; width:129px; height:23px;"></div>
+    <img id="PyramidRubricImage" src="Pyramid_Rubric.png" alt="VHSL Pyramid Rubric">
 
-		<div class="highlight release" id="pr1" style="left:162px; top:248px; width:125px; height:27px;"></div>
-		<div class="highlight release" id="pr2" style="left:162px; top:277px; width:125px; height:28px;"></div>
-		<div class="highlight release" id="pr3" style="left:289px; top:248px; width:129px; height:27px;"></div>
+    <!-- PYRAMID HIGHLIGHT BOXES — SMART SCALING VERSION -->
+    <div class="highlight inversion" id="n1" data-left="162" data-top="110" data-width="125" data-height="23"></div>
+    <div class="highlight inversion" id="n2" data-left="162" data-top="134" data-width="125" data-height="26"></div>
+    <div class="highlight inversion" id="n3" data-left="162" data-top="191" data-width="125" data-height="23"></div>
+    <div class="highlight inversion" id="n4" data-left="289" data-top="110" data-width="129" data-height="23"></div>
 
-		<div class="highlight twisting" id="b1" style="left:162px; top:373px; width:125px; height:22px;"></div>
-		<div class="highlight twisting" id="b2" style="left:162px; top:396px; width:125px; height:28px;"></div>
-		<div class="highlight twisting" id="b3" style="left:289px; top:373px; width:129px; height:22px;"></div>
-		-->
+    <div class="highlight release" id="pr1" data-left="162" data-top="248" data-width="125" data-height="27"></div>
+    <div class="highlight release" id="pr2" data-left="162" data-top="277" data-width="125" data-height="28"></div>
+    <div class="highlight release" id="pr3" data-left="289" data-top="248" data-width="129" data-height="27"></div>
 
-<!-- PYRAMID HIGHLIGHT BOXES — SMART SCALING VERSION -->
-<div class="highlight inversion" id="n1" data-left="162" data-top="110" data-width="125" data-height="23"></div>
-<div class="highlight inversion" id="n2" data-left="162" data-top="134" data-width="125" data-height="26"></div>
-<div class="highlight inversion" id="n3" data-left="162" data-top="191" data-width="125" data-height="23"></div>
-<div class="highlight inversion" id="n4" data-left="289" data-top="110" data-width="129" data-height="23"></div>
-
-<div class="highlight release" id="pr1" data-left="162" data-top="248" data-width="125" data-height="27"></div>
-<div class="highlight release" id="pr2" data-left="162" data-top="277" data-width="125" data-height="28"></div>
-<div class="highlight release" id="pr3" data-left="289" data-top="248" data-width="129" data-height="27"></div>
-
-<div class="highlight twisting" id="b1" data-left="162" data-top="373" data-width="125" data-height="22"></div>
-<div class="highlight twisting" id="b2" data-left="162" data-top="396" data-width="125" data-height="28"></div>
-<div class="highlight twisting" id="b3" data-left="289" data-top="373" data-width="129" data-height="22"></div>
-
-
-		
-	</div>
+    <div class="highlight twisting" id="b1" data-left="162" data-top="373" data-width="125" data-height="22"></div>
+    <div class="highlight twisting" id="b2" data-left="162" data-top="396" data-width="125" data-height="28"></div>
+    <div class="highlight twisting" id="b3" data-left="289" data-top="373" data-width="129" data-height="22"></div>
+  </div>
 
 	<p><strong>
 	Enter the number of trick flyers for each skill. 
@@ -468,6 +420,7 @@
 <!-- ========================END HTML VISUAL======================== -->
 
 
+
 <script>
 // -----------------------------------------------------------
 // SMART AUTO-SCALING FOR HIGHLIGHT BOXES — FINAL WORKING VERSION
@@ -477,7 +430,7 @@ function enableHighlightScaling(imageId) {
     const img = document.getElementById(imageId);
     if (!img) return;
 
-    const wrapper = img.parentElement; 
+    const wrapper = img.parentElement;
     if (!wrapper) return;
 
     // ensure wrapper acts as reference for absolute boxes
@@ -505,10 +458,10 @@ function enableHighlightScaling(imageId) {
         const offsetY = imgRect.top - wrapperRect.top;
 
         wrapper.querySelectorAll(".highlight").forEach(box => {
-            const left = parseFloat(box.dataset.left);
-            const top = parseFloat(box.dataset.top);
-            const width = parseFloat(box.dataset.width);
-            const height = parseFloat(box.dataset.height);
+            const left = parseFloat(box.dataset.left) || 0;
+            const top = parseFloat(box.dataset.top) || 0;
+            const width = parseFloat(box.dataset.width) || 0;
+            const height = parseFloat(box.dataset.height) || 0;
 
             // scale
             const newLeft = offsetX + (left * scaleX);
@@ -521,8 +474,7 @@ function enableHighlightScaling(imageId) {
             box.style.top = newTop + "px";
             box.style.width = newWidth + "px";
             box.style.height = newHeight + "px";
-
-            // IMPORTANT — never change display here
+            // do not change box.style.display here — click handler manages visibility
         });
     }
 
@@ -537,23 +489,19 @@ function enableHighlightScaling(imageId) {
     setTimeout(rescale, 900);
 }
 
+// Activate scaling for both images
 enableHighlightScaling("StuntRubricImage");
 enableHighlightScaling("PyramidRubricImage");
 
+// small initial resize after DOM ready
 document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => window.dispatchEvent(new Event("resize")), 80);
 });
 
-
-
 /************************************************ 
-|                                               |
 |            STUNT & PYRAMID RUBRIC             |
-|                                               |
 ************************************************/
 
-
-//Labels for all stunt & pyramid skills
 const StuntRegions = [
   { id: 'i1', skill: 'Connected Inversions - Prep Level and Below to Below Prep', category: 'Inversion', difficulty: 'Beginner'},
   { id: 'i2', skill: 'Below Prep Level Inversions to Ground', category: 'Inversion', difficulty: 'Beginner' },
@@ -591,14 +539,11 @@ const PyramidRegions = [
   { id: 'b3', skill: '1/4 Twisting Flipping Transition Landing at Prep or Below (1 or 2)', category: 'Twisting', difficulty: 'Super Elite' },
 ];
 
-// use the wrapper that actually contains the stunt image
 const stuntWrapper = document.querySelector('#StuntRubricImage').parentElement;
 const skillCountsContainer = document.getElementById('skillCounts');
 
-
 const pyramidWrapper = document.querySelector('#PyramidRubricImage').parentElement;
 const pyramidCountsContainer = document.getElementById('PyramidCounts');
-
 
 // CLICK HANDLER FOR STUNT RUBRIC
 stuntWrapper.addEventListener('click', e => {
@@ -1190,6 +1135,7 @@ const APPS_SCRIPT_BASE = "https://script.google.com/macros/s/AKfycbzA1BxBeDj23K-
 
 </body>
 </html>
+
 
 
 
