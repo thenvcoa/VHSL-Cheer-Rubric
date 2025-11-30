@@ -79,6 +79,47 @@
 }
  
 </style>
+
+<!-- =================== RESPONSIVE INLINE SVG STUNT RUBRIC =================== -->
+<style>
+  /* SVG highlight styling (keeps similar look to your old .highlight classes) */
+.svg-highlight {
+  fill: none;
+  stroke: none;
+  outline: none;
+    pointer-events: all; /* allow clicks */
+  }
+.svg-highlight.inversion  { stroke: none; fill: none; }
+.svg-highlight.release    { stroke: none; fill: none; }
+.svg-highlight.twisting   { stroke: none; fill: none; }
+.svg-highlight.coed       { stroke: none; fill: none; }
+.svg-highlight.toss       { stroke: none; fill: none; }
+
+
+  /* transient flash effect */
+/* Highlight appearance during flash */
+.svg-flash.inversion  { stroke: rgba(180,0,180,0.85); fill: rgba(180,0,180,0.18); stroke-width: 3; }
+.svg-flash.release    { stroke: rgba(0,180,0,0.85);   fill: rgba(0,180,0,0.18); stroke-width: 3;   }
+.svg-flash.twisting   { stroke: rgba(255,0,0,0.85);   fill: rgba(255,0,0,0.18); stroke-width: 3;   }
+.svg-flash.coed       { stroke: rgba(0,0,255,0.85);   fill: rgba(0,0,255,0.12); stroke-width: 3;   }
+.svg-flash.toss       { stroke: rgba(255,120,0,0.85); fill: rgba(255,120,0,0.12); stroke-width: 3; }
+
+  }
+.svg-highlight.fadeout {
+  fill: none !important;
+  stroke: none !important;
+}
+
+  /* ensure the svg scales nicely inside your existing .wrapper */
+  .svg-wrapper { width: 90%; max-width: 950px; margin: 0 auto; display: block; }
+  .svg-wrapper svg { width: 100%; height: auto; display: block; }
+
+  /* keep pointer cursor for clickable regions */
+  .svg-highlight { cursor: pointer; }
+</style>
+
+
+
 </head>
 <body>
 
@@ -141,34 +182,56 @@
 </div>
 
 
-	<div class="wrapper">
-		<img id="StuntRubricImage" src="Stunt_Rubric.png" alt="VHSL Stunt Rubric">
-		<!-- Highlight boxes -->
-		<div class="highlight inversion" id="i1" style="left:62px; top:131px; width:146px; height:17px;"></div>
-		<div class="highlight inversion" id="i2" style="left:62px; top:150px; width:146px; height:18px;"></div>
-		<div class="highlight inversion" id="i3" style="left:62px; top:169px; width:146px; height:17px;"></div>
-		<div class="highlight inversion" id="i4" style="left:209px; top:131px; width:146px; height:17px;"></div>
+	
+	<div class="wrapper svg-wrapper" aria-label="Stunt Rubric (interactive)">
+  <!-- Outer SVG (viewBox matches the original SVG canvas: 0 0 928 705) -->
+  <svg id="StuntRubricSVG" viewBox="0 0 928 705" preserveAspectRatio="xMidYMid meet" role="img" aria-label="VHSL Stunt Rubric">
+    <!-- Use your uploaded SVG file as the background image inside the inline SVG -->
+    <!-- Keep the filename exactly as you host it. If you inlined the whole SVG body instead, remove this <image> line. -->
+    <image href="Stunt Rubric Full.svg" x="0" y="0" width="928" height="705" preserveAspectRatio="xMidYMid meet" />
 
-		<div class="highlight release" id="r1" style="left:62px; top:217px; width:146px; height:15px;"></div>
-		<div class="highlight release" id="r2" style="left:62px; top:233px; width:146px; height:13px;"></div>
-		<div class="highlight release" id="r3" style="left:62px; top:280px; width:146px; height:14px;"></div>
+    <!-- Responsive region overlays.
+         Coordinates are percentages (x, y, width, height) so they scale with the SVG.
+         IDs match original HTML so your JS mapping still applies.
+         These rects were computed from your PNG coords and corrected for the SVG's internal translate.
+    -->
 
-		<div class="highlight twisting" id="t1" style="left:62px; top:335px; width:146px; height:7px;"></div>
-		<div class="highlight twisting" id="t2" style="left:62px; top:342px; width:146px; height:14px;"></div>
-		<div class="highlight twisting" id="t3" style="left:62px; top:356px; width:146px; height:15px;"></div>
+    <!-- Inversions -->
+    <rect id="i1" class="svg-highlight inversion" x="8.5%" y="18.25%" width="17.25%" height="3%"></rect>
+    <rect id="i2" class="svg-highlight inversion" x="8.5%" y="21.25%" width="17.25%" height="3.5%"></rect>
+    <rect id="i3" class="svg-highlight inversion" x="8.5%" y="24.75%" width="17.25%" height="3%"></rect>
+    <rect id="i4" class="svg-highlight inversion" x="25.75%" y="18.25%" width="17%" height="3%"></rect>
 
-		<div class="highlight coed" id="c1" style="left:62px; top:410px; width:146px; height:14px;"></div>
-		<div class="highlight coed" id="c2" style="left:62px; top:439px; width:146px; height:15px;"></div>
-		<div class="highlight coed" id="c3" style="left:62px; top:455px; width:146px; height:15px;"></div>
+    <!-- Releases -->
+    <rect id="r1" class="svg-highlight release" x="8.5%" y="32.25%" width="17.25%" height="2.5%"></rect>
+    <rect id="r2" class="svg-highlight release" x="8.5%" y="34.75%" width="17.25%" height="2.25%"></rect>
+    <rect id="r3" class="svg-highlight release" x="8.5%" y="42.25%" width="17.25%" height="2.5%"></rect>
 
-		<div class="highlight toss" id="o1" style="left:62px; top:555px; width:146px; height:15px;"></div>
-		<div class="highlight toss" id="o2" style="left:62px; top:582px; width:146px; height:21px;"></div>
-		<div class="highlight toss" id="o3" style="left:62px; top:600px; width:146px; height:15px;"></div>
+    <!-- Twisting -->
+    <rect id="t1" class="svg-highlight twisting" x="8.5%" y="51.5%" width="17.25%" height="1.25%"></rect>
+    <rect id="t2" class="svg-highlight twisting" x="8.5%" y="52.75%" width="17.25%" height="2.25%"></rect>
+    <rect id="t3" class="svg-highlight twisting" x="8.5%" y="55%" width="17.25%" height="3%"></rect>
 
-		<div class="highlight inversion" id="h1" style="left:140px; top:550px; width:180px; height:20px;"></div>
-		<div class="highlight release" id="h2" style="left:330px; top:550px; width:180px; height:20px;"></div>
-		<div class="highlight twisting" id="h3" style="left:630px; top:550px; width:180px; height:20px;"></div>
-	</div>
+    <!-- Coed -->
+    <rect id="c1" class="svg-highlight coed" x="8.5%" y="64%" width="17.25%" height="2%"></rect>
+    <rect id="c2" class="svg-highlight coed" x="8.5%" y="68.25%" width="17.25%" height="2.75%"></rect>
+    <rect id="c3" class="svg-highlight coed" x="8.5%" y="71%" width="17.25%" height="3%"></rect>
+
+    <!-- Toss -->
+    <rect id="o1" class="svg-highlight toss" x="8.5%" y="87.5%" width="17.25%" height="2.75%"></rect>
+    <rect id="o2" class="svg-highlight toss" x="8.5%" y="92%" width="17.25%" height="4%"></rect>
+    <rect id="o3" class="svg-highlight toss" x="25.75%" y="87.5%" width="17%" height="2.75%"></rect>
+
+    <!-- Bottom header/test boxes -->
+    <rect id="h1" class="svg-highlight inversion" x="20%" y="80%" width="20%" height="3%"></rect>
+    <rect id="h2" class="svg-highlight release"   x="45%" y="80%" width="20%" height="3%"></rect>
+    <rect id="h3" class="svg-highlight twisting"  x="70%" y="80%" width="20%" height="3%"></rect>
+  </svg>
+</div>
+	
+	
+	
+	
 
 	<p><strong>
 	Enter the number of stunt groups for each skill.
@@ -392,7 +455,6 @@
 
 <script>
 
-
 /************************************************ 
 |                                               |
 |            STUNT & PYRAMID RUBRIC             |
@@ -444,47 +506,124 @@ const skillCountsContainer = document.getElementById('skillCounts');
 const pyramidWrapper = document.querySelector('#PyramidRubricImage').parentElement;
 const pyramidCountsContainer = document.getElementById('PyramidCounts');
 
-// CLICK HANDLER FOR STUNT RUBRIC
-wrapper.addEventListener('click', e => {
-  const rect = wrapper.getBoundingClientRect();
-  const x = e.clientX - rect.left;
-  const y = e.clientY - rect.top;
 
-  for (let r of StuntRegions) {
-    const box = document.getElementById(r.id);
-    const left = parseFloat(box.style.left);
-    const top = parseFloat(box.style.top);
-    const width = parseFloat(box.style.width);
-    const height = parseFloat(box.style.height);
 
-    if (x >= left && x <= left + width && y >= top && y <= top + height) {
-      const skillId = 'count_' + r.id;
 
-      // Flash highlight when clicked
-      box.style.display = "block";
-      setTimeout(() => box.style.display = "none", 350);
 
-      // Create new row
+  // --- Click wiring: convert SVG rect click to the same table-add behavior as before ---
+  (function() {
+    // The existing StuntRegions array already exists in your page's JS (from earlier script).
+    // If for some reason it's not present, we define it minimally here so clicks still work.
+    const fallbackRegions = [
+      { id: 'i1', skill: 'Connected Inversions - Prep Level and Below to Below Prep', category: 'Inversion', difficulty: 'Beginner'},
+      { id: 'i2', skill: 'Below Prep Level Inversions to Ground', category: 'Inversion', difficulty: 'Beginner' },
+      { id: 'i3', skill: 'Released Inversion Prep Level or Below to Below Prep', category: 'Inversion', difficulty: 'Beginner' },
+      { id: 'i4', skill: 'Connected Inversions - Prep Level and Below to Prep', category: 'Inversion', difficulty: 'Intermediate' },
+      { id: 'r1', skill: 'Release to Below Prep', category: 'Release', difficulty: 'Beginner' },
+      { id: 'r2', skill: 'Horizontal Releases to Below Prep', category: 'Release', difficulty: 'Beginner' },
+      { id: 'r3', skill: 'Extended Release to Below Prep', category: 'Release', difficulty: 'Beginner' },
+      { id: 't1', skill: '1/4 or 1/2 Up to Prep Level', category: 'Twisting', difficulty: 'Beginner' },
+      { id: 't2', skill: '1/4 Up to Extended', category: 'Twisting', difficulty: 'Beginner' },
+      { id: 't3', skill: '1/4 or 1/2 Twisting Transitions', category: 'Twisting', difficulty: 'Beginner' },
+      { id: 'c1', skill: 'Single Base at Prep Level', category: 'Coed', difficulty: 'Beginner' },
+      { id: 'c2', skill: 'Assisted Coed Skills to Prep', category: 'Coed', difficulty: 'Beginner' },
+      { id: 'c3', skill: 'Assisted Walk-In/Toss to Chair', category: 'Coed', difficulty: 'Beginner' },
+      { id: 'o1', skill: 'Prep Level and Below Stunts Not Previously Categorized', category: 'Toss', difficulty: 'Beginner' },
+      { id: 'o2', skill: 'Straight Ride or Pretty Girl Tosses', category: 'Toss', difficulty: 'Beginner' },
+      { id: 'o3', skill: 'Single Skill Tosses', category: 'Toss', difficulty: 'Beginner' },
+      { id: 'h1', skill: 'TEST', category: 'Inversion', difficulty: 'Advanced' },
+      { id: 'h2', skill: 'TEST', category: 'Release', difficulty: 'Elite' },
+      { id: 'h3', skill: 'TEST', category: 'Twisting', difficulty: 'Super Elite' }
+    ];
+
+    const Regions = (typeof StuntRegions !== 'undefined' && Array.isArray(StuntRegions)) ? StuntRegions : fallbackRegions;
+
+    // Helper: find region object by id
+    function getRegionById(id) {
+      return Regions.find(r => r.id === id) || { id: id, skill: id, difficulty: '' };
+    }
+
+    const svg = document.getElementById('StuntRubricSVG');
+    if (!svg) return;
+
+    // Table container where rows are appended (same as before)
+    const skillCountsContainer = document.getElementById('skillCounts');
+
+    // Utility: create a new table row (same structure as original implementation)
+    function addRowForRegion(region) {
+      const skillId = 'count_' + region.id;
+      // create new row
       const row = document.createElement('tr');
       row.id = skillId + '_' + Date.now();
-      row.draggable = true; // <-- Make row draggable
+      row.draggable = true;
       row.innerHTML = `
-        <td class="drag-handle">${r.skill}</td>
-		 <td>${r.difficulty}</td>
+        <td class="drag-handle">${region.skill}</td>
+        <td>${region.difficulty}</td>
         <td><input type="number" id="${skillId}" min="0" value="0"></td>
         <td class="delete-btn">🗑️</td>
       `;
       skillCountsContainer.appendChild(row);
 
-      // Delete row
+      // Delete row handler
       row.querySelector('.delete-btn').addEventListener('click', () => {
-        skillCountsContainer.removeChild(row);
+        if (row.parentElement) row.parentElement.removeChild(row);
       });
 
-      break;
+      // Enable drag & drop behavior for the new row (makes it consistent)
+      // A simple approach: attach dragstart to the row so the existing container listeners work.
+      row.addEventListener('dragstart', e => {
+        e.dataTransfer.effectAllowed = 'move';
+        // store reference via global variable used earlier in your script
+        window.__draggedRow = row;
+      });
+      // Note: your existing drag handlers on the container will handle insertion.
     }
-  }
-});
+
+    // Flash effect helper
+    function flashRect(rectEl) {
+      rectEl.classList.add('svg-flash');
+      setTimeout(() => rectEl.classList.add('fadeout'), 220);
+      setTimeout(() => {
+        rectEl.classList.remove('svg-flash', 'fadeout');
+      }, 520);
+    }
+
+    // Attach event listeners for every region rect
+    Regions.forEach(r => {
+      try {
+        const el = document.getElementById(r.id);
+        if (!el) return;
+        el.addEventListener('click', (ev) => {
+          // Visual feedback
+          flashRect(el);
+
+          // Add a row to the table (same as old behavior)
+          addRowForRegion(r);
+
+          // Stop propagation to avoid any outer handlers
+          ev.stopPropagation();
+        });
+
+        // Also allow keyboard activation for accessibility
+        el.setAttribute('tabindex', '0');
+        el.addEventListener('keydown', (ev) => {
+          if (ev.key === 'Enter' || ev.key === ' ') {
+            ev.preventDefault();
+            el.click();
+          }
+        });
+      } catch (err) {
+        // continue if one region fails
+        console.warn('SVG region attach error for', r.id, err);
+      }
+    });
+
+    // Maintain previous "click anywhere" behavior on the wrapper if some logic depends on it
+    // but the main interactive surface is now the rects themselves.
+  })();
+
+
+
 
 // DRAG–DROP FOR STUNT TABLE
 let draggedRow = null;
@@ -825,7 +964,7 @@ const APPS_SCRIPT_BASE = "https://script.google.com/macros/s/AKfycbzA1BxBeDj23K-
 			}
 		}
 		window.addEventListener("load", populateCompetitionLocations);
-		("load", populateCompetitionLocations);
+	
 
 
 
