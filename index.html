@@ -7,22 +7,27 @@
 
 <!-- ========================STYLE COMMANDS======================== -->
 <style>
+
+/* === GENERAL STYLING === */
   body { font-family: Arial, sans-serif; margin: 30px; background: #fafafa; }
   h1 { color: #2F317D; font-size: 40px; font-weight: 700; }
   label { display: block; margin-top: 15px; font-weight: bold; }
   input, select, textarea { width: 90%; max-width: 600px; padding: 8px; margin-top: 5px; }
+  .highlight-bar {    background-color: #F8DF00;  padding: 6px 6px; border-radius: 6px; display: inline-block;}   
   button { margin-top: 25px; padding: 10px 16px; background: #2F317D; color: white; border: none; border-radius: 5px; cursor: pointer; }
   button:hover { background: #c02025; }
+  .reset-button {  background-color: #c02025 !important;  color: white !important;}
+  .reset-button:hover {  background-color: #D1BC00 !important;}
+  hr { border: none; 	height: 2px; 	background-color: #2F317D; 	margin: 30px 0; }
+  .center-text { text-align: center;}
+  a { color: #2F317D;  text-decoration: underline; }
+  a:hover { color: #c02025; }
+  input::placeholder, textarea::placeholder {  font-style: italic; color: #CFCFCE; white-space: pre-line;}
+  textarea { font-family: Arial, sans-serif;}
+
+/* === STUNT & PYRAMID === */
   .wrapper {    width: fit-content;  margin-left: auto; margin-right: auto;  position: relative; 	margin-bottom: 40px; cursor: pointer;}
   .wrapper img {  display: block; }
-  #StuntRubricImage { width: 90%; max-width: 950px; display: block; }
-  #PyramidRubricImage { width: 90%; max-width: 950px; display: block; }
-  .highlight { position: absolute; border: 2px solid transparent; background-color: transparent; pointer-events: none; display: none;}
-  .twisting { border-color: rgba(255,0,0,0.8); background-color: rgba(255,0,0,0.25); }
-  .coed     { border-color: rgba(0,0,255,0.8); background-color: rgba(0,0,255,0.25); }
-  .release  { border-color: rgba(0,180,0,0.8); background-color: rgba(0,180,0,0.25); }
-  .inversion{ border-color: rgba(180,0,180,0.8); background-color: rgba(180,0,180,0.25); }
-  .toss     { border-color: rgba(255,120,0,0.8); background-color: rgba(255,120,0,0.25); }
   #output, #outputp { margin-top: 20px; white-space: pre-wrap; background: #f7f7f7; padding: 10px; border-radius: 5px; max-width: 825px; }
   table { width: 70%; max-width: 950px; border-collapse: collapse; margin-top: 10px; }
   th, td { padding: 6px 10px; text-align: left; border-bottom: 1px solid #ccc; }
@@ -37,18 +42,14 @@
   .icon {  font-size: 24px;       vertical-align: middle;   }
   .majority { background-color: rgba(0, 200, 0, 0.2);  }
   .non-majority {  background-color: rgba(255, 0, 0, 0.2);  }
-  hr { border: none; 	height: 2px; 	background-color: #2F317D; 	margin: 30px 0; }
-  .center-text { text-align: center;}
-  a { color: #2F317D;  text-decoration: underline; }
-  a:hover { color: #c02025; }
-  input::placeholder, textarea::placeholder {  font-style: italic; color: #CFCFCE; white-space: pre-line;}
-  textarea { font-family: Arial, sans-serif;}
-  .highlight-bar {    background-color: #F8DF00;  padding: 6px 6px; border-radius: 6px; display: inline-block;}
+  
+ /* === JUMP & TUMBLING === */
   .jumphighlight.selected,  .tumblinghighlight.selected  {    outline: 3px solid #c02025;    background-color: rgba(192, 32, 37, 0.15);}
   .jumphighlight,   .tumblinghighlight{    position: absolute;    cursor: pointer;}
+  
+/* === LOADING SPINNER & ALERT MESSAGES === */  
   #loadingOverlay {  position: fixed;  top: 0; left: 0;  width: 100%; height: 100%;  background: rgba(0, 0, 0, 0.65);  display: none;
-  align-items: center;  flex-direction: column;  justify-content: center;  z-index: 99999;
-  /* Fade-out animation */  opacity: 1;  transition: opacity 0.6s ease;}
+	align-items: center;  flex-direction: column;  justify-content: center;  z-index: 99999; opacity: 1;  transition: opacity 0.6s ease;}
   #loadingOverlay.fade-out {  opacity: 0;}
   .spinner {  width: 70px;  height: 70px;  border: 7px solid #ffffff55;  border-top: 7px solid #F8DF00;  border-radius: 50%;  animation: spin 1s linear infinite;}
   @keyframes spin {  0% { transform: rotate(0deg); }  100% { transform: rotate(360deg); }} 
@@ -107,7 +108,30 @@
 /* keep pointer cursor for clickable regions */
 .svg-highlight { cursor: pointer; }
 </style>
+<style>
 
+/*EXTRA VISUAL ADD-ONS*/
+input.completed, select.completed, textarea.completed {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="%2300A000" viewBox="0 0 16 16"><path d="M6.003 11.803L2.2 8l1.4-1.4 2.4 2.4 5.4-5.4L12.8 5l-6.8 6.8z"/></svg>');
+  background-repeat: no-repeat;  background-position: right 10px center;  background-size: 18px;  padding-right: 35px;}
+.info-icon {  cursor: pointer;  font-size: 18px;  margin-left: 6px;  color: #2F317D;}
+.info-icon:hover {  color: #c02025;}
+.info-popup {  display: none;  position: fixed;  top: 50%; left: 50%;  transform: translate(-50%, -50%);  background: white; padding: 20px 25px;  
+               border-radius: 10px;  box-shadow: 0 6px 20px rgba(0,0,0,0.25);  z-index: 10000;  max-width: 400px;  text-align: left;   text-align: center;}
+.info-popup a {  color: #2F317D;  text-decoration: underline;}
+.info-icon:active::after {  content: attr(data-tooltip);} /* Mobile/touch support */
+/* preview modal (full-screen overlay) */
+#previewModal{
+  display:none; position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:12000; justify-content:center; align-items:center;
+}
+#previewModal > .modal-inner{
+  background:white; padding:22px; border-radius:10px; width:90%; max-width:760px; max-height:86vh; overflow:auto;
+}
+
+
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
 
 </head>
@@ -166,8 +190,11 @@
 
 <hr>
 
-<div class="center-text">
-  <h2>Stunt Skills Rubric</h2>
+<div class="center-text">  
+  <h2>Stunt Skills Rubric 
+  <span class="info-icon" onclick="showInfo('majorityInfo')">ⓘ</span>
+  </h2>
+
   <p><strong>Click on the rubric image to select skills.</strong></p>
 </div>
 
@@ -253,7 +280,9 @@
 <hr>
 
  <div class="center-text">
-  <h2>Pyramid Skills Rubric</h2>
+  <h2>Pyramid Skills Rubric
+  <span class="info-icon" onclick="showInfo('majorityInfo')">ⓘ</span>
+  </h2>
   <p><strong>Click on the rubric image to select skills.</strong></p>
 </div>
 
@@ -312,7 +341,9 @@
 <hr>
 
 <div class="center-text">
-  <h2>Tumbling Skills Rubric</h2>
+  <h2>Tumbling Skills Rubric
+  <span class="info-icon" onclick="showInfo('majorityInfo')">ⓘ</span>
+  </h2>
   <p><strong>Click on the rubric image to select skills.</strong></p>
 </div>
 
@@ -367,7 +398,9 @@
 <hr>
 
 <div class="center-text">
-  <h2>Jump Skills Rubric</h2>
+  <h2>Jump Skills Rubric
+  <span class="info-icon" onclick="showInfo('majorityInfo')">ⓘ</span>
+  </h2>
   <p><strong>Click on the rubric image to select skills.</strong></p>
 </div>
 
@@ -425,6 +458,16 @@
 
   <div style="text-align: center; margin-top: 30px;">
     <button type="button" id="saveBtn" style="padding: 16px 28px; font-size: 20px;">Save & Submit</button>
+	<br>
+	<br>
+	<button id="resetBtn" class="reset-button" onclick="localStorage.removeItem('rubricFormAutosave'); location.reload();">Reset Saved Form</button>
+<br><br>
+<button id="previewBtn" style="padding: 14px 24px; font-size: 18px;">
+  Preview Submission
+</button>
+
+
+
   </div>
 
 
@@ -451,6 +494,13 @@
 
 
 <script>
+function showInfo(id) {
+  document.getElementById(id).style.display = "block";
+}
+
+function closeInfo(id) {
+  document.getElementById(id).style.display = "none";
+}
 
 /************************************************ 
 |                                               |
@@ -1100,6 +1150,29 @@ const APPS_SCRIPT_BASE = "https://script.google.com/macros/s/AKfycbzA1BxBeDj23K-
 //----CHECK FOR ALL FIELDS TO BE POPULATED & OUTPUT ERROR MESSAGE FOR ANY MISSING----//
 
 
+//Display a small checkmark ✔️ next to any completed field
+function addCompletionCheckmarks() {
+  const fields = document.querySelectorAll('input, select, textarea');
+
+  fields.forEach(field => {
+    field.addEventListener('input', () => toggleCheck(field));
+    field.addEventListener('change', () => toggleCheck(field));
+  });
+
+  function toggleCheck(field) {
+    const value = field.value.trim();
+    if (value) {
+      field.classList.add('completed');
+    } else {
+      field.classList.remove('completed');
+    }
+  }
+}
+
+window.addEventListener("load", addCompletionCheckmarks);
+
+
+
 		//================== 👉Save & Submit Handler ==================
 		document.getElementById("saveBtn").addEventListener("click", () => {
 
@@ -1181,6 +1254,127 @@ const APPS_SCRIPT_BASE = "https://script.google.com/macros/s/AKfycbzA1BxBeDj23K-
 		});
  
 
+/************************************************
+|          LOCAL AUTOSAVE SYSTEM                |
+************************************************/
+
+// Save full form state to localStorage
+function autosaveForm() {
+    const data = {};
+
+    // Simple text / number / select fields
+    const simpleFields = [
+        "schoolName","teamLevel","CoachName","CoachEmail",
+        "numAthletes","competitionLocation","teamSync",
+        "additionalTumbling","jumpSequence","legalityRulings"
+    ];
+    simpleFields.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) data[id] = el.value || "";
+    });
+
+    // Tumbling + Jump selected ranges
+    data["TumblingOutput"] = document.getElementById("TumblingOutput").dataset.selected || "";
+    data["JumpOutput"] = document.getElementById("JumpOutput").dataset.selected || "";
+
+    // Stunt & Pyramid tables
+    data["skillCounts"] = collectTableCounts("#skillCounts");
+    data["pyramidCounts"] = collectTableCounts("#PyramidCounts");
+
+    // Save to localStorage
+    localStorage.setItem("rubricFormAutosave", JSON.stringify(data));
+}
+function loadAutosave() {
+    const saved = localStorage.getItem("rubricFormAutosave");
+    if (!saved) return;
+    const data = JSON.parse(saved);
+
+    // Restore simple fields
+    Object.keys(data).forEach(key => {
+        const el = document.getElementById(key);
+        if (el && typeof data[key] === "string") {
+            el.value = data[key];
+        }
+    });
+
+    // Restore Tumbling selection
+    if (data.TumblingOutput) {
+        document.querySelectorAll(".tumblinghighlight").forEach(box => {
+            if (box.dataset.value === data.TumblingOutput) {
+                box.classList.add("selected");
+            }
+        });
+        document.getElementById("TumblingOutput").innerText =
+            "Tumbling Difficulty Range: " + data.TumblingOutput;
+        document.getElementById("TumblingOutput").dataset.selected = data.TumblingOutput;
+    }
+
+    // Restore Jump selection
+    if (data.JumpOutput) {
+        document.querySelectorAll(".jumphighlight").forEach(box => {
+            if (box.dataset.value === data.JumpOutput) {
+                box.classList.add("selected");
+            }
+        });
+        document.getElementById("JumpOutput").innerText =
+            "Jump Difficulty Range: " + data.JumpOutput;
+        document.getElementById("JumpOutput").dataset.selected = data.JumpOutput;
+    }
+
+    // Restore Stunt Table
+    if (Array.isArray(data.skillCounts)) {
+        data.skillCounts.forEach(item => {
+            addRestoredStuntRow(item);
+        });
+    }
+
+    // Restore Pyramid Table
+    if (Array.isArray(data.pyramidCounts)) {
+        data.pyramidCounts.forEach(item => {
+            addRestoredPyramidRow(item);
+        });
+    }
+}
+function addRestoredStuntRow(item) {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+        <td class="drag-handle">${item.skill}</td>
+        <td>${item.difficulty}</td>
+        <td><input type="number" value="${item.count}" min="0"></td>
+        <td class="delete-btn">🗑️</td>
+    `;
+    document.getElementById("skillCounts").appendChild(row);
+}
+
+function addRestoredPyramidRow(item) {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+        <td class="drag-handle">${item.skill}</td>
+        <td>${item.difficulty}</td>
+        <td><input type="number" value="${item.count}" min="0"></td>
+        <td class="delete-btn">🗑️</td>
+    `;
+    document.getElementById("PyramidCounts").appendChild(row);
+}
+// Save whenever any input changes
+document.querySelectorAll("input, textarea, select").forEach(el => {
+    el.addEventListener("input", autosaveForm);
+    el.addEventListener("change", autosaveForm);
+});
+
+// Save when stunt / pyramid skills are clicked
+document.querySelectorAll(".svg-highlight").forEach(el => {
+    el.addEventListener("click", autosaveForm);
+});
+
+// Save tumbling + jump
+document.querySelectorAll(".tumblinghighlight, .jumphighlight").forEach(el => {
+    el.addEventListener("click", autosaveForm);
+});
+
+// Load saved data on startup
+window.addEventListener("load", loadAutosave);
+
 
 </script>
 
@@ -1200,6 +1394,172 @@ const APPS_SCRIPT_BASE = "https://script.google.com/macros/s/AKfycbzA1BxBeDj23K-
     <button id="customAlertOk">OK</button>
   </div>
 </div>
+
+<!-- ========================INFO ICON MESSAGE======================== -->
+
+<div id="majorityInfo" class="info-popup">
+  <h3>What Counts as a "Majority"?</h3>
+  <p>For a complete breakdown, view the PDF: </p> 
+  <p><a href="Majority_Breakdown.pdf" target="_blank">Download the Majority Breakdown PDF</a></p>
+  <button onclick="closeInfo('majorityInfo')">Close</button>
+</div>
+
+<!-- ======================== PREVIEW MODAL ======================== -->
+<div id="previewModal" style="display:none; position:fixed; inset:0;
+  background:rgba(0,0,0,.6); z-index:12000; justify-content:center; 
+  align-items:center; padding:20px;">
+  <div class="modal-inner" style="background:white; padding:22px; 
+    border-radius:10px; width:90%; max-width:760px; max-height:86vh; 
+    overflow:auto;">
+
+    <h2 style="text-align:center; margin-top:0;">Submission Preview</h2>
+
+    <pre id="previewContent" 
+         style="white-space:pre-wrap; font-size:1rem; background:#f8f8f8; 
+                padding:15px; border-radius:8px;"></pre>
+
+    <div style="text-align:center; margin-top:20px;">
+      <button id="downloadDocBtn" 
+        style="padding:10px 20px; background:#2F317D; color:white; 
+               border:none; font-size:16px;">
+        Download Coaches Rubric
+      </button>
+
+      <button onclick="document.getElementById('previewModal').style.display='none';"
+        style="padding:10px 20px; margin-left:10px;">
+        Close
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+
+function openPreview() {
+    runChecker(); 
+    runChecker2();
+
+
+    const summary = `
+School Name: ${schoolName.value}
+Team Level: ${teamLevel.value}
+Head Coach: ${CoachName.value}
+Email: ${CoachEmail.value}
+Number of Athletes: ${numAthletes.value}
+Competition: ${competitionLocation.selectedOptions[0]?.textContent || ""}
+
+---------------- STUNTS ----------------
+Range: ${StuntRange.textContent}
+${StuntSkills.textContent}
+
+---------------- PYRAMID ----------------
+Range: ${PyramidRange.textContent}
+${PyramidSkills.textContent}
+
+---------------- TUMBLING ----------------
+Range: ${TumblingOutput.dataset.selected || ""}
+Team Majority Sync:
+${teamSync.value}
+
+Additional Tumbling:
+${additionalTumbling.value}
+
+---------------- JUMPS ----------------
+Range: ${JumpOutput.dataset.selected || ""}
+Jump Sequence:
+${jumpSequence.value}
+
+---------------- LEGALITY ----------------
+Legality Rulings: ${legalityRulings.value}
+`;
+
+  document.getElementById("previewContent").textContent = summary;
+    document.getElementById("previewModal").style.display = "flex";
+}
+
+document.getElementById("previewBtn").addEventListener("click", openPreview);
+
+
+async function downloadDoc() {
+    const templateName = "Coaches_Rubric_Template.docx";
+
+    try {
+        const response = await fetch(templateName);
+        if (!response.ok) {
+            alert("Template file not found. It must be in the same folder as the HTML file.");
+            return;
+        }
+
+        const blob = await response.blob();
+        const arrayBuffer = await blob.arrayBuffer();
+        const zip = new JSZip();
+        await zip.loadAsync(arrayBuffer);
+
+        let xml = await zip.file("word/document.xml").async("string");
+
+        // Split competition field
+        const compText = competitionLocation.selectedOptions[0]?.textContent || "";
+        const parts = compText.split(" - ");
+        const compDate = parts[0] || "";
+        let compEvent = "";
+        let compLocation = "";
+        if (parts[1]) {
+            const sub = parts[1].split(" @ ");
+            compEvent = sub[0] || "";
+            compLocation = sub[1] || "";
+        }
+
+        // Replacement map—matches your docx template placeholders
+        const replacements = {
+            "{schoolName}": schoolName.value,
+            "{teamLevel}": teamLevel.value,
+            "{CompetitionEvent}": compEvent,
+            "{CompetitionLocation}": compLocation,
+            "{numAthletes}": numAthletes.value,
+            "{CompetitionDate}": compDate,
+            "{StuntRange}": "(calculated)",
+            "{StuntSkills}": output.textContent,
+            "{PyramidRange}": "(calculated)",
+            "{PyramidSkills}": outputp.textContent,
+            "{TumblingOutput}": additionalTumbling.value,
+            "{teamSync}": teamSync.value,
+            "{additionalTumblingl}": additionalTumbling.value,
+            "{JumpOutput}": jumpSequence.value,
+            "{JumpSequence}": jumpSequence.value,
+            "{legalityRulings}": legalityRulings.value
+        };
+
+        Object.keys(replacements).forEach(key => {
+            xml = xml.split(key).join(escapeXml(replacements[key]));
+        });
+
+        function escapeXml(str) {
+            return str
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;");
+        }
+
+        zip.file("word/document.xml", xml);
+
+        const outputBlob = await zip.generateAsync({ type: "blob" });
+        const url = URL.createObjectURL(outputBlob);
+
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "Coaches_Rubric.docx";
+        link.click();
+    } catch (err) {
+        console.error(err);
+        alert("Error generating document. See console for details.");
+    }
+}
+
+
+document.getElementById("downloadDocBtn").addEventListener("click", downloadDoc);
+
+
+</script>
 
 </body>
 </html>
