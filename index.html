@@ -1435,141 +1435,88 @@ window.addEventListener("load", loadAutosave);
 
 <script>
 
-function openPreview() {
-    runChecker(); 
-    runChecker2();
+
+function openPreview(){
+document.getElementById('addPyramidRow').onclick=addPyramidRow;
+document.getElementById('calcStunts').onclick=runChecker;
+document.getElementById('calcPyramids').onclick=runChecker2;
 
 
-    const summary = `
-School Name: ${schoolName.value}
-Team Level: ${teamLevel.value}
-Head Coach: ${CoachName.value}
-Email: ${CoachEmail.value}
-Number of Athletes: ${numAthletes.value}
-Competition: ${competitionLocation.selectedOptions[0]?.textContent || ""}
+async function downloadDoc(){
+document.getElementById('loadingOverlay').style.display='flex';
+try{
+const resp=await fetch('Coaches_Rubric_Template.docx');
+const blob=await resp.blob();
+const ab=await blob.arrayBuffer();
+const zip=new JSZip();
+await zip.loadAsync(ab);
 
----------------- STUNTS ----------------
-Range: ${StuntRange.textContent}
-${StuntSkills.textContent}
 
----------------- PYRAMID ----------------
-Range: ${PyramidRange.textContent}
-${PyramidSkills.textContent}
+let xml=await zip.file('word/document.xml').async('string');
 
----------------- TUMBLING ----------------
-Range: ${TumblingOutput.dataset.selected || ""}
-Team Majority Sync:
-${teamSync.value}
 
-Additional Tumbling:
-${additionalTumbling.value}
-
----------------- JUMPS ----------------
-Range: ${JumpOutput.dataset.selected || ""}
-Jump Sequence:
-${jumpSequence.value}
-
----------------- LEGALITY ----------------
-Legality Rulings: ${legalityRulings.value}
-`;
-
-  document.getElementById("previewContent").textContent = summary;
-    document.getElementById("previewModal").style.display = "flex";
+const comp=competitionLocation.value;
+let compDate='',compEvent='',compLoc='';
+if(comp.includes(' - ')){
+const p1=comp.split(' - ');
+compDate=p1[0]||'';
+if(p1[1].includes(' @ ')){
+const p2=p1[1].split(' @ ');
+compEvent=p2[0]||'';
+compLoc=p2[1]||'';
+}
 }
 
-document.getElementById("previewBtn").addEventListener("click", openPreview);
 
-
-async function downloadDoc() {
-    const templateName = "Coaches_Rubric_Template.docx";
-
-    try {
-        const response = await fetch(templateName);
-        if (!response.ok) {
-            alert("Template file not found. It must be in the same folder as the HTML file.");
-            return;
-        }
-
-        const blob = await response.blob();
-        const arrayBuffer = await blob.arrayBuffer();
-        const zip = new JSZip();
-        await zip.loadAsync(arrayBuffer);
-
-        let xml = await zip.file("word/document.xml").async("string");
-
-        // Split competition field
-        const compText = competitionLocation.selectedOptions[0]?.textContent || "";
-        const parts = compText.split(" - ");
-        const compDate = parts[0] || "";
-        let compEvent = "";
-        let compLocation = "";
-        if (parts[1]) {
-            const sub = parts[1].split(" @ ");
-            compEvent = sub[0] || "";
-            compLocation = sub[1] || "";
-        }
-
-        // Replacement map—matches your docx template placeholders
-       const replacements = {
-    "{schoolName}": document.getElementById("schoolName").value || "",
-    "{teamLevel}": document.getElementById("teamLevel").value || "",
-
-    "{CompetitionEvent}": compEvent || "",
-    "{CompetitionLocation}": compLocation || "",
-    "{numAthletes}": document.getElementById("numAthletes").value || "",
-    "{CompetitionDate}": compDate || "",
-
-    "{StuntRange}": window._StuntRangeText || "",
-    "{StuntSkills}": window._StuntSkillsText || output.textContent || "",
-
-    "{PyramidRange}": window._PyramidRangeText || "",
-    "{PyramidSkills}": window._PyramidSkillsText || outputp.textContent || "",
-
-    "{TumblingOutput}": document.getElementById("additionalTumbling").value || "",
-    "{teamSync}": document.getElementById("teamSync").value || "",
-    "{additionalTumblingl}": document.getElementById("additionalTumbling").value || "",
-
-    "{JumpOutput}": document.getElementById("jumpSequence").value || "",
-    "{JumpSequence}": document.getElementById("jumpSequence").value || "",
-
-    "{legalityRulings}": document.getElementById("legalityRulings").value || ""
+const replacements={
+'{schoolName}':schoolName.value||'',
+'{teamLevel}':teamLevel.value||'',
+'{CompetitionEvent}':compEvent,
+'{CompetitionLocation}':compLoc,
+'{numAthletes}':numAthletes.value||'',
+'{CompetitionDate}':compDate,
+'{StuntRange}':window._StuntRangeText||'',
+'{StuntSkills}':window._StuntSkillsText||'',
+'{PyramidRange}':window._PyramidRangeText||'',
+'{PyramidSkills}':window._PyramidSkillsText||'',
+'{TumblingOutput}':additionalTumbling.value||'',
+'{teamSync}':teamSync.value||'',
+'{additionalTumblingl}':additionalTumbling.value||'',
+'{JumpOutput}':jumpSequence.value||'',
+'{JumpSequence}':jumpSequence.value||'',
+'{legalityRulings}':legalityRulings.value||''
 };
 
-        Object.keys(replacements).forEach(key => {
-            xml = xml.split(key).join(escapeXml(replacements[key]));
-        });
 
-        function escapeXml(str) {
-            return str
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;");
-        }
+function escapeXml(s){return s?
+s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'):'';}
 
-        zip.file("word/document.xml", xml);
 
-        const outputBlob = await zip.generateAsync({ type: "blob" });
-        const url = URL.createObjectURL(outputBlob);
+Object.keys(replacements).forEach(k=>{
+xml=xml.split(k).join(escapeXml(replacements[k]));
+});
 
-        const link = document.createElement("a");
-        link.href = url;
-        link.download = "Coaches_Rubric.docx";
-        link.click();
-    } catch (err) {
-        console.error(err);
-        alert("Error generating document. See console for details.");
-    }
+
+zip.file('word/document.xml',xml);
+const outBlob=await zip.generateAsync({type:'blob'});
+const url=URL.createObjectURL(outBlob);
+const a=document.createElement('a');
+a.href=url;
+a.download='Coaches_Rubric.docx';
+a.click();
+}catch(e){alert('Error: '+e.message);}finally{
+document.getElementById('loadingOverlay').style.display='none';
+}
 }
 
 
-document.getElementById("downloadDocBtn").addEventListener("click", downloadDoc);
+document.getElementById('downloadDocBtn').onclick=downloadDoc;
 
 
 </script>
 
 </body>
 </html>
-
 
 
 
