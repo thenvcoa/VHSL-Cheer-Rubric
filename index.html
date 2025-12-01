@@ -277,7 +277,7 @@
 
     <rect id="b1" class="svg-highlight twisting"   x="18.5%" y="79%" width="15%" height="4.5%"></rect>
     <rect id="b2" class="svg-highlight twisting"   x="18.5%" y="83.5%" width="15%" height="6.25%"></rect>
-    <rect id="b3" class="svg-highlight twisting"   x="33.5%" y="79%" width="15.5%" height="4.5%"></rect>
+    <rect id="b3" class="svg-highlight twisting"   x="18.5%" y="89.75%" width="15%" height="8%"></rect>
 
   </svg>
   </div>
@@ -490,7 +490,7 @@ const PyramidRegions = [
 
   { id: 'pr1', skill: 'Braced Release to Prep or Below (1 or 2)', category: 'Release', difficulty: 'Beginner' },
   { id: 'pr2', skill: 'Braced Release to Extended (2)', category: 'Release', difficulty: 'Beginner' },
-  { id: 'pr3', skill: 'Braced Release to Extended (1)', category: 'Release', difficulty: 'Beginner' },
+  { id: 'pr3', skill: 'Braced Release to Extended (1)', category: 'Release', difficulty: 'Intermediate' },
  
   { id: 'b1', skill: 'Rolling Transition to Prep Level or Below', category: 'Twisting', difficulty: 'Advanced' },
   { id: 'b2', skill: 'Flipping Transition Landing Below Prep Level (1 or 2)', category: 'Twisting', difficulty: 'Elite' },
@@ -632,18 +632,18 @@ let draggedRow = null;
 (function () {
 
   const fallbackPyramidRegions = [
-    { id: "n1",  skill: "Braced non-released transitions",                category: "Non-Released Transition", difficulty: "Beginner" },
-    { id: "n2",  skill: "Inverted stunts to prep level and below",        category: "Non-Released Transition", difficulty: "Beginner" },
-    { id: "n3",  skill: "Intermediate twisting stunt variations",         category: "Non-Released Transition", difficulty: "Beginner" },
-    { id: "n4",  skill: "Unbraced non-released transitions",              category: "Non-Released Transition", difficulty: "Intermediate" },
+    { id: "n1",  skill: "Braced non-released transitions", category: "Non-Released Transition", difficulty: "Beginner" },
+    { id: "n2",  skill: "Inverted stunts to prep level and below", category: "Non-Released Transition", difficulty: "Beginner" },
+    { id: "n3",  skill: "Intermediate twisting stunt variations", category: "Non-Released Transition", difficulty: "Beginner" },
+    { id: "n4",  skill: "Unbraced non-released transitions", category: "Non-Released Transition", difficulty: "Intermediate" },
 
-    { id: "pr1", skill: "Braced release to prep or below",                category: "Released Transition", difficulty: "Beginner" },
-    { id: "pr2", skill: "Braced release to extended",                     category: "Released Transition", difficulty: "Beginner" },
-    { id: "pr3", skill: "Braced inverted release to extended",            category: "Released Transition", difficulty: "Beginner" },
+    { id: "pr1", skill: "Braced release to prep or below", category: "Released Transition", difficulty: "Beginner" },
+    { id: "pr2", skill: "Braced release to extended (2)", category: "Released Transition", difficulty: "Beginner" },
+    { id: "pr3", skill: "Braced release to extended (1)", category: "Released Transition", difficulty: "Intermediate" },
 
-    { id: "b1",  skill: "Rolling transition to prep level or below",      category: "Braced Roll/Flip", difficulty: "Advanced" },
-    { id: "b2",  skill: "Flipping transition landing below prep level",   category: "Braced Roll/Flip", difficulty: "Elite" },
-    { id: "b3",  skill: "Flipping transition landing at prep level",      category: "Braced Roll/Flip", difficulty: "Super Elite" }
+    { id: 'b1', skill: 'Rolling Transition to Prep Level or Below', category: 'Twisting', difficulty: 'Advanced' },
+    { id: 'b2', skill: 'Flipping Transition Landing Below Prep Level (1 or 2)', category: 'Twisting', difficulty: 'Elite' },
+    { id: 'b3', skill: '1/4 Twisting Flipping Transition Landing at Prep or Below (1 or 2)', category: 'Twisting', difficulty: 'Super Elite' }
   ];
 
   // If PyramidRegions[] exists, use it. Otherwise fallback.
