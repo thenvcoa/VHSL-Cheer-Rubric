@@ -80,23 +80,16 @@
  
 </style>
 
-<!-- =================== RESPONSIVE INLINE SVG STUNT RUBRIC =================== -->
+<!-- =================== RESPONSIVE INLINE SVG FOR STUNT & PYRAMID RUBRIC =================== -->
 <style>
-  /* SVG highlight styling (keeps similar look to your old .highlight classes) */
-.svg-highlight {
-  fill: none;
-  stroke: none;
-  outline: none;
-    pointer-events: all; /* allow clicks */
-  }
+/* SVG highlight styling */
+.svg-highlight {  fill: none;  stroke: none;  outline: none;    pointer-events: all;  }
 .svg-highlight.inversion  { stroke: none; fill: none; }
 .svg-highlight.release    { stroke: none; fill: none; }
 .svg-highlight.twisting   { stroke: none; fill: none; }
 .svg-highlight.coed       { stroke: none; fill: none; }
 .svg-highlight.toss       { stroke: none; fill: none; }
 
-
-  /* transient flash effect */
 /* Highlight appearance during flash */
 .svg-flash.inversion  { stroke: rgba(180,0,180,0.85); fill: rgba(180,0,180,0.18); stroke-width: 3; }
 .svg-flash.release    { stroke: rgba(0,180,0,0.85);   fill: rgba(0,180,0,0.18); stroke-width: 3;   }
@@ -104,18 +97,15 @@
 .svg-flash.coed       { stroke: rgba(0,0,255,0.85);   fill: rgba(0,0,255,0.12); stroke-width: 3;   }
 .svg-flash.toss       { stroke: rgba(255,120,0,0.85); fill: rgba(255,120,0,0.12); stroke-width: 3; }
 
-  }
-.svg-highlight.fadeout {
-  fill: none !important;
-  stroke: none !important;
-}
+/*Fade out effect*/
+.svg-highlight.fadeout {  fill: none !important;  stroke: none !important;}
 
-  /* ensure the svg scales nicely inside your existing .wrapper */
-  .svg-wrapper { width: 90%; max-width: 950px; margin: 0 auto; display: block; }
-  .svg-wrapper svg { width: 100%; height: auto; display: block; }
+/* ensure the svg scales nicely inside existing .wrapper */
+.svg-wrapper { width: 90%; max-width: 950px; margin: 0 auto; display: block; }
+.svg-wrapper svg { width: 100%; height: auto; display: block; }
 
-  /* keep pointer cursor for clickable regions */
-  .svg-highlight { cursor: pointer; }
+/* keep pointer cursor for clickable regions */
+.svg-highlight { cursor: pointer; }
 </style>
 
 
@@ -183,7 +173,7 @@
 
 
 	
-	<div class="wrapper svg-wrapper" aria-label="Stunt Rubric (interactive)">
+  <div class="wrapper svg-wrapper" aria-label="Stunt Rubric (interactive)">
   <!-- Outer SVG (viewBox matches the original SVG canvas: 0 0 928 705) -->
   <svg id="StuntRubricSVG" viewBox="0 0 928 705" preserveAspectRatio="xMidYMid meet" role="img" aria-label="VHSL Stunt Rubric">
     <!-- Use your uploaded SVG file as the background image inside the inline SVG -->
@@ -227,7 +217,7 @@
     <rect id="h2" class="svg-highlight release"   x="45%" y="80%" width="20%" height="3%"></rect>
     <rect id="h3" class="svg-highlight twisting"  x="70%" y="80%" width="20%" height="3%"></rect>
   </svg>
-</div>
+  </div>
 	
 	
 	
@@ -268,22 +258,29 @@
 </div>
 
 
-	<div class="wrapper">
-		<img id="PyramidRubricImage" src="Pyramid_Rubric.png" alt="VHSL Pyramid Rubric">
-		<!-- Highlight boxes -->
-		<div class="highlight inversion" id="n1" style="left:162px; top:110px; width:125px; height:23px;"></div>
-		<div class="highlight inversion" id="n2" style="left:162px; top:134px; width:125px; height:26px;"></div>
-		<div class="highlight inversion" id="n3" style="left:162px; top:191px; width:125px; height:23px;"></div>
-		<div class="highlight inversion" id="n4" style="left:289px; top:110px; width:129px; height:23px;"></div>
+  <!-- ======= RESPONSIVE INLINE SVG: PYRAMID RUBRIC ======= -->
+  <div class="wrapper svg-wrapper" aria-label="Pyramid Rubric (interactive)">
+  <svg id="PyramidRubricSVG" viewBox="0 0 1174 643" preserveAspectRatio="xMidYMid meet" role="img" aria-label="VHSL Pyramid Rubric">
+    <!-- Use your uploaded SVG file as the background image inside the inline SVG -->
+    <!-- Keep the filename exactly as you host it. If you inlined the whole SVG body instead, remove this <image> line. -->
+    <image href="Pyramid Rubric Full.svg" x="0" y="0" width="1174" height="643" preserveAspectRatio="xMidYMid meet" />
 
-		<div class="highlight release" id="pr1" style="left:162px; top:248px; width:125px; height:27px;"></div>
-		<div class="highlight release" id="pr2" style="left:162px; top:277px; width:125px; height:28px;"></div>
-		<div class="highlight release" id="pr3" style="left:289px; top:248px; width:129px; height:27px;"></div>
+    <!-- Highlight regions (same pattern as Stunt) -->
+    <rect id="n1" class="svg-highlight inversion"  x="18.5%" y="25%" width="15%" height="5%"></rect>
+    <rect id="n2" class="svg-highlight inversion"  x="18.5%" y="30%" width="15%" height="6%"></rect>
+    <rect id="n3" class="svg-highlight inversion"  x="18.5%" y="41.5%" width="15%" height="5%"></rect>
+    <rect id="n4" class="svg-highlight inversion"  x="33.5%" y="25%" width="15.5%" height="5%"></rect>
 
-		<div class="highlight twisting" id="b1" style="left:162px; top:373px; width:125px; height:22px;"></div>
-		<div class="highlight twisting" id="b2" style="left:162px; top:396px; width:125px; height:28px;"></div>
-		<div class="highlight twisting" id="b3" style="left:289px; top:373px; width:129px; height:22px;"></div>
-	</div>
+    <rect id="pr1" class="svg-highlight release"    x="18.5%" y="53%" width="15%" height="6.25%"></rect>
+    <rect id="pr2" class="svg-highlight release"    x="18.5%" y="59.25%" width="15%" height="6.5%"></rect>
+    <rect id="pr3" class="svg-highlight release"    x="33.5%" y="53%" width="15.5%" height="6.25%"></rect>
+
+    <rect id="b1" class="svg-highlight twisting"   x="18.5%" y="79%" width="15%" height="4.5%"></rect>
+    <rect id="b2" class="svg-highlight twisting"   x="18.5%" y="83.5%" width="15%" height="6.25%"></rect>
+    <rect id="b3" class="svg-highlight twisting"   x="33.5%" y="79%" width="15.5%" height="4.5%"></rect>
+
+  </svg>
+  </div>
 
 	<p><strong>
 	Enter the number of trick flyers for each skill. 
@@ -503,17 +500,13 @@ const PyramidRegions = [
 const wrapper = document.querySelector('.wrapper');
 const skillCountsContainer = document.getElementById('skillCounts');
 
-const pyramidWrapper = document.querySelector('#PyramidRubricImage').parentElement;
+const pyramidWrapper = document.getElementById('PyramidRubricSVG').closest('.wrapper');
 const pyramidCountsContainer = document.getElementById('PyramidCounts');
 
 
-
-
-
-  // --- Click wiring: convert SVG rect click to the same table-add behavior as before ---
+// CLICK HANDLER FOR STUNTS
   (function() {
-    // The existing StuntRegions array already exists in your page's JS (from earlier script).
-    // If for some reason it's not present, we define it minimally here so clicks still work.
+  
     const fallbackRegions = [
       { id: 'i1', skill: 'Connected Inversions - Prep Level and Below to Below Prep', category: 'Inversion', difficulty: 'Beginner'},
       { id: 'i2', skill: 'Below Prep Level Inversions to Ground', category: 'Inversion', difficulty: 'Beginner' },
@@ -536,9 +529,9 @@ const pyramidCountsContainer = document.getElementById('PyramidCounts');
       { id: 'h3', skill: 'TEST', category: 'Twisting', difficulty: 'Super Elite' }
     ];
 
+  // If StuntRegions[] exists, use it. Otherwise fallback.
     const Regions = (typeof StuntRegions !== 'undefined' && Array.isArray(StuntRegions)) ? StuntRegions : fallbackRegions;
 
-    // Helper: find region object by id
     function getRegionById(id) {
       return Regions.find(r => r.id === id) || { id: id, skill: id, difficulty: '' };
     }
@@ -546,10 +539,9 @@ const pyramidCountsContainer = document.getElementById('PyramidCounts');
     const svg = document.getElementById('StuntRubricSVG');
     if (!svg) return;
 
-    // Table container where rows are appended (same as before)
     const skillCountsContainer = document.getElementById('skillCounts');
 
-    // Utility: create a new table row (same structure as original implementation)
+    // ---- ADD ROW TO STUNT TABLE ----
     function addRowForRegion(region) {
       const skillId = 'count_' + region.id;
       // create new row
@@ -564,22 +556,19 @@ const pyramidCountsContainer = document.getElementById('PyramidCounts');
       `;
       skillCountsContainer.appendChild(row);
 
-      // Delete row handler
+      // ---- DELETE BUTTON ----
       row.querySelector('.delete-btn').addEventListener('click', () => {
         if (row.parentElement) row.parentElement.removeChild(row);
       });
 
-      // Enable drag & drop behavior for the new row (makes it consistent)
-      // A simple approach: attach dragstart to the row so the existing container listeners work.
+      // ---- DRAG & DROP FUNCTIONALITY ----
       row.addEventListener('dragstart', e => {
         e.dataTransfer.effectAllowed = 'move';
-        // store reference via global variable used earlier in your script
         window.__draggedRow = row;
       });
-      // Note: your existing drag handlers on the container will handle insertion.
     }
 
-    // Flash effect helper
+    // ---- FLASH EFFECT ----
     function flashRect(rectEl) {
       rectEl.classList.add('svg-flash');
       setTimeout(() => rectEl.classList.add('fadeout'), 220);
@@ -588,23 +577,17 @@ const pyramidCountsContainer = document.getElementById('PyramidCounts');
       }, 520);
     }
 
-    // Attach event listeners for every region rect
+    // ---- CLICK & KEYBOARD EVENTS ----
     Regions.forEach(r => {
       try {
         const el = document.getElementById(r.id);
         if (!el) return;
         el.addEventListener('click', (ev) => {
-          // Visual feedback
           flashRect(el);
-
-          // Add a row to the table (same as old behavior)
           addRowForRegion(r);
-
-          // Stop propagation to avoid any outer handlers
           ev.stopPropagation();
         });
-
-        // Also allow keyboard activation for accessibility
+   
         el.setAttribute('tabindex', '0');
         el.addEventListener('keydown', (ev) => {
           if (ev.key === 'Enter' || ev.key === ' ') {
@@ -617,9 +600,6 @@ const pyramidCountsContainer = document.getElementById('PyramidCounts');
         console.warn('SVG region attach error for', r.id, err);
       }
     });
-
-    // Maintain previous "click anywhere" behavior on the wrapper if some logic depends on it
-    // but the main interactive surface is now the rects themselves.
   })();
 
 
@@ -649,46 +629,95 @@ let draggedRow = null;
 	});
 
 // CLICK HANDLER FOR PYRAMID RUBRIC
-pyramidWrapper.addEventListener('click', e => {
-  const rect = pyramidWrapper.getBoundingClientRect();
-  const x = e.clientX - rect.left;
-  const y = e.clientY - rect.top;
+(function () {
 
-  for (let r of PyramidRegions) {
-    const box = document.getElementById(r.id);
-    const left = parseFloat(box.style.left);
-    const top = parseFloat(box.style.top);
-    const width = parseFloat(box.style.width);
-    const height = parseFloat(box.style.height);
+  const fallbackPyramidRegions = [
+    { id: "n1",  skill: "Braced non-released transitions",                category: "Non-Released Transition", difficulty: "Beginner" },
+    { id: "n2",  skill: "Inverted stunts to prep level and below",        category: "Non-Released Transition", difficulty: "Beginner" },
+    { id: "n3",  skill: "Intermediate twisting stunt variations",         category: "Non-Released Transition", difficulty: "Beginner" },
+    { id: "n4",  skill: "Unbraced non-released transitions",              category: "Non-Released Transition", difficulty: "Intermediate" },
 
-    if (x >= left && x <= left + width && y >= top && y <= top + height) {
-      const skillId = 'pcount_' + r.id;
+    { id: "pr1", skill: "Braced release to prep or below",                category: "Released Transition", difficulty: "Beginner" },
+    { id: "pr2", skill: "Braced release to extended",                     category: "Released Transition", difficulty: "Beginner" },
+    { id: "pr3", skill: "Braced inverted release to extended",            category: "Released Transition", difficulty: "Beginner" },
 
-      // Flash highlight when clicked
-      box.style.display = "block";
-      setTimeout(() => box.style.display = "none", 350);
+    { id: "b1",  skill: "Rolling transition to prep level or below",      category: "Braced Roll/Flip", difficulty: "Advanced" },
+    { id: "b2",  skill: "Flipping transition landing below prep level",   category: "Braced Roll/Flip", difficulty: "Elite" },
+    { id: "b3",  skill: "Flipping transition landing at prep level",      category: "Braced Roll/Flip", difficulty: "Super Elite" }
+  ];
 
-      // Create new row
-      const row = document.createElement('tr');
-      row.id = skillId + '_' + Date.now();
-      row.draggable = true;
-      row.innerHTML = `
-        <td class="drag-handle">${r.skill}</td>
-        <td>${r.difficulty}</td>
-        <td><input type="number" id="${skillId}" min="0" value="0"></td>
-        <td class="delete-btn">🗑️</td>
-      `;
-      pyramidCountsContainer.appendChild(row);
+  // If PyramidRegions[] exists, use it. Otherwise fallback.
+  const Regions = (typeof PyramidRegions !== "undefined" && Array.isArray(PyramidRegions))
+    ? PyramidRegions
+    : fallbackPyramidRegions;
 
-      // Delete row
-      row.querySelector('.delete-btn').addEventListener('click', () => {
-        pyramidCountsContainer.removeChild(row);
-      });
+  const svg = document.getElementById("PyramidRubricSVG");
+  if (!svg) return;
 
-      break;
-    }
+  const pyramidCountsContainer = document.getElementById("PyramidCounts");
+
+  // ---- FLASH EFFECT ----
+  function flashRect(rectEl) {
+    rectEl.classList.add("svg-flash");
+    setTimeout(() => rectEl.classList.add("fadeout"), 220);
+    setTimeout(() => {
+      rectEl.classList.remove("svg-flash", "fadeout");
+    }, 520);
   }
-});
+
+  // ---- ADD ROW TO PYRAMID TABLE ----
+  function addPyramidRow(region) {
+    const skillId = "pcount_" + region.id;
+
+    const row = document.createElement("tr");
+    row.id = skillId + "_" + Date.now();
+    row.draggable = true;
+
+    row.innerHTML = `
+      <td class="drag-handle">${region.skill}</td>
+      <td>${region.difficulty}</td>
+      <td><input type="number" id="${skillId}" min="0" value="0"></td>
+      <td class="delete-btn">🗑️</td>
+    `;
+
+    pyramidCountsContainer.appendChild(row);
+
+    // ---- DELETE BUTTON ----
+    row.querySelector(".delete-btn").addEventListener("click", () => {
+      row.remove();
+    });
+
+    // ---- DRAG & DROP FUNCTIONALITY ----
+    row.addEventListener("dragstart", (ev) => {
+      ev.dataTransfer.effectAllowed = "move";
+      window.__draggedPyramidRow = row;
+    });
+  }
+
+  // ---- CLICK & KEYBOARD EVENTS ----
+  Regions.forEach(region => {
+    const rect = document.getElementById(region.id);
+    if (!rect) return;
+
+    rect.style.cursor = "pointer";
+    rect.setAttribute("tabindex", "0");
+
+    rect.addEventListener("click", (ev) => {
+      flashRect(rect);
+      addPyramidRow(region);
+      ev.stopPropagation();
+    });
+
+    rect.addEventListener("keydown", (ev) => {
+      if (ev.key === "Enter" || ev.key === " ") {
+        ev.preventDefault();
+        rect.click();
+      }
+    });
+  });
+
+})();
+
 
 // DRAG–DROP FOR PYRAMID TABLE
 let draggedPyramidRow = null;
@@ -1174,6 +1203,7 @@ const APPS_SCRIPT_BASE = "https://script.google.com/macros/s/AKfycbzA1BxBeDj23K-
 
 </body>
 </html>
+
 
 
 
