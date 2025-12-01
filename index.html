@@ -120,18 +120,9 @@ input.completed, select.completed, textarea.completed {
                border-radius: 10px;  box-shadow: 0 6px 20px rgba(0,0,0,0.25);  z-index: 10000;  max-width: 400px;  text-align: left;   text-align: center;}
 .info-popup a {  color: #2F317D;  text-decoration: underline;}
 .info-icon:active::after {  content: attr(data-tooltip);} /* Mobile/touch support */
-/* preview modal (full-screen overlay) */
-#previewModal{
-  display:none; position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:12000; justify-content:center; align-items:center;
-}
-#previewModal > .modal-inner{
-  background:white; padding:22px; border-radius:10px; width:90%; max-width:760px; max-height:86vh; overflow:auto;
-}
-
-
 </style>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
 
 
 </head>
@@ -461,10 +452,7 @@ input.completed, select.completed, textarea.completed {
 	<br>
 	<br>
 	<button id="resetBtn" class="reset-button" onclick="localStorage.removeItem('rubricFormAutosave'); location.reload();">Reset Saved Form</button>
-<br><br>
-<button id="previewBtn" style="padding: 14px 24px; font-size: 18px;">
-  Preview Submission
-</button>
+    <button id="previewBtn" style="background:#555;">Preview Submission</button>
 
 
 
@@ -1376,7 +1364,150 @@ document.querySelectorAll(".tumblinghighlight, .jumphighlight").forEach(el => {
 window.addEventListener("load", loadAutosave);
 
 
+
+
+// ========================= PREVIEW SUBMISSION POPUP =========================
+
+(function(){
+  document.addEventListener('DOMContentLoaded', () => {
+    const previewBtn = document.getElementById("previewBtn");
+    if (previewBtn) previewBtn.addEventListener("click", () => {
+      try { window.generatePreview && window.generatePreview(); } catch(e){ console.error('Preview error', e); }
+    });
+
+    // attach print button safely
+    const previewPrintBtn = document.getElementById("previewPrintBtn");
+    if (previewPrintBtn) {
+      previewPrintBtn.addEventListener("click", () => {
+        const contentEl = document.getElementById("previewContent");
+        const contentHTML = contentEl ? contentEl.innerHTML : "";
+        const printWindow = window.open("", "_blank");
+        printWindow.document.write(`
+          <html><head><title>Preview</title>
+          <style>
+            body { font-family: Arial, sans-serif; padding:20px; color:#111; }
+            .sectionTitle { margin-top:18px; font-weight:700; font-size:15px; }
+            .divider { height:2px; background:#2F317D; margin:6px 0 10px 0; }
+            pre { white-space:pre-wrap; font-size:14px; }
+          </style>
+          </head><body>${contentHTML}</body></html>`);
+        printWindow.document.close();
+        printWindow.focus();
+        printWindow.print();
+        printWindow.close();
+      });
+    }
+
+  });
+
+    window.generatePreview = function generatePreview() {
+    // run existing checkers so Stunt/Pyramid summaries are up to date
+    if (typeof runChecker === "function") try { runChecker(); } catch(e){ console.warn(e); }
+    if (typeof runChecker2 === "function") try { runChecker2(); } catch(e){ console.warn(e); }
+
+    // helper to safely return text (avoid 'undefined')
+    function val(id){
+      const el = document.getElementById(id);
+      if(!el) return "";
+      // For the competition <select>, return visible text if available
+      if (el.tagName === "SELECT" && el.selectedOptions && el.selectedOptions[0]) {
+        return el.selectedOptions[0].textContent || el.value || "";
+      }
+      // For divs that store selected values
+      if (el.dataset && el.dataset.selected) return el.dataset.selected || el.textContent || "";
+      return el.value !== undefined ? el.value : el.textContent;
+    }
+    // small helper to escape any user-provided HTML so content is safe
+    function escapeHtml(unsafe){
+      if (unsafe === null || unsafe === undefined) return "";
+      return String(unsafe)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    // Build HTML with divider blocks
+    const parts = [];
+
+    function section(title, content){
+      parts.push(`<div class="sectionTitle" style="margin-top:18px;font-weight:700;font-size:15px;">${escapeHtml(title)}</div>`);
+      parts.push(`<div class="divider" style="height:2px;background:#2F317D;margin:6px 0 10px 0;"></div>`);
+      parts.push(`<div style="white-space:pre-wrap;font-size:14px;margin-bottom:8px;">${content}</div>`);
+    }
+
+    // Build each section content
+    const school = escapeHtml(val("schoolName"));
+    const teamLevel = escapeHtml(val("teamLevel"));
+    const coach = escapeHtml(val("CoachName"));
+    const email = escapeHtml(val("CoachEmail"));
+    const athletes = escapeHtml(val("numAthletes"));
+    const competition = escapeHtml(val("competitionLocation"));
+
+    const StuntSkills = escapeHtml(document.getElementById("StuntSkills") ? document.getElementById("StuntSkills").textContent.trim() : "");
+    const StuntRange = escapeHtml(document.getElementById("StuntRange") ? document.getElementById("StuntRange").textContent.trim() : "");
+    const PyramidSkills = escapeHtml(document.getElementById("PyramidSkills") ? document.getElementById("PyramidSkills").textContent.trim() : "");
+    const PyramidRange = escapeHtml(document.getElementById("PyramidRange") ? document.getElementById("PyramidRange").textContent.trim() : "");
+
+    const TumblingDifficulty = escapeHtml(document.getElementById("TumblingOutput") ? (document.getElementById("TumblingOutput").dataset.selected || document.getElementById("TumblingOutput").textContent) : "");
+    const teamSync = escapeHtml(val("teamSync"));
+    const additionalTumbling = escapeHtml(val("additionalTumbling"));
+
+    const JumpDifficulty = escapeHtml(document.getElementById("JumpOutput") ? (document.getElementById("JumpOutput").dataset.selected || document.getElementById("JumpOutput").textContent) : "");
+    const jumpSequence = escapeHtml(val("jumpSequence"));
+
+    const legality = escapeHtml(val("legalityRulings"));
+
+    // Coach & Team Info
+    section("COACH & TEAM INFO",
+      `<strong>School:</strong> ${school}\n<strong>Team Level:</strong> ${teamLevel}\n<strong>Head Coach:</strong> ${coach}\n<strong>Head Coach Email:</strong> ${email}\n<strong>Number of Athletes Performing:</strong> ${athletes}\n<strong>Competition:</strong> ${competition}`);
+
+    // Stunt
+    section("STUNT SKILLS",
+      `${StuntSkills || "(none recorded)"}\n\n<strong>Overall Stunt Range:</strong> ${StuntRange || "(not calculated)"}`);
+
+    // Pyramid
+    section("PYRAMID SKILLS",
+      `${PyramidSkills || "(none recorded)"}\n\n<strong>Overall Pyramid Range:</strong> ${PyramidRange || "(not calculated)"}`);
+
+    // Tumbling
+    section("TUMBLING",
+      `<strong>Tumbling Difficulty:</strong> ${TumblingDifficulty || "(none selected)"}\n\n<strong>Team Majority Sync Sequence:</strong>\n${teamSync || "(not provided)"}\n\n<strong>Additional Tumbling:</strong>\n${additionalTumbling || "(not provided)"}`);
+
+    // Jumps
+    section("JUMPS",
+      `<strong>Jump Difficulty:</strong> ${JumpDifficulty || "(none selected)"}\n\n<strong>Jump Sequence:</strong>\n${jumpSequence || "(not provided)"}`);
+
+    // Legality
+    section("LEGALITY RULINGS",
+      `${legality || "(not provided)"}`);
+
+   
+    const previewEl = document.getElementById("previewContent");
+    if (previewEl) previewEl.innerHTML = parts.join("\n");
+    else {
+      console.warn("previewContent element not found in DOM.");
+    }
+    const modal = document.getElementById("previewModal");
+    if (modal) {
+      modal.style.display = "flex";
+      modal.setAttribute("aria-hidden", "false");
+      previewEl && previewEl.focus && previewEl.focus();
+    } else {
+      console.warn("previewModal element not found in DOM.");
+    }
+  };
+})();
+window.closePreview = function () {
+    const modal = document.getElementById("previewModal");
+    if (modal) modal.style.display = "none";
+};
+
+
 </script>
+
+
 
 <!-- ========================"SUBMITTING" LOADING SPINNER======================== -->
 <div id="loadingOverlay">
@@ -1404,116 +1535,43 @@ window.addEventListener("load", loadAutosave);
   <button onclick="closeInfo('majorityInfo')">Close</button>
 </div>
 
-<!-- ======================== PREVIEW MODAL ======================== -->
-<div id="previewModal" style="display:none; position:fixed; inset:0;
-  background:rgba(0,0,0,.6); z-index:12000; justify-content:center; 
-  align-items:center; padding:20px;">
-  <div class="modal-inner" style="background:white; padding:22px; 
-    border-radius:10px; width:90%; max-width:760px; max-height:86vh; 
-    overflow:auto;">
 
-    <h2 style="text-align:center; margin-top:0;">Submission Preview</h2>
-
-    <pre id="previewContent" 
-         style="white-space:pre-wrap; font-size:1rem; background:#f8f8f8; 
-                padding:15px; border-radius:8px;"></pre>
-
-    <div style="text-align:center; margin-top:20px;">
-      <button id="downloadDocBtn" 
-        style="padding:10px 20px; background:#2F317D; color:white; 
-               border:none; font-size:16px;">
-        Download Coaches Rubric
-      </button>
-
-      <button onclick="document.getElementById('previewModal').style.display='none';"
-        style="padding:10px 20px; margin-left:10px;">
-        Close
-      </button>
+<!-- ===================== PREVIEW POPUP (REPLACE/PASTE THIS BLOCK) ======================= -->
+<div id="previewModal" style="
+    display:none;
+    position: fixed;
+    top:0; left:0; width:100%; height:100%;
+    background: rgba(0,0,0,0.6); z-index:99999;
+    justify-content: center; align-items: center; padding: 20px;
+">
+  <div style="
+      background: #fff; max-width:760px; width:100%;
+      border-radius:10px; padding:22px;
+      max-height:86vh; overflow-y:auto;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+      font-family: Arial, sans-serif;
+  ">
+    <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
+      <h2 style="margin:0; font-size:26px; color:#c02025"><strong>Rubric Submission Preview</strong></h2>
+      <div style="display:flex; gap:8px;">
+        <button id="previewPrintBtn" style="padding:8px 12px; border-radius:6px; border:none; cursor:pointer; background:#2F317D; color:#fff;">
+          Download
+        </button>
+        <button onclick="closePreview()" style="padding:8px 12px; border-radius:6px; border:none; cursor:pointer; background:#c02025; color:#fff;">
+          Close
+        </button>
+	  </div>
     </div>
+	  <span class="note-small">Feel free to save this for an easier copy/paste on future submissions!</span>
+    <div id="previewContent" style="white-space:pre-wrap; font-size:15px; margin-top:14px; color:#111;"></div>
   </div>
 </div>
 
-<script>
-
-
-function openPreview(){
-document.getElementById('addPyramidRow').onclick=addPyramidRow;
-document.getElementById('calcStunts').onclick=runChecker;
-document.getElementById('calcPyramids').onclick=runChecker2;
-document.getElementById('previewBtn').onclick = openPreview;
-
-async function downloadDoc(){
-document.getElementById('loadingOverlay').style.display='flex';
-try{
-const resp=await fetch('Coaches_Rubric_Template.docx');
-const blob=await resp.blob();
-const ab=await blob.arrayBuffer();
-const zip=new JSZip();
-await zip.loadAsync(ab);
-
-
-let xml=await zip.file('word/document.xml').async('string');
-
-
-const comp=competitionLocation.value;
-let compDate='',compEvent='',compLoc='';
-if(comp.includes(' - ')){
-const p1=comp.split(' - ');
-compDate=p1[0]||'';
-if(p1[1].includes(' @ ')){
-const p2=p1[1].split(' @ ');
-compEvent=p2[0]||'';
-compLoc=p2[1]||'';
-}
-}
-
-
-const replacements={
-'{schoolName}':schoolName.value||'',
-'{teamLevel}':teamLevel.value||'',
-'{CompetitionEvent}':compEvent,
-'{CompetitionLocation}':compLoc,
-'{numAthletes}':numAthletes.value||'',
-'{CompetitionDate}':compDate,
-'{StuntRange}':window._StuntRangeText||'',
-'{StuntSkills}':window._StuntSkillsText||'',
-'{PyramidRange}':window._PyramidRangeText||'',
-'{PyramidSkills}':window._PyramidSkillsText||'',
-'{TumblingOutput}':additionalTumbling.value||'',
-'{teamSync}':teamSync.value||'',
-'{additionalTumblingl}':additionalTumbling.value||'',
-'{JumpOutput}':jumpSequence.value||'',
-'{JumpSequence}':jumpSequence.value||'',
-'{legalityRulings}':legalityRulings.value||''
-};
-
-
-function escapeXml(s){return s?
-s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'):'';}
-
-
-Object.keys(replacements).forEach(k=>{
-xml=xml.split(k).join(escapeXml(replacements[k]));
-});
-
-
-zip.file('word/document.xml',xml);
-const outBlob=await zip.generateAsync({type:'blob'});
-const url=URL.createObjectURL(outBlob);
-const a=document.createElement('a');
-a.href=url;
-a.download='Coaches_Rubric.docx';
-a.click();
-}catch(e){alert('Error: '+e.message);}finally{
-document.getElementById('loadingOverlay').style.display='none';
-}
-}
-
-
-document.getElementById('downloadDocBtn').onclick=downloadDoc;
-
-
-</script>
-
 </body>
 </html>
+
+
+
+
+
+
