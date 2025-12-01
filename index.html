@@ -1510,24 +1510,30 @@ async function downloadDoc() {
         }
 
         // Replacement map—matches your docx template placeholders
-        const replacements = {
-            "{schoolName}": schoolName.value,
-            "{teamLevel}": teamLevel.value,
-            "{CompetitionEvent}": compEvent,
-            "{CompetitionLocation}": compLocation,
-            "{numAthletes}": numAthletes.value,
-            "{CompetitionDate}": compDate,
-            "{StuntRange}": "(calculated)",
-            "{StuntSkills}": output.textContent,
-            "{PyramidRange}": "(calculated)",
-            "{PyramidSkills}": outputp.textContent,
-            "{TumblingOutput}": additionalTumbling.value,
-            "{teamSync}": teamSync.value,
-            "{additionalTumblingl}": additionalTumbling.value,
-            "{JumpOutput}": jumpSequence.value,
-            "{JumpSequence}": jumpSequence.value,
-            "{legalityRulings}": legalityRulings.value
-        };
+       const replacements = {
+    "{schoolName}": document.getElementById("schoolName").value || "",
+    "{teamLevel}": document.getElementById("teamLevel").value || "",
+
+    "{CompetitionEvent}": compEvent || "",
+    "{CompetitionLocation}": compLocation || "",
+    "{numAthletes}": document.getElementById("numAthletes").value || "",
+    "{CompetitionDate}": compDate || "",
+
+    "{StuntRange}": window._StuntRangeText || "",
+    "{StuntSkills}": window._StuntSkillsText || output.textContent || "",
+
+    "{PyramidRange}": window._PyramidRangeText || "",
+    "{PyramidSkills}": window._PyramidSkillsText || outputp.textContent || "",
+
+    "{TumblingOutput}": document.getElementById("additionalTumbling").value || "",
+    "{teamSync}": document.getElementById("teamSync").value || "",
+    "{additionalTumblingl}": document.getElementById("additionalTumbling").value || "",
+
+    "{JumpOutput}": document.getElementById("jumpSequence").value || "",
+    "{JumpSequence}": document.getElementById("jumpSequence").value || "",
+
+    "{legalityRulings}": document.getElementById("legalityRulings").value || ""
+};
 
         Object.keys(replacements).forEach(key => {
             xml = xml.split(key).join(escapeXml(replacements[key]));
@@ -1563,6 +1569,7 @@ document.getElementById("downloadDocBtn").addEventListener("click", downloadDoc)
 
 </body>
 </html>
+
 
 
 
