@@ -122,9 +122,6 @@ input.completed, select.completed, textarea.completed {
 .info-icon:active::after {  content: attr(data-tooltip);} /* Mobile/touch support */
 </style>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pizzip/3.1.4/pizzip.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pizzip/3.1.4/pizzip-utils.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/docxtemplater/3.29.0/docxtemplater.js"></script>
 
 
 
@@ -482,6 +479,7 @@ input.completed, select.completed, textarea.completed {
 
 
 <!-- ========================END HTML VISUAL======================== -->
+
 
 <script>
 function showInfo(id) {
@@ -1377,6 +1375,29 @@ window.addEventListener("load", loadAutosave);
       try { window.generatePreview && window.generatePreview(); } catch(e){ console.error('Preview error', e); }
     });
 
+    // attach print button safely
+    const previewPrintBtn = document.getElementById("previewPrintBtn");
+    if (previewPrintBtn) {
+      previewPrintBtn.addEventListener("click", () => {
+        const contentEl = document.getElementById("previewContent");
+        const contentHTML = contentEl ? contentEl.innerHTML : "";
+        const printWindow = window.open("", "_blank");
+        printWindow.document.write(`
+          <html><head><title>Coaches Rubric Summary</title>
+          <style>
+            body { font-family: Arial, sans-serif; padding:20px; color:#111; }
+            .sectionTitle { margin-top:18px; font-weight:700; font-size:15px; }
+            .divider { height:2px; background:#2F317D; margin:6px 0 10px 0; }
+            pre { white-space:pre-wrap; font-size:14px; }
+          </style>
+          </head><body>${contentHTML}</body></html>`);
+        printWindow.document.close();
+        printWindow.focus();
+        printWindow.print();
+        printWindow.close();
+      });
+    }
+
   });
 
     window.generatePreview = function generatePreview() {
@@ -1484,169 +1505,7 @@ window.closePreview = function () {
 };
 
 
-
-
-// ===================== DOWNLOAD PREVIEW =====================
-
-
-async function generateWordFromTemplate() {
-  try {
-    // collect values (safe guards if elements missing)
-    const get = id => (document.getElementById(id) ? document.getElementById(id).value : "");
-    const getDivText = id => {
-      const el = document.getElementById(id);
-      if (!el) return "";
-      return el.dataset && el.dataset.selected ? el.dataset.selected : (el.textContent || el.value || "");
-    };
-
-    const data = {
-      schoolName: get("schoolName") || "",
-      teamLevel: get("teamLevel") || "",
-      numAthletes: get("numAthletes") || "",
-      CompetitionEvent: (() => {
-        const sel = document.getElementById("competitionLocation");
-        if (sel && sel.selectedOptions && sel.selectedOptions[0]) return sel.selectedOptions[0].textContent || "";
-        return "";
-      })(),
-      CompetitionLocation: (() => {
-        const sel = document.getElementById("competitionLocation");
-        if (sel && sel.selectedOptions && sel.selectedOptions[0]) {
-          try { const obj = JSON.parse(sel.selectedOptions[0].value); return obj.location || ""; } catch(e) { return sel.selectedOptions[0].textContent || ""; }
-        }
-        return "";
-      })(),
-      CompetitionDate: (() => {
-        const sel = document.getElementById("competitionLocation");
-        if (sel && sel.selectedOptions && sel.selectedOptions[0]) {
-          try { const obj = JSON.parse(sel.selectedOptions[0].value); return obj.date || ""; } catch(e) { return ""; }
-        }
-        return "";
-      })(),
-      StuntRange: document.getElementById("StuntRange") ? document.getElementById("StuntRange").textContent : "",
-      StuntSkills: document.getElementById("StuntSkills") ? document.getElementById("StuntSkills").textContent : "",
-      PyramidRange: document.getElementById("PyramidRange") ? document.getElementById("PyramidRange").textContent : "",
-      PyramidSkills: document.getElementById("PyramidSkills") ? document.getElementById("PyramidSkills").textContent : "",
-      TumblingOutput: getDivText("TumblingOutput"),
-      teamSync: get("teamSync") || "",
-      additionalTumbling: get("additionalTumbling") || "",
-      JumpOutput: getDivText("JumpOutput"),
-      JumpSequence: get("jumpSequence") || "",
-      legalityRulings: get("legalityRulings") || ""
-    };
-
-    // Try to fetch the docx template as an ArrayBuffer
-    const templateUrl = "Coaches_Rubric_Template.docx";
-    let response;
-    try {
-      response = await fetch(templateUrl);
-    } catch (fetchErr) {
-      console.error("Fetch failed:", fetchErr);
-      alert("Unable to fetch the Word template. If you're opening this HTML file locally (file://), the browser blocks file requests. Run a simple local server (e.g. `python -m http.server`) or host the files on a web server. See console for details.");
-      return;
-    }
-
-    if (!response.ok) {
-      console.error("Template fetch error, status:", response.status, response.statusText);
-      alert("Failed to load Word template (HTTP " + response.status + "). Ensure `Coaches_Rubric_Template.docx` is in the same folder and served by your web server.");
-      return;
-    }
-
-    const arrayBuffer = await response.arrayBuffer();
-
-    // Use PizZip + Docxtemplater to render
-    let zip;
-    try {
-      zip = new PizZip(arrayBuffer);
-    } catch (zErr) {
-      console.error("PizZip error:", zErr);
-      alert("Template appears invalid or corrupted. See console for details.");
-      return;
-    }
-
-    let doc;
-    try {
-      doc = new window.docxtemplater(zip, { paragraphLoop: true, linebreaks: true });
-      doc.setData(data);
-      doc.render();
-    } catch (err) {
-      console.error("docxtemplater render error:", err);
-      alert("Failed to render template. Confirm your template placeholders match the replacement keys (e.g. {schoolName}). See console for details.");
-      return;
-    }
-
-    const outBlob = doc.getZip().generate({
-      type: "blob",
-      mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-    });
-
-    // trigger download
-    const url = URL.createObjectURL(outBlob);
-    const a = document.createElement("a");
-    a.href = url;
-    const nameSafe = (data.schoolName || "VHSL_Rubric").replace(/[^a-z0-9_\- ]/ig, "").substr(0,60);
-    a.download = `VHSL_Rubric_${nameSafe || "Rubric"}.docx`;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    URL.revokeObjectURL(url);
-
-  } catch (err) {
-    console.error("Unexpected error generating Word:", err);
-    alert("Unexpected error generating Word document — see console for details.");
-  }
-}
-
-
-function attachDownloadButton() {
-  const popup = document.getElementById("PreviewPopupContent") || document.getElementById("previewModal");
-  if (!popup) {
-    console.warn("attachDownloadButton: preview popup container not found.");
-    return;
-  }
-
-  // remove any old button to avoid duplicates
-  const existing = document.getElementById("downloadWordBtn");
-  if (existing) return;
-
-  const btn = document.createElement("button");
-  btn.id = "downloadWordBtn";
-  btn.type = "button";
-  btn.textContent = "Download Word Document";
-  btn.style.marginTop = "15px";
-  btn.style.padding = "10px 15px";
-  btn.style.background = "#2F317D";
-  btn.style.color = "#fff";
-  btn.style.borderRadius = "6px";
-  btn.onclick = function (e) {
-    e.preventDefault();
-    generateWordFromTemplate();
-  };
-
-  // If PreviewPopupContent exists, append there; otherwise append to modal controls
-  const target = document.getElementById("PreviewPopupContent") || popup.querySelector("div");
-  if (target) {
-    target.appendChild(btn);
-  } else {
-    popup.appendChild(btn);
-  }
-}
-
-// Ensure the download button is attached whenever preview opens.
-// If your existing generatePreview() function is defined earlier (it is), wrap it safely:
-(function(){
-  const oldGen = window.generatePreview;
-  window.generatePreview = function(){
-    try { if (typeof oldGen === "function") oldGen(); } catch(e){ console.warn("original generatePreview threw", e); }
-    setTimeout(attachDownloadButton, 250);
-  };
-})();
-
-
-
-
 </script>
-
-
 
 
 
@@ -1677,7 +1536,7 @@ function attachDownloadButton() {
 </div>
 
 
-<!-- ===================== PREVIEW POPUP (REPLACE/PASTE THIS BLOCK) ======================= -->
+<!-- ===================== PREVIEW POPUP ======================= -->
 <div id="previewModal" style="
     display:none;
     position: fixed;
@@ -1695,29 +1554,21 @@ function attachDownloadButton() {
     <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
       <h2 style="margin:0; font-size:26px; color:#c02025"><strong>Rubric Submission Preview</strong></h2>
       <div style="display:flex; gap:8px;">
-        
-		 <!-- <button onclick="downloadPreview()"
-            style="padding:8px 12px; border-radius:6px; border:none; cursor:pointer; background:#2F317D; color:#fff;">
-      Download
-    </button> -->
-	<div id="PreviewPopupContent"></div>
-
-		<button onclick="closePreview()" style="padding:8px 12px; border-radius:6px; border:none; cursor:pointer; background:#c02025; color:#fff;">
+        <button id="previewPrintBtn" style="padding:8px 12px; border-radius:6px; border:none; cursor:pointer; background:#2F317D; color:#fff;">
+          Download
+        </button>
+        <button onclick="closePreview()" style="padding:8px 12px; border-radius:6px; border:none; cursor:pointer; background:#c02025; color:#fff;">
           Close
         </button>
-		
 	  </div>
     </div>
 	  <span class="note-small">Click 'Download' to save this for an easier copy/paste on future submissions!</span>
     <div id="previewContent" style="white-space:pre-wrap; font-size:15px; margin-top:14px; color:#111;"></div>
   </div>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 </body>
 </html>
-
-
 
 
 
