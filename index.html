@@ -5,9 +5,8 @@
 <meta charset="UTF-8">
 <title>VHSL Cheer Coaches Rubric Submission</title>
 
-<!-- ========================STYLE COMMANDS======================== -->
+<!-- ========================GENERAL STYLE COMMANDS======================== -->
 <style>
-
 /* === GENERAL STYLING === */
   body { font-family: Arial, sans-serif; margin: 30px; background: #fafafa; }
   h1 { color: #2F317D; font-size: 40px; font-weight: 700; }
@@ -18,12 +17,15 @@
   button:hover { background: #c02025; }
   .reset-button {  background-color: #c02025 !important;  color: white !important;}
   .reset-button:hover {  background-color: #D1BC00 !important;}
-  hr { border: none; 	height: 2px; 	background-color: #2F317D; 	margin: 30px 0; }
+  hr { border: none; 	height: 4px; 	background-color: #2F317D; 	margin: 30px 0; }
   .center-text { text-align: center;}
   a { color: #2F317D;  text-decoration: underline; }
   a:hover { color: #c02025; }
   input::placeholder, textarea::placeholder {  font-style: italic; color: #CFCFCE; white-space: pre-line;}
   textarea { font-family: Arial, sans-serif;}
+  .section-card {  background: #ffffff;  border-radius: 16px;  padding: 25px 30px;  
+      margin: 40px auto;  box-shadow: 0 4px 12px rgba(0,0,0,0.08);  max-width: 1100px;}
+
 
 /* === STUNT & PYRAMID === */
   .wrapper {    width: fit-content;  margin-left: auto; margin-right: auto;  position: relative; 	margin-bottom: 40px; cursor: pointer;}
@@ -43,16 +45,18 @@
   .majority { background-color: rgba(0, 200, 0, 0.2);  }
   .non-majority {  background-color: rgba(255, 0, 0, 0.2);  }
   
- /* === JUMP & TUMBLING === */
+/* === JUMP & TUMBLING === */
   .jumphighlight.selected,  .tumblinghighlight.selected  {    outline: 3px solid #c02025;    background-color: rgba(192, 32, 37, 0.15);}
   .jumphighlight,   .tumblinghighlight{    position: absolute;    cursor: pointer;}
   
-/* === LOADING SPINNER & ALERT MESSAGES === */  
+/* === LOADING SPINNER === */  
   #loadingOverlay {  position: fixed;  top: 0; left: 0;  width: 100%; height: 100%;  background: rgba(0, 0, 0, 0.65);  display: none;
 	align-items: center;  flex-direction: column;  justify-content: center;  z-index: 99999; opacity: 1;  transition: opacity 0.6s ease;}
   #loadingOverlay.fade-out {  opacity: 0;}
   .spinner {  width: 70px;  height: 70px;  border: 7px solid #ffffff55;  border-top: 7px solid #F8DF00;  border-radius: 50%;  animation: spin 1s linear infinite;}
   @keyframes spin {  0% { transform: rotate(0deg); }  100% { transform: rotate(360deg); }} 
+  
+/* === ALERT MESSAGES === */  
   #customAlert { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5);
                  display: flex; justify-content: center; align-items: center; z-index: 9999;}
   #customAlertContent {background: #fff; padding: 20px 25px; border-radius: 8px;
@@ -78,48 +82,69 @@
   input[style*="red"],  select[style*="red"],  textarea[style*="red"] { border: 2px solid red !important; background-color: #2a2a2a !important; color: #ffffff !important; }
   #customAlertContent { background: #2a2a2a !important; color: #ffffff !important; border: 1px solid #555 !important; }
 }
- 
 </style>
 
 <!-- =================== RESPONSIVE INLINE SVG FOR STUNT & PYRAMID RUBRIC =================== -->
 <style>
 /* SVG highlight styling */
-.svg-highlight {  fill: none;  stroke: none;  outline: none;    pointer-events: all;  }
-.svg-highlight.inversion  { stroke: none; fill: none; }
-.svg-highlight.release    { stroke: none; fill: none; }
-.svg-highlight.twisting   { stroke: none; fill: none; }
-.svg-highlight.coed       { stroke: none; fill: none; }
-.svg-highlight.toss       { stroke: none; fill: none; }
+  .svg-highlight {  fill: none;  stroke: none;  outline: none;    pointer-events: all;  }
+  .svg-highlight.inversion  { stroke: none; fill: none; }
+  .svg-highlight.release    { stroke: none; fill: none; }
+  .svg-highlight.twisting   { stroke: none; fill: none; }
+  .svg-highlight.coed       { stroke: none; fill: none; }
+  .svg-highlight.toss       { stroke: none; fill: none; }
 
 /* Highlight appearance during flash */
-.svg-flash.inversion  { stroke: rgba(180,0,180,0.85); fill: rgba(180,0,180,0.18); stroke-width: 3; }
-.svg-flash.release    { stroke: rgba(0,180,0,0.85);   fill: rgba(0,180,0,0.18); stroke-width: 3;   }
-.svg-flash.twisting   { stroke: rgba(255,0,0,0.85);   fill: rgba(255,0,0,0.18); stroke-width: 3;   }
-.svg-flash.coed       { stroke: rgba(0,0,255,0.85);   fill: rgba(0,0,255,0.12); stroke-width: 3;   }
-.svg-flash.toss       { stroke: rgba(255,120,0,0.85); fill: rgba(255,120,0,0.12); stroke-width: 3; }
+  .svg-flash.inversion  { stroke: rgba(180,0,180,0.85); fill: rgba(180,0,180,0.18); stroke-width: 3; }
+  .svg-flash.release    { stroke: rgba(0,180,0,0.85);   fill: rgba(0,180,0,0.18); stroke-width: 3;   }
+  .svg-flash.twisting   { stroke: rgba(255,0,0,0.85);   fill: rgba(255,0,0,0.18); stroke-width: 3;   }
+  .svg-flash.coed       { stroke: rgba(0,0,255,0.85);   fill: rgba(0,0,255,0.12); stroke-width: 3;   }
+  .svg-flash.toss       { stroke: rgba(255,120,0,0.85); fill: rgba(255,120,0,0.12); stroke-width: 3; }
 
 /*Fade out effect*/
-.svg-highlight.fadeout {  fill: none !important;  stroke: none !important;}
+  .svg-highlight.fadeout {  fill: none !important;  stroke: none !important;}
 
 /* ensure the svg scales nicely inside existing .wrapper */
-.svg-wrapper { width: 90%; max-width: 950px; margin: 0 auto; display: block; }
-.svg-wrapper svg { width: 100%; height: auto; display: block; }
+  .svg-wrapper { width: 90%; max-width: 950px; margin: 0 auto; display: block; }
+  .svg-wrapper svg { width: 100%; height: auto; display: block; }
 
 /* keep pointer cursor for clickable regions */
-.svg-highlight { cursor: pointer; }
+ .svg-highlight { cursor: pointer; }
 </style>
+
+<!-- =================== EXTRA VISUAL ADD-ONS =================== -->
 <style>
 
-/*EXTRA VISUAL ADD-ONS*/
-input.completed, select.completed, textarea.completed {
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="%2300A000" viewBox="0 0 16 16"><path d="M6.003 11.803L2.2 8l1.4-1.4 2.4 2.4 5.4-5.4L12.8 5l-6.8 6.8z"/></svg>');
-  background-repeat: no-repeat;  background-position: right 10px center;  background-size: 18px;  padding-right: 35px;}
-.info-icon {  cursor: pointer;  font-size: 18px;  margin-left: 6px;  color: #2F317D;}
-.info-icon:hover {  color: #c02025;}
-.info-popup {  display: none;  position: fixed;  top: 50%; left: 50%;  transform: translate(-50%, -50%);  background: white; padding: 20px 25px;  
+/* Green Checkmark After Completed Field */
+  input.completed, select.completed, textarea.completed {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="%2300A000" viewBox="0 0 16 16"><path d="M6.003 11.803L2.2 8l1.4-1.4 2.4 2.4 5.4-5.4L12.8 5l-6.8 6.8z"/></svg>');
+    background-repeat: no-repeat;  background-position: right 10px center;  background-size: 18px;  padding-right: 35px;}
+/* Info Pop Up Box */  
+  .info-icon {  cursor: pointer;  font-size: 18px;  margin-left: 6px;  color: #2F317D;}
+  .info-icon:hover {  color: #c02025;}
+  .info-popup {  display: none;  position: fixed;  top: 50%; left: 50%;  transform: translate(-50%, -50%);  background: white; padding: 20px 25px;  
                border-radius: 10px;  box-shadow: 0 6px 20px rgba(0,0,0,0.25);  z-index: 10000;  max-width: 400px;  text-align: left;   text-align: center;}
-.info-popup a {  color: #2F317D;  text-decoration: underline;}
-.info-icon:active::after {  content: attr(data-tooltip);} /* Mobile/touch support */
+  .info-popup a {  color: #2F317D;  text-decoration: underline;}
+  .info-icon:active::after {  content: attr(data-tooltip);} /* Mobile/touch support */
+/* Elegant Soft Confetti */
+#confettiContainer {  position: fixed;  pointer-events: none;  top: 0;  left: 0;  width: 100%;
+     height: 100%;  overflow: hidden;  z-index: 999999;  display: none;}
+.confetti-piece {  position: absolute;  width: 8px;  height: 8px;  opacity: 0.85;
+     border-radius: 2px;  animation: confetti-fall 7.0s ease-out forwards;}
+@keyframes confetti-fall {  0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+     100% { transform: translateY(450vh) rotate(250deg); opacity: 0; } }
+</style>
+
+<!-- =================== DEBUG MODE =================== -->
+<style>
+/* ===================================================
+   (Comment this whole block out when not in use)
+=================================================== */
+  .svg-highlight.inversion {  stroke: rgba(180,0,180,0.85) !important;  fill: rgba(180,0,180,0.18) !important;  stroke-width: 3px !important;}
+  .svg-highlight.release {  stroke: rgba(0,180,0,0.85) !important;  fill: rgba(0,180,0,0.18) !important;  stroke-width: 3px !important;}
+  .svg-highlight.twisting {  stroke: rgba(255,0,0,0.85) !important;  fill: rgba(255,0,0,0.18) !important;  stroke-width: 3px !important;}
+  .svg-highlight.coed {  stroke: rgba(0,0,255,0.85) !important;  fill: rgba(0,0,255,0.12) !important;  stroke-width: 3px !important;}
+  .svg-highlight.toss {  stroke: rgba(255,120,0,0.85) !important;  fill: rgba(255,120,0,0.12) !important;  stroke-width: 3px !important;}
 </style>
 
 
@@ -129,7 +154,6 @@ input.completed, select.completed, textarea.completed {
 <body>
 
 <!-- ========================START HTML VISUAL======================== -->
-
 
 	<div style="text-align: center; margin-bottom: 20px;">
 		<img src="vhsl_logo.png" alt="VHSL Logo" style="max-width: 250px; height: auto;">
@@ -153,7 +177,7 @@ input.completed, select.completed, textarea.completed {
  <p class="highlight-bar">All fields are required.</p>
 </div>
 
-
+<div class="section-card" data-section="CoachTeamInfo">
   <label>School Name</label>
   <input type="text" id="schoolName">
 
@@ -178,9 +202,11 @@ input.completed, select.completed, textarea.completed {
 <select id="competitionLocation">
   <option value="">--Select--</option>
 </select>
+</div>
 
 <hr>
 
+<div class="section-card" data-section="Stunts">
 <div class="center-text">  
   <h2>Stunt Skills Rubric 
   <span class="info-icon" onclick="showInfo('majorityInfo')">ⓘ</span>
@@ -196,7 +222,7 @@ input.completed, select.completed, textarea.completed {
   <svg id="StuntRubricSVG" viewBox="0 0 928 705" preserveAspectRatio="xMidYMid meet" role="img" aria-label="VHSL Stunt Rubric">
     <!-- Use your uploaded SVG file as the background image inside the inline SVG -->
     <!-- Keep the filename exactly as you host it. If you inlined the whole SVG body instead, remove this <image> line. -->
-    <image href="Stunt Rubric Full.svg" x="0" y="0" width="928" height="705" preserveAspectRatio="xMidYMid meet" />
+    <image href="Stunt Rubric 2026.svg" x="0" y="0" width="928" height="705" preserveAspectRatio="xMidYMid meet" />
 
     <!-- Responsive region overlays.
          Coordinates are percentages (x, y, width, height) so they scale with the SVG.
@@ -205,30 +231,44 @@ input.completed, select.completed, textarea.completed {
     -->
 
     <!-- Inversions -->
-    <rect id="i1" class="svg-highlight inversion" x="8.5%" y="18.25%" width="17.25%" height="3%"></rect>
-    <rect id="i2" class="svg-highlight inversion" x="8.5%" y="21.25%" width="17.25%" height="3.5%"></rect>
-    <rect id="i3" class="svg-highlight inversion" x="8.5%" y="24.75%" width="17.25%" height="3%"></rect>
-    <rect id="i4" class="svg-highlight inversion" x="25.75%" y="18.25%" width="17%" height="3%"></rect>
+    <rect id="i1" class="svg-highlight inversion" x="7.25%" y="18.5%" width="17.75%" height="3%"></rect>
+    <rect id="i2" class="svg-highlight inversion" x="7.25%" y="21.25%" width="17.75%" height="3.5%"></rect>
+    <rect id="i3" class="svg-highlight inversion" x="7.25%" y="24.75%" width="17.75%" height="3%"></rect>
+    <rect id="i4" class="svg-highlight inversion" x="25.25%" y="18.5%" width="17.5%" height="3%"></rect>
+	<rect id="i5" class="svg-highlight inversion" x="25.25%" y="21.25%" width="17.5%" height="3.5%"></rect>
+	<rect id="i6" class="svg-highlight inversion" x="25.25%" y="24.75%" width="17.5%" height="3%"></rect>
+	<rect id="i7" class="svg-highlight inversion" x="42.75%" y="18.5%" width="18.25%" height="3%"></rect>
+	<rect id="i8" class="svg-highlight inversion" x="42.75%" y="24.75%" width="18.25%" height="3%"></rect>
+	
+	<rect id="i9" class="svg-highlight inversion" x="61%" y="18.5%" width="18.5%" height="3%"></rect>
+	<rect id="i10" class="svg-highlight inversion" x="61%" y="24.75%" width="18.5%" height="3%"></rect>
+	<rect id="i11" class="svg-highlight inversion" x="61%" y="27.75%" width="18.5%" height="3%"></rect>
+	<rect id="i12" class="svg-highlight inversion" x="79.75%" y="24.75%" width="18.25%" height="3%"></rect>
+	<rect id="i13" class="svg-highlight inversion" x="79.75%" y="27.75%" width="18.25%" height="3%"></rect>
 
     <!-- Releases -->
-    <rect id="r1" class="svg-highlight release" x="8.5%" y="32.25%" width="17.25%" height="2.5%"></rect>
-    <rect id="r2" class="svg-highlight release" x="8.5%" y="34.75%" width="17.25%" height="2.25%"></rect>
-    <rect id="r3" class="svg-highlight release" x="8.5%" y="42.25%" width="17.25%" height="2.5%"></rect>
+    <rect id="r1" class="svg-highlight release" x="7.25%" y="32%" width="17.75%" height="2.5%"></rect>
+    <rect id="r2" class="svg-highlight release" x="7.25%" y="34.5%" width="17.75%" height="2%"></rect>
+    <rect id="r3" class="svg-highlight release" x="7.25%" y="36.5%" width="17.75%" height="2.5%"></rect>
 
     <!-- Twisting -->
-    <rect id="t1" class="svg-highlight twisting" x="8.5%" y="51.5%" width="17.25%" height="1.25%"></rect>
-    <rect id="t2" class="svg-highlight twisting" x="8.5%" y="52.75%" width="17.25%" height="2.25%"></rect>
-    <rect id="t3" class="svg-highlight twisting" x="8.5%" y="55%" width="17.25%" height="3%"></rect>
+    <rect id="t1" class="svg-highlight twisting" x="7.25%" y="52.5%" width="17.75%" height="2%"></rect>
+    <rect id="t2" class="svg-highlight twisting" x="7.25%" y="54.75%" width="17.75%" height="2%"></rect>
+    <rect id="t3" class="svg-highlight twisting" x="7.25%" y="57%" width="17.75%" height="2.5%"></rect>
 
     <!-- Coed -->
-    <rect id="c1" class="svg-highlight coed" x="8.5%" y="64%" width="17.25%" height="2%"></rect>
-    <rect id="c2" class="svg-highlight coed" x="8.5%" y="68.25%" width="17.25%" height="2.75%"></rect>
-    <rect id="c3" class="svg-highlight coed" x="8.5%" y="71%" width="17.25%" height="3%"></rect>
+    <rect id="c1" class="svg-highlight coed" x="7.25%" y="65%" width="17.75%" height="2.25%"></rect>
+    <rect id="c2" class="svg-highlight coed" x="7.25%" y="71.5%" width="17.75%" height="2.5%"></rect>
+    <rect id="c3" class="svg-highlight coed" x="7.25%" y="74%" width="17.75%" height="2.5%"></rect>
 
     <!-- Toss -->
-    <rect id="o1" class="svg-highlight toss" x="8.5%" y="87.5%" width="17.25%" height="2.75%"></rect>
-    <rect id="o2" class="svg-highlight toss" x="8.5%" y="92%" width="17.25%" height="4%"></rect>
-    <rect id="o3" class="svg-highlight toss" x="25.75%" y="87.5%" width="17%" height="2.75%"></rect>
+    <rect id="o1" class="svg-highlight toss" x="7.25%" y="84.25%" width="17.75%" height="2.75%"></rect>
+    <rect id="o2" class="svg-highlight toss" x="7.25%" y="88.25%" width="17.75%" height="4%"></rect>
+    <rect id="o3" class="svg-highlight toss" x="25.25%" y="84.25%" width="17.5%" height="2.75%"></rect>
+	<rect id="o4" class="svg-highlight toss" x="25.25%" y="88.25%" width="17.5%" height="4%"></rect>
+	<rect id="o5" class="svg-highlight toss" x="42.75%" y="88.25%" width="18.25%" height="4%"></rect>
+	<rect id="o6" class="svg-highlight toss" x="61.25%" y="88.25%" width="18.25%" height="4%"></rect>
+	<rect id="o7" class="svg-highlight toss" x="79.75%" y="88.25%" width="18.5%" height="4%"></rect>
 
     <!-- Bottom header/test boxes -->
     <rect id="h1" class="svg-highlight inversion" x="20%" y="80%" width="20%" height="3%"></rect>
@@ -267,9 +307,11 @@ input.completed, select.completed, textarea.completed {
 	</div>
 
 	<div id="output"></div>
+</div>
 
 <hr>
 
+<div class="section-card" data-section="Pyramid">
  <div class="center-text">
   <h2>Pyramid Skills Rubric
   <span class="info-icon" onclick="showInfo('majorityInfo')">ⓘ</span>
@@ -283,21 +325,21 @@ input.completed, select.completed, textarea.completed {
   <svg id="PyramidRubricSVG" viewBox="0 0 1174 643" preserveAspectRatio="xMidYMid meet" role="img" aria-label="VHSL Pyramid Rubric">
     <!-- Use your uploaded SVG file as the background image inside the inline SVG -->
     <!-- Keep the filename exactly as you host it. If you inlined the whole SVG body instead, remove this <image> line. -->
-    <image href="Pyramid Rubric Full.svg" x="0" y="0" width="1174" height="643" preserveAspectRatio="xMidYMid meet" />
+    <image href="Pyramid Rubric 2026.svg" x="0" y="0" width="1174" height="643" preserveAspectRatio="xMidYMid meet" />
 
     <!-- Highlight regions (same pattern as Stunt) -->
-    <rect id="n1" class="svg-highlight inversion"  x="18.5%" y="25%" width="15%" height="5%"></rect>
-    <rect id="n2" class="svg-highlight inversion"  x="18.5%" y="30%" width="15%" height="6%"></rect>
-    <rect id="n3" class="svg-highlight inversion"  x="18.5%" y="41.5%" width="15%" height="5%"></rect>
-    <rect id="n4" class="svg-highlight inversion"  x="33.5%" y="25%" width="15.5%" height="5%"></rect>
+    <rect id="n1" class="svg-highlight inversion"  x="18.5%" y="16.75%" width="15%" height="5%"></rect>
+    <rect id="n2" class="svg-highlight inversion"  x="18.5%" y="21.75%" width="15%" height="6.25%"></rect>
+    <rect id="n3" class="svg-highlight inversion"  x="18.5%" y="33.75%" width="15%" height="5.25%"></rect>
+    <rect id="n4" class="svg-highlight inversion"  x="33.5%" y="16.75%" width="15.25%" height="5%"></rect>
 
-    <rect id="pr1" class="svg-highlight release"    x="18.5%" y="53%" width="15%" height="6.25%"></rect>
-    <rect id="pr2" class="svg-highlight release"    x="18.5%" y="59.25%" width="15%" height="6.5%"></rect>
-    <rect id="pr3" class="svg-highlight release"    x="33.5%" y="53%" width="15.5%" height="6.25%"></rect>
+    <rect id="pr1" class="svg-highlight release"    x="18.5%" y="47.25%" width="15%" height="6.5%"></rect>
+    <rect id="pr2" class="svg-highlight release"    x="18.5%" y="53.75%" width="15%" height="6.5%"></rect>
+    <rect id="pr3" class="svg-highlight release"    x="33.75%" y="47.25%" width="15%" height="6.5%"></rect>
 
-    <rect id="b1" class="svg-highlight twisting"   x="18.5%" y="79%" width="15%" height="4.5%"></rect>
-    <rect id="b2" class="svg-highlight twisting"   x="18.5%" y="83.5%" width="15%" height="6.25%"></rect>
-    <rect id="b3" class="svg-highlight twisting"   x="18.5%" y="89.75%" width="15%" height="8%"></rect>
+    <rect id="b1" class="svg-highlight twisting"   x="18.5%" y="74.75%" width="15%" height="4.5%"></rect>
+    <rect id="b2" class="svg-highlight twisting"   x="18.5%" y="79.5%" width="15%" height="6.25%"></rect>
+    <rect id="b3" class="svg-highlight twisting"   x="18.5%" y="85.75%" width="15%" height="8.5%"></rect>
 
   </svg>
   </div>
@@ -328,9 +370,11 @@ input.completed, select.completed, textarea.completed {
 	</div>
 
 	<div id="outputp"></div>
+  </div>
   
 <hr>
 
+<div class="section-card" data-section="Tumbling">
 <div class="center-text">
   <h2>Tumbling Skills Rubric
   <span class="info-icon" onclick="showInfo('majorityInfo')">ⓘ</span>
@@ -385,9 +429,11 @@ input.completed, select.completed, textarea.completed {
 	4 round off backhandspring tucks
 	1 roundoff layout
 	8 forward rolls"></textarea>
+	</div>
 
 <hr>
 
+<div class="section-card" data-section="Jumps">
 <div class="center-text">
   <h2>Jump Skills Rubric
   <span class="info-icon" onclick="showInfo('majorityInfo')">ⓘ</span>
@@ -436,16 +482,18 @@ input.completed, select.completed, textarea.completed {
 	Example:
 	11 right hurdlers (in cheer)
 	11 double toe touches"></textarea>
+</div>
 
 <hr>
 
+<div class="section-card" data-section="Legality">
   <label>Any Legality Rulings from Bill Ahern?</label>
   <select id="legalityRulings">
     <option value="">--Select--</option>
     <option>Yes</option>
     <option>No</option>
   </select>
-
+</div>
 
   <div style="text-align: center; margin-top: 30px;">
     <button type="button" id="saveBtn" style="padding: 16px 28px; font-size: 20px;">Save & Submit</button>
@@ -482,13 +530,11 @@ input.completed, select.completed, textarea.completed {
 
 
 <script>
-function showInfo(id) {
-  document.getElementById(id).style.display = "block";
-}
 
-function closeInfo(id) {
-  document.getElementById(id).style.display = "none";
-}
+/*********SHOW INFO ⓘ POP UP*********/
+
+function showInfo(id) {  document.getElementById(id).style.display = "block";}
+function closeInfo(id) {  document.getElementById(id).style.display = "none";}
 
 /************************************************ 
 |                                               |
@@ -499,22 +545,40 @@ function closeInfo(id) {
 
 //Labels for all stunt & pyramid skills
 const StuntRegions = [
-  { id: 'i1', skill: 'Connected Inversions - Prep Level and Below to Below Prep', category: 'Inversion', difficulty: 'Beginner'},
+  { id: 'i1', skill: 'Non-Release Inversions - Prep Level and Below to Below Prep', category: 'Inversion', difficulty: 'Beginner'},
   { id: 'i2', skill: 'Below Prep Level Inversions to Ground', category: 'Inversion', difficulty: 'Beginner' },
   { id: 'i3', skill: 'Released Inversion Prep Level or Below to Below Prep', category: 'Inversion', difficulty: 'Beginner' },
-  { id: 'i4', skill: 'Connected Inversions - Prep Level and Below to Prep', category: 'Inversion', difficulty: 'Intermediate' },
+  { id: 'i4', skill: 'Non-Release Inversions - Prep Level and Below to Prep', category: 'Inversion', difficulty: 'Intermediate' },
+  { id: 'i5', skill: 'Suspended Forward Roll Variations & Inversions', category: 'Inversion', difficulty: 'Intermediate' },  
+  { id: 'i6', skill: 'Released Inversions Prep Level or Below to Prep', category: 'Inversion', difficulty: 'Intermediate' },
+  { id: 'i7', skill: 'Non-Release Inversions Prep Level and Below to Extended', category: 'Inversion', difficulty: 'Advanced' },
+  { id: 'i8', skill: 'Released Inversions Prep Level or Below to Extended', category: 'Inversion', difficulty: 'Advanced' },
+  { id: 'i9', skill: 'Non-Release Twisting Inversions Prep Level and Below to Extended', category: 'Inversion', difficulty: 'Elite' },
+  { id: 'i10', skill: 'Released Inversions Prep Level or Below to Extended IBP', category: 'Inversion', difficulty: 'Elite' },
+  { id: 'i11', skill: 'Alternate Entries to Hand to Hand Stunts', category: 'Inversion', difficulty: 'Elite' },
+  { id: 'i12', skill: 'Released Inversions Prep Level or Below to Extended ABP', category: 'Inversion', difficulty: 'Super Elite' },
+  { id: 'i13', skill: 'Twisting Released Inversion to Extended', category: 'Inversion', difficulty: 'Super Elite' },
+  
   { id: 'r1', skill: 'Release to Below Prep', category: 'Release', difficulty: 'Beginner' },
   { id: 'r2', skill: 'Horizontal Releases to Below Prep', category: 'Release', difficulty: 'Beginner' },
   { id: 'r3', skill: 'Extended Release to Below Prep', category: 'Release', difficulty: 'Beginner' },
+  
   { id: 't1', skill: '1/4 or 1/2 Up to Prep Level', category: 'Twisting', difficulty: 'Beginner' },
   { id: 't2', skill: '1/4 Up to Extended', category: 'Twisting', difficulty: 'Beginner' },
   { id: 't3', skill: '1/4 or 1/2 Twisting Transitions', category: 'Twisting', difficulty: 'Beginner' },
+  
   { id: 'c1', skill: 'Single Base at Prep Level', category: 'Coed', difficulty: 'Beginner' },
   { id: 'c2', skill: 'Assisted Coed Skills to Prep', category: 'Coed', difficulty: 'Beginner' },
   { id: 'c3', skill: 'Assisted Walk-In/Toss to Chair', category: 'Coed', difficulty: 'Beginner' },
+  
   { id: 'o1', skill: 'Prep Level and Below Stunts Not Previously Categorized', category: 'Toss', difficulty: 'Beginner' },
   { id: 'o2', skill: 'Straight Ride or Pretty Girl Tosses', category: 'Toss', difficulty: 'Beginner' },
   { id: 'o3', skill: 'Extended Stunts Not Previously Categorized', category: 'Toss', difficulty: 'Intermediate' },
+  { id: 'o4', skill: 'Single Skill Tosses', category: 'Toss', difficulty: 'Intermediate' },
+  { id: 'o5', skill: 'Multi-Skill Tosses', category: 'Toss', difficulty: 'Advanced' },
+  { id: 'o6', skill: 'Single-Skill Tosses with Full Twist', category: 'Toss', difficulty: 'Elite' }, 
+  { id: 'o7', skill: 'Multi-Skill Tosses with Full Twist', category: 'Toss', difficulty: 'Super Elite' },
+  
   { id: 'h1', skill: 'TEST', category: 'Inversion', difficulty: 'Advanced' },
   { id: 'h2', skill: 'TEST', category: 'Release', difficulty: 'Elite' },
   { id: 'h3', skill: 'TEST', category: 'Twisting', difficulty: 'Super Elite' }
@@ -1116,6 +1180,7 @@ const APPS_SCRIPT_BASE = "https://script.google.com/macros/s/AKfycbzA1BxBeDj23K-
   
 			//  HIDE SPINNER AFTER SUCCESSFUL SUBMISSION
 				document.getElementById("loadingOverlay").style.display = "none";
+				triggerConfetti();   // 🎉 CONFETTI!!!!!
 
 
 		} catch (err) {
@@ -1126,7 +1191,6 @@ const APPS_SCRIPT_BASE = "https://script.google.com/macros/s/AKfycbzA1BxBeDj23K-
 			showCustomAlert("Network error sending submission: " + err.message);
 		}
 		}
-
 
 /************************************************ 
 |                                               |
@@ -1158,6 +1222,41 @@ function addCompletionCheckmarks() {
 }
 
 window.addEventListener("load", addCompletionCheckmarks);
+
+
+// ---------------------------- CONFETTI FOR SUCCESSFULL SUBMISSION ----------------------------
+
+function triggerConfetti() {
+  const container = document.getElementById("confettiContainer");
+  container.innerHTML = "";
+  container.style.display = "block";
+
+  const colors = ["#F8DF00", "#2F317D", "#c02025"]; // VHSL palette
+  const pieces = 1000;
+
+  for (let i = 0; i < pieces; i++) {
+    const confetti = document.createElement("div");
+    confetti.classList.add("confetti-piece");
+
+    const size = Math.random() * 6 + 4;
+    confetti.style.width = `${size}px`;
+    confetti.style.height = `${size}px`;
+
+    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    confetti.style.left = Math.random() * 100 + "vw";
+    const randomYOffset = -20 - Math.random() * 120; // up to 140px above view
+confetti.style.transform = `translateY(${randomYOffset}px) rotate(${Math.random() * 360}deg)`;
+confetti.style.animationDelay = (Math.random() * 0.6) + "s";
+
+
+    container.appendChild(confetti);
+  }
+
+  // Hide after animation finishes
+  setTimeout(() => {
+    container.style.display = "none";
+  }, 1700);
+}
 
 
 
@@ -1486,17 +1585,11 @@ window.addEventListener("load", loadAutosave);
    
     const previewEl = document.getElementById("previewContent");
     if (previewEl) previewEl.innerHTML = parts.join("\n");
-    else {
-      console.warn("previewContent element not found in DOM.");
-    }
+    else {      console.warn("previewContent element not found in DOM.");    }
     const modal = document.getElementById("previewModal");
-    if (modal) {
-      modal.style.display = "flex";
-      modal.setAttribute("aria-hidden", "false");
-      previewEl && previewEl.focus && previewEl.focus();
-    } else {
-      console.warn("previewModal element not found in DOM.");
-    }
+    if (modal) {      modal.style.display = "flex";      modal.setAttribute("aria-hidden", "false");
+      previewEl && previewEl.focus && previewEl.focus();    } 
+	  else {      console.warn("previewModal element not found in DOM.");    }
   };
 })();
 window.closePreview = function () {
@@ -1537,41 +1630,24 @@ window.closePreview = function () {
 
 
 <!-- ===================== PREVIEW POPUP ======================= -->
-<div id="previewModal" style="
-    display:none;
-    position: fixed;
-    top:0; left:0; width:100%; height:100%;
-    background: rgba(0,0,0,0.6); z-index:99999;
-    justify-content: center; align-items: center; padding: 20px;
-">
-  <div style="
-      background: #fff; max-width:760px; width:100%;
-      border-radius:10px; padding:22px;
-      max-height:86vh; overflow-y:auto;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
-      font-family: Arial, sans-serif;
-  ">
+<div id="previewModal" style="display:none;    position: fixed;    top:0; left:0; width:100%; height:100%;
+    background: rgba(0,0,0,0.6); z-index:99999;    justify-content: center; align-items: center; padding: 20px;">
+  <div style="      background: #fff; max-width:760px; width:100%;      border-radius:10px; padding:22px;      max-height:86vh; overflow-y:auto;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.35);      font-family: Arial, sans-serif;  ">
     <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
       <h2 style="margin:0; font-size:26px; color:#c02025"><strong>Rubric Submission Preview</strong></h2>
       <div style="display:flex; gap:8px;">
-        <button id="previewPrintBtn" style="padding:8px 12px; border-radius:6px; border:none; cursor:pointer; background:#2F317D; color:#fff;">
-          Download
-        </button>
-        <button onclick="closePreview()" style="padding:8px 12px; border-radius:6px; border:none; cursor:pointer; background:#c02025; color:#fff;">
-          Close
-        </button>
+        <button id="previewPrintBtn" style="padding:8px 12px; border-radius:6px; border:none; cursor:pointer; background:#2F317D; color:#fff;">Print</button>
+        <button onclick="closePreview()" style="padding:8px 12px; border-radius:6px; border:none; cursor:pointer; background:#c02025; color:#fff;">Close</button>
 	  </div>
     </div>
-	  <span class="note-small">Click 'Download' to save this for an easier copy/paste on future submissions!</span>
+	  <span class="note-small">Click 'Print' to save this for an easier copy/paste on future submissions!</span>
     <div id="previewContent" style="white-space:pre-wrap; font-size:15px; margin-top:14px; color:#111;"></div>
   </div>
 </div>
 
+<div id="confettiContainer"></div>
+
+
 </body>
 </html>
-
-
-
-
-
-
