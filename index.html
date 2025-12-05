@@ -81,7 +81,10 @@
   button:hover { background: #c02025 !important; }
   input[style*="red"],  select[style*="red"],  textarea[style*="red"] { border: 2px solid red !important; background-color: #2a2a2a !important; color: #ffffff !important; }
   #customAlertContent { background: #2a2a2a !important; color: #ffffff !important; border: 1px solid #555 !important; }
-}
+  .section-card {    background: #262626 !important;     color: #f2f2f2 !important;    box-shadow: 0 4px 14px rgba(0,0,0,0.55) !important;    border: 1px solid #333 !important;  }
+  .section-card h2 {    color: #ffffff !important;  }
+  .section-card p,  .section-card label {    color: #e6e6e6 !important;  }
+  }
 </style>
 
 <!-- =================== RESPONSIVE INLINE SVG FOR STUNT & PYRAMID RUBRIC =================== -->
@@ -499,8 +502,8 @@
     <button type="button" id="saveBtn" style="padding: 16px 28px; font-size: 20px;">Save & Submit</button>
 	<br>
 	<br>
-	<button id="resetBtn" class="reset-button" onclick="localStorage.removeItem('rubricFormAutosave'); location.reload();">Reset Saved Form</button>
-    <button id="previewBtn" style="background:#555;">Preview Submission</button>
+	<button id="resetBtn" class="reset-button" onclick="localStorage.removeItem('rubricFormAutosave'); location.reload();">Clear | Reset Form</button>
+    <button id="previewBtn" style="background:#555;">Preview | Print Summary</button>
 
 
 
@@ -1651,3 +1654,9 @@ window.closePreview = function () {
 
 </body>
 </html>
+
+
+
+
+
+
