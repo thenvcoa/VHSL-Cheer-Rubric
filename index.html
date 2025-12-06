@@ -77,11 +77,17 @@
   table, th, td { background: #1f1f1f !important; color: #f2f2f2 !important; border-color: #444 !important; }
   th { background: #333 !important; }
   .highlight-bar { background-color: #F8DF00 !important;  color: #000000 !important;  border-radius: 6px; }
-  button { background: #2F317D !important; color: white !important; }
-  button:hover { background: #c02025 !important; }
+  button {    background: #1c1f26;    border: 1px solid rgba(0, 120, 255, 0.45);    color: #e6f3ff;
+    box-shadow:      0 0 6px rgba(0, 120, 255, 0.45),      0 0 12px rgba(0, 120, 255, 0.25),      inset 0 0 4px rgba(0, 120, 255, 0.25);
+    transition:      background 0.25s ease,      box-shadow 0.25s ease,      transform 0.15s ease;  }
+  button:hover {    box-shadow:      0 0 10px rgba(0, 150, 255, 0.6),      0 0 20px rgba(0, 150, 255, 0.35),
+      inset 0 0 6px rgba(0, 150, 255, 0.35);    transform: translateY(-1px);  }
+  button:active {    transform: translateY(1px);    box-shadow:      0 0 6px rgba(0, 120, 255, 0.4),
+      inset 0 0 8px rgba(0, 120, 255, 0.45);  }
   input[style*="red"],  select[style*="red"],  textarea[style*="red"] { border: 2px solid red !important; background-color: #2a2a2a !important; color: #ffffff !important; }
   #customAlertContent { background: #2a2a2a !important; color: #ffffff !important; border: 1px solid #555 !important; }
-  .section-card {    background: #262626 !important;     color: #f2f2f2 !important;    box-shadow: 0 4px 14px rgba(0,0,0,0.55) !important;    border: 1px solid #333 !important;  }
+    .section-card {    background: #0d0f14;    border: 1px solid rgba(80, 150, 255, 0.35);    box-shadow:      0 0 8px rgba(80, 150, 255, 0.35),
+      0 0 20px rgba(80, 150, 255, 0.15) inset;    transition: box-shadow 0.3s ease, border-color 0.3s ease;  }
   .section-card h2 {    color: #ffffff !important;  }
   .section-card p,  .section-card label {    color: #e6e6e6 !important;  }
   }
@@ -1268,7 +1274,7 @@ function triggerConfetti() {
     // Cannon spray angles:
     // left cannon shoots 20° upward
     // right cannon shoots 160° upward
-    const angleBase = fromLeft ? 70 : 110;
+    const angleBase = fromLeft ? 20 : 160;
 
     // Add random variation (gives spread effect)
     const angle = angleBase + (Math.random() * 40 - 20);
@@ -1277,7 +1283,7 @@ function triggerConfetti() {
     const rad = angle * (Math.PI / 180);
 
     // Distance of travel (px)
-    const distance = 700 + Math.random() * 900;
+    const distance = 350 + Math.random() * 300;
 
     const x = Math.cos(rad) * distance;
     const y = Math.sin(rad) * distance;
@@ -1690,4 +1696,5 @@ window.closePreview = function () {
 
 </body>
 </html>
+
 
