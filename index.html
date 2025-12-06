@@ -129,9 +129,7 @@
                border-radius: 10px;  box-shadow: 0 6px 20px rgba(0,0,0,0.25);  z-index: 10000;  max-width: 400px;  text-align: left;   text-align: center;}
   .info-popup a {  color: #2F317D;  text-decoration: underline;}
   .info-icon:active::after {  content: attr(data-tooltip);} /* Mobile/touch support */
-/* Successful Submission Confetti */
-
-/* Confetti Cannons */
+/* Successful Submission Confetti Cannons */
   #confettiContainer {  position: fixed;  left: 0;  top: 0;  width: 100vw;  height: 100vh;
     pointer-events: none;  overflow: visible;  z-index: 999999;  display: none;}
   .confetti-piece {  position: absolute;  width: 6px;  height: 10px;  border-radius: 2px;
@@ -1270,7 +1268,7 @@ function triggerConfetti() {
     // Cannon spray angles:
     // left cannon shoots 20° upward
     // right cannon shoots 160° upward
-    const angleBase = fromLeft ? 20 : 160;
+    const angleBase = fromLeft ? 70 : 110;
 
     // Add random variation (gives spread effect)
     const angle = angleBase + (Math.random() * 40 - 20);
@@ -1279,7 +1277,7 @@ function triggerConfetti() {
     const rad = angle * (Math.PI / 180);
 
     // Distance of travel (px)
-    const distance = 350 + Math.random() * 300;
+    const distance = 700 + Math.random() * 900;
 
     const x = Math.cos(rad) * distance;
     const y = Math.sin(rad) * distance;
