@@ -69,7 +69,7 @@
 /* === DARK MODE ADJUSTMENTS FOR MOBILE === */
 @media (prefers-color-scheme: dark) {
   body { background: #1a1a1a !important; color: #f2f2f2 !important; }
-    h1 {    text-shadow:      0 0 2px rgba(255,255,255,0.35);  }
+    h1 {    text-shadow:      0 0 1px rgba(255,255,255,0.35);  }
 	a {    color: #c02025 !important;     text-shadow:      0 0 1px rgba(255,255,255,0.35);  }
     a:hover {    color: #F8DF00 !important;     text-shadow:      0 0 1px rgba(255,255,255,0.35); }
   input, select, textarea { background: #2a2a2a !important; color: #ffffff !important; border: 1px solid #444 !important; }
@@ -227,6 +227,7 @@
   </h2>
 
   <p><strong>Click on the rubric image to select skills.</strong></p>
+  <p><strong><span class="text-underline">***Please list skills in order of performance.***</span></strong></p> 
 </div>
 
 
@@ -291,14 +292,7 @@
   </svg>
   </div>
 	
-	
-	
-	
-
-	<p><strong>
-	Enter the number of stunt groups for each skill.
-	<span class="text-underline">Please list skills in order of performance.</span> 
-	</strong></p>
+	<p><strong>Enter the number of stunt groups for each skill. <span class="text-underline">Please list skills in order of performance.</span></strong></p>
 
 	<!-- Drag & drop table -->
 	<table id="skillCountsTable">
@@ -331,6 +325,7 @@
   <span class="info-icon" onclick="showInfo('majorityInfo')">ⓘ</span>
   </h2>
   <p><strong>Click on the rubric image to select skills.</strong></p>
+    <p><strong><span class="text-underline">***Please list skills in order of performance.***</span></strong></p> 
 </div>
 
 
@@ -358,10 +353,7 @@
   </svg>
   </div>
 
-	<p><strong>
-	Enter the number of trick flyers for each skill. 
-	<span class="text-underline">Please list skills in order of performance.</span> 
-	</strong></p>
+	<p><strong>Enter the number of trick flyers for each skill. <span class="text-underline">Please list skills in order of performance.</span></strong></p>
 
 	<!-- Drag & drop table -->
 	<table id="PyramidCountsTable">
@@ -1696,6 +1688,9 @@ window.closePreview = function () {
 
 </body>
 </html>
+
+
+
 
 
 
