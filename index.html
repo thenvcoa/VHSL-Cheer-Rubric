@@ -17,7 +17,7 @@
   button:hover { background: #c02025; }
   .reset-button {  background-color: #c02025 !important;  color: white !important;}
   .reset-button:hover {  background-color: #D1BC00 !important;}
-  hr { border: none; 	height: 4px; 	background-color: #2F317D; 	margin: 30px 0; }
+  hr { border: none; 	height: 5px; 	background-color: #2F317D; 	margin: 30px 0; }
   .center-text { text-align: center;}
   a { color: #2F317D;  text-decoration: underline; }
   a:hover { color: #c02025; }
@@ -69,6 +69,9 @@
 /* === DARK MODE ADJUSTMENTS FOR MOBILE === */
 @media (prefers-color-scheme: dark) {
   body { background: #1a1a1a !important; color: #f2f2f2 !important; }
+    h1 {    text-shadow:      0 0 6px rgba(255,255,255,0.9),      0 0 12px rgba(255,255,255,0.6);  }
+	a {    color: #ffffff !important;    text-shadow:      0 0 6px rgba(255,255,255,0.9),      0 0 12px rgba(255,255,255,0.6);  }
+    a:hover {    color: #F8DF00 !important;    text-shadow:      0 0 10px rgba(255,255,255,1),      0 0 18px rgba(255,255,255,0.7);  }
   input, select, textarea { background: #2a2a2a !important; color: #ffffff !important; border: 1px solid #444 !important; }
   #output,  #outputp,  #StuntSkills,  #StuntRange,  #PyramidSkills,  #PyramidRange 
 	{ background: #2a2a2a !important; color: #ffffff !important; border: 1px solid #444 !important; border-radius: 5px !important; padding: 10px !important; }
@@ -77,19 +80,16 @@
   table, th, td { background: #1f1f1f !important; color: #f2f2f2 !important; border-color: #444 !important; }
   th { background: #333 !important; }
   .highlight-bar { background-color: #F8DF00 !important;  color: #000000 !important;  border-radius: 6px; }
-  button {    background: #1c1f26;    border: 1px solid rgba(0, 120, 255, 0.45);    color: #e6f3ff;
-    box-shadow:      0 0 6px rgba(0, 120, 255, 0.45),      0 0 12px rgba(0, 120, 255, 0.25),      inset 0 0 4px rgba(0, 120, 255, 0.25);
-    transition:      background 0.25s ease,      box-shadow 0.25s ease,      transform 0.15s ease;  }
-  button:hover {    box-shadow:      0 0 10px rgba(0, 150, 255, 0.6),      0 0 20px rgba(0, 150, 255, 0.35),
-      inset 0 0 6px rgba(0, 150, 255, 0.35);    transform: translateY(-1px);  }
-  button:active {    transform: translateY(1px);    box-shadow:      0 0 6px rgba(0, 120, 255, 0.4),
-      inset 0 0 8px rgba(0, 120, 255, 0.45);  }
+  button { background: #2F317D !important; color: white !important; }
+  button:hover { background: #c02025 !important; }
   input[style*="red"],  select[style*="red"],  textarea[style*="red"] { border: 2px solid red !important; background-color: #2a2a2a !important; color: #ffffff !important; }
   #customAlertContent { background: #2a2a2a !important; color: #ffffff !important; border: 1px solid #555 !important; }
-    .section-card {    background: #0d0f14;    border: 1px solid rgba(80, 150, 255, 0.35);    box-shadow:      0 0 8px rgba(80, 150, 255, 0.35),
+  .section-card {    background: #0d0f14;    border: 1px solid rgba(80, 150, 255, 0.35);    box-shadow:      0 0 8px rgba(80, 150, 255, 0.35),
       0 0 20px rgba(80, 150, 255, 0.15) inset;    transition: box-shadow 0.3s ease, border-color 0.3s ease;  }
   .section-card h2 {    color: #ffffff !important;  }
   .section-card p,  .section-card label {    color: #e6e6e6 !important;  }
+  .info-icon {  cursor: pointer;  font-size: 18px;  margin-left: 6px;  color: #c02025;}
+  .info-icon:hover {  color: #F8DF00;}
   }
 </style>
 
@@ -393,7 +393,7 @@
   <h2>Tumbling Skills Rubric
   <span class="info-icon" onclick="showInfo('majorityInfo')">ⓘ</span>
   </h2>
-  <p><strong>Click on the rubric image to select skills.</strong></p>
+  <p><strong>Click on the rubric image to select range.</strong></p>
 </div>
 
 	<div class="wrapper">
@@ -452,7 +452,7 @@
   <h2>Jump Skills Rubric
   <span class="info-icon" onclick="showInfo('majorityInfo')">ⓘ</span>
   </h2>
-  <p><strong>Click on the rubric image to select skills.</strong></p>
+  <p><strong>Click on the rubric image to select range.</strong></p>
 </div>
 
 	<div class="wrapper">
@@ -1696,5 +1696,9 @@ window.closePreview = function () {
 
 </body>
 </html>
+
+
+
+
 
 
