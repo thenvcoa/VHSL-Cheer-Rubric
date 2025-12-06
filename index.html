@@ -72,8 +72,8 @@
   input, select, textarea { background: #2a2a2a !important; color: #ffffff !important; border: 1px solid #444 !important; }
   #output,  #outputp,  #StuntSkills,  #StuntRange,  #PyramidSkills,  #PyramidRange 
 	{ background: #2a2a2a !important; color: #ffffff !important; border: 1px solid #444 !important; border-radius: 5px !important; padding: 10px !important; }
-  tr.majority td { background-color: rgba(0, 200, 0, 0.2) !important; color: #ffffff !important; }
-  tr.non-majority td { background-color: rgba(255, 0, 0, 0.2) !important; color: #ffffff !important; }
+  tr.majority td { background-color: rgba(167,235,167, 0.2) !important; color: #ffffff !important; }
+  tr.non-majority td { background-color: rgba(249,173,173, 0.2) !important; color: #ffffff !important; }
   table, th, td { background: #1f1f1f !important; color: #f2f2f2 !important; border-color: #444 !important; }
   th { background: #333 !important; }
   .highlight-bar { background-color: #F8DF00 !important;  color: #000000 !important;  border-radius: 6px; }
@@ -129,7 +129,7 @@
                border-radius: 10px;  box-shadow: 0 6px 20px rgba(0,0,0,0.25);  z-index: 10000;  max-width: 400px;  text-align: left;   text-align: center;}
   .info-popup a {  color: #2F317D;  text-decoration: underline;}
   .info-icon:active::after {  content: attr(data-tooltip);} /* Mobile/touch support */
-/* Elegant Soft Confetti */
+/* Successful Submission Confetti */
 #confettiContainer {  position: fixed;  pointer-events: none;  top: 0;  left: 0;  width: 100%;
      height: 100%;  overflow: hidden;  z-index: 999999;  display: none;}
 .confetti-piece {  position: absolute;  width: 8px;  height: 8px;  opacity: 0.85;
@@ -142,13 +142,12 @@
 <style>
 /* ===================================================
    (Comment this whole block out when not in use)
-
+=================================================== */
   .svg-highlight.inversion {  stroke: rgba(180,0,180,0.85) !important;  fill: rgba(180,0,180,0.18) !important;  stroke-width: 3px !important;}
   .svg-highlight.release {  stroke: rgba(0,180,0,0.85) !important;  fill: rgba(0,180,0,0.18) !important;  stroke-width: 3px !important;}
   .svg-highlight.twisting {  stroke: rgba(255,0,0,0.85) !important;  fill: rgba(255,0,0,0.18) !important;  stroke-width: 3px !important;}
   .svg-highlight.coed {  stroke: rgba(0,0,255,0.85) !important;  fill: rgba(0,0,255,0.12) !important;  stroke-width: 3px !important;}
   .svg-highlight.toss {  stroke: rgba(255,120,0,0.85) !important;  fill: rgba(255,120,0,0.12) !important;  stroke-width: 3px !important;}
-=================================================== */
 </style>
 
 
@@ -190,6 +189,7 @@
     <option value="">--Select--</option>
     <option value="Varsity">Varsity</option>
     <option value="Junior Varsity">Junior Varsity</option>
+	<option value="Middle School">Middle School</option>
   </select>
 
   <label>Head Coach First & Last Name</label>
@@ -503,7 +503,7 @@
     <button type="button" id="saveBtn" style="padding: 16px 28px; font-size: 20px;">Save & Submit</button>
 	<br>
 	<br>
-	<button id="resetBtn" class="reset-button" onclick="localStorage.removeItem('rubricFormAutosave'); location.reload();">Clear  |  Reset</button>
+	<button id="resetBtn" class="reset-button" onclick="localStorage.removeItem('rubricFormAutosave'); location.reload();">Clear  |  Reset </button>
     <button id="previewBtn" style="background:#555;">Preview  |  Print</button>
 
 
@@ -1655,11 +1655,4 @@ window.closePreview = function () {
 
 </body>
 </html>
-
-
-
-
-
-
-
 
