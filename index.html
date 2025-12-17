@@ -141,13 +141,52 @@
   .info-popup a {  color: #2F317D;  text-decoration: underline;}
   .info-icon:active::after {  content: attr(data-tooltip);} /* Mobile/touch support */
 /* Successful Submission Confetti Cannons */
-  #confettiContainer {  position: fixed;  left: 0;  top: 0;  width: 100vw;  height: 100vh;
-    pointer-events: none;  overflow: visible;  z-index: 999999;  display: none;}
-  .confetti-piece {  position: absolute;  width: 6px;  height: 10px;  border-radius: 2px;
-    opacity: 0.9;  transform-origin: center;  animation: confetti-cannon 1.4s ease-out forwards;}
-  @keyframes confetti-cannon {  0% {    transform: translate(0,0) rotate(0deg) scale(1);    opacity: 1;  }
-    80% {    transform: translate(var(--x), var(--y)) rotate(320deg) scale(1.3);    opacity: 1;  }
-    100% {    transform: translate(calc(var(--x) * 1.2), calc(var(--y) * 1.2)) rotate(360deg) scale(0.4);    opacity: 0;  } }
+/* ================= CONFETTI CANNONS ================= */
+
+#confettiContainer {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  overflow: visible;
+  z-index: 999999;
+  display: none;
+}
+
+.confetti-piece {
+  position: absolute;
+  width: 6px;
+  height: 10px;
+  border-radius: 2px;
+  opacity: 0.95;
+  transform-origin: center;
+  animation: confetti-cannon 3s cubic-bezier(0.2, 0.65, 0.3, 1) forwards;
+  will-change: transform, opacity; /* GPU acceleration */
+}
+
+/* Physics-style motion: launch → hang → gravity fall */
+@keyframes confetti-cannon {
+  0% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+    opacity: 1;
+  }
+  55% {
+    transform: translate(var(--x), var(--y)) rotate(260deg) scale(1.25);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(
+      calc(var(--x) * 1.25),
+      calc(var(--y) * -0.55)
+    )
+    rotate(520deg)
+    scale(0.45);
+    opacity: 0;
+  }
+}
+
 
 
 
@@ -1245,61 +1284,58 @@ function triggerConfetti() {
   container.style.display = "block";
 
   const colors = ["#F8DF00", "#2F317D", "#c02025"]; // VHSL palette
-  const pieces = 450; // cannons don't need 1000
+  const isMobile = window.innerWidth < 768;
+  const pieces = isMobile ? 220 : 420;
 
   for (let i = 0; i < pieces; i++) {
     const confetti = document.createElement("div");
     confetti.classList.add("confetti-piece");
 
+    // Size variation
     const size = Math.random() * 6 + 4;
     confetti.style.width = `${size}px`;
     confetti.style.height = `${size * 1.3}px`;
 
+    // Color
     confetti.style.backgroundColor =
       colors[Math.floor(Math.random() * colors.length)];
 
-    // Determine whether this piece comes from left or right cannon
-    const fromLeft = Math.random() < 0.5;
+    // ===== TWO UPWARD CANNONS (LEFT-CENTER & RIGHT-CENTER) =====
+    const fromLeftCannon = Math.random() < 0.5;
+    confetti.style.left = fromLeftCannon ? "25vw" : "75vw";
+    confetti.style.bottom = "0vh";
 
-    if (fromLeft) {
-      confetti.style.left = "0vw";
-      confetti.style.bottom = "0vh";
-    } else {
-      confetti.style.left = "100vw";
-      confetti.style.bottom = "0vh";
-    }
+    // ===== STAGGERED TIMING =====
+    const stagger = fromLeftCannon ? 0 : 0.18;
+    confetti.style.animationDelay =
+      (Math.random() * 0.4 + stagger) + "s";
 
-    // Cannon spray angles:
-    // left cannon shoots 20° upward
-    // right cannon shoots 160° upward
-    const angleBase = fromLeft ? 20 : 160;
-
-    // Add random variation (gives spread effect)
-    const angle = angleBase + (Math.random() * 40 - 20);
-
-    // Convert angle to radians
+    // ===== WIDE PLUME =====
+    const angle = 90 + (Math.random() * 60 - 30); // ±30°
     const rad = angle * (Math.PI / 180);
 
-    // Distance of travel (px)
-    const distance = 350 + Math.random() * 300;
+    // ===== SUBTLE WIND DRIFT =====
+    const wind = (Math.random() - 0.5) * (isMobile ? 60 : 120);
 
-    const x = Math.cos(rad) * distance;
-    const y = Math.sin(rad) * distance;
+    // ===== PHYSICS-BASED LAUNCH =====
+    const launchPower = 520 + Math.random() * 420;
+
+    const x = Math.cos(rad) * launchPower * 0.65 + wind;
+    const y = Math.sin(rad) * launchPower;
 
     confetti.style.setProperty("--x", `${x}px`);
-    confetti.style.setProperty("--y", `${-y}px`); // negative means upward blast
-
-    // Random timing = sparkle effect
-    confetti.style.animationDelay = Math.random() * 0.25 + "s";
+    confetti.style.setProperty("--y", `${-y}px`); // negative = upward
 
     container.appendChild(confetti);
   }
 
-  // Hide container after animation completes
+  // Auto cleanup (memory-safe)
   setTimeout(() => {
     container.style.display = "none";
-  }, 2000);
+    container.innerHTML = "";
+  }, 4000);
 }
+
 
 
 
