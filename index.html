@@ -27,6 +27,7 @@
       margin: 40px auto;  box-shadow: 0 4px 12px rgba(0,0,0,0.08);  max-width: 1100px;}
 
 
+
 /* === STUNT & PYRAMID === */
   .wrapper {    width: fit-content;  margin-left: auto; margin-right: auto;  position: relative; 	margin-bottom: 40px; cursor: pointer;}
   .wrapper img {  display: block; }
@@ -925,7 +926,7 @@ function runChecker() {
 
   // Step 7: Output results
   outputText += `\nRequired Number of Groups for Majority: ${majorityStunt}`;
-  outputText += `\nOverall Difficulty Range: ${overallStuntDifficulty || 'Selected skills do not meet rubric requirements for majority'}`;
+  outputText += `\nStunt Difficulty Range: ${overallStuntDifficulty || 'Selected skills do not meet rubric requirements for majority'}`;
 
   document.getElementById('output').textContent = outputText;
   
@@ -1010,7 +1011,7 @@ function runChecker2() {
 
   // Step 7: Output results
   outputText += `\nRequired Number of Trick Flyers for Majority: ${majorityPyramid}`;
-  outputText += `\nOverall Difficulty Range: ${overallPyramidDifficulty || 'Selected skills do not meet rubric requirements for majority'}`;
+  outputText += `\nPyramid Difficulty Range: ${overallPyramidDifficulty || 'Selected skills do not meet rubric requirements for majority'}`;
 
   document.getElementById('outputp').textContent = outputText;
 
@@ -1573,9 +1574,9 @@ window.addEventListener("load", loadAutosave);
     const parts = [];
 
     function section(title, content){
-      parts.push(`<div class="sectionTitle" style="margin-top:18px;font-weight:700;font-size:15px;">${escapeHtml(title)}</div>`);
-      parts.push(`<div class="divider" style="height:2px;background:#2F317D;margin:6px 0 10px 0;"></div>`);
-      parts.push(`<div style="white-space:pre-wrap;font-size:14px;margin-bottom:8px;">${content}</div>`);
+       parts.push(`<div class="divider" style="height:2px;background:#2F317D;margin:6px 0 10px 0;"></div>`);
+	   parts.push(`<div class="sectionTitle" style="margin-top:8px;font-weight:700;font-size:15px;text-align:center;">${escapeHtml(title)}</div>`);
+       parts.push(`<div style="white-space:pre-wrap;font-size:14px;margin-bottom:8px;">${content}</div>`);
     }
 
     // Build each section content
@@ -1606,23 +1607,23 @@ window.addEventListener("load", loadAutosave);
 
     // Stunt
     section("STUNT SKILLS",
-      `${StuntSkills || "(none recorded)"}\n\n<strong>Overall Stunt Range:</strong> ${StuntRange || "(not calculated)"}`);
+      `<strong>Stunt Difficulty Range:</strong> ${StuntRange || "(not calculated)"}\n\n${StuntSkills || "(none recorded)"}`);
 
     // Pyramid
     section("PYRAMID SKILLS",
-      `${PyramidSkills || "(none recorded)"}\n\n<strong>Overall Pyramid Range:</strong> ${PyramidRange || "(not calculated)"}`);
+      `<strong>Pyramid Difficulty Range:</strong> ${PyramidRange || "(not calculated)"}\n\n${PyramidSkills || "(none recorded)"}`);
 
     // Tumbling
     section("TUMBLING",
-      `<strong>Tumbling Difficulty:</strong> ${TumblingDifficulty || "(none selected)"}\n\n<strong>Team Majority Sync Sequence:</strong>\n${teamSync || "(not provided)"}\n\n<strong>Additional Tumbling:</strong>\n${additionalTumbling || "(not provided)"}`);
+      `<strong>Tumbling Difficulty Range:</strong> ${TumblingDifficulty || "(none selected)"}\n\n<strong>Team Majority Sync Sequence:</strong>\n${teamSync || "(not provided)"}\n\n<strong>Additional Tumbling:</strong>\n${additionalTumbling || "(not provided)"}`);
 
     // Jumps
     section("JUMPS",
-      `<strong>Jump Difficulty:</strong> ${JumpDifficulty || "(none selected)"}\n\n<strong>Jump Sequence:</strong>\n${jumpSequence || "(not provided)"}`);
+      `<strong>Jump Difficulty Range:</strong> ${JumpDifficulty || "(none selected)"}\n\n<strong>Jump Sequence:</strong>\n${jumpSequence || "(not provided)"}`);
 
     // Legality
-    section("LEGALITY RULINGS",
-      `${legality || "(not provided)"}`);
+    section("LEGALITY",
+      `<strong>Bill Ahern Rulings:</strong> ${legality || "(not provided)"}`);
 
    
     const previewEl = document.getElementById("previewContent");
