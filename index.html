@@ -895,6 +895,7 @@ let draggedPyramidRow = null;
 	draggedPyramidRow = null;
 	});
 
+
 // DIFFICULTY CHECKER FOR STUNTS
 function runChecker() {
   const numAthletes = parseInt(document.getElementById('numAthletes').value) || 0;
@@ -902,7 +903,7 @@ function runChecker() {
 
   const rows = document.querySelectorAll('#skillCounts tr');
   let majoritySkills = [];
-  let outputText = 'Selected Stunt Skills:\n\n';
+  let outputText = '<strong>Selected Stunt Skills:\n\n</strong>';
 
   // Step 1: Reset table coloring
   rows.forEach((row, idx) => {
@@ -964,10 +965,11 @@ function runChecker() {
   }
 
   // Step 7: Output results
-  outputText += `\nRequired Number of Groups for Majority: ${majorityStunt}`;
-  outputText += `\nStunt Difficulty Range: ${overallStuntDifficulty || 'Selected skills do not meet rubric requirements for majority'}`;
+  outputText += `<strong>\nRequired Number of Groups for Majority:</strong>   ${majorityStunt}`;
+  outputText += `<strong>\nStunt Difficulty Range:</strong>   ${overallStuntDifficulty || 'Selected skills do not meet rubric requirements for majority'}`;
 
-  document.getElementById('output').textContent = outputText;
+  document.getElementById('output').innerHTML = outputText;
+
   
  // Step 8: Populate Summary 
 	let StuntSkillListOutput = '';
@@ -992,7 +994,7 @@ function runChecker2() {
 
   const rows = document.querySelectorAll('#PyramidCounts tr');
   let majoritySkills = [];
-  let outputText = 'Selected Pyramid Skills:\n\n';
+  let outputText = '<strong>Selected Pyramid Skills:\n\n</strong>';
 
   // Step 1: Reset table coloring
   rows.forEach(row => row.classList.remove('majority', 'non-majority'));
@@ -1049,10 +1051,10 @@ function runChecker2() {
   }
 
   // Step 7: Output results
-  outputText += `\nRequired Number of Trick Flyers for Majority: ${majorityPyramid}`;
-  outputText += `\nPyramid Difficulty Range: ${overallPyramidDifficulty || 'Selected skills do not meet rubric requirements for majority'}`;
+  outputText += `<strong>\nRequired Number of Skill Flyers for Majority:</strong>   ${majorityPyramid}`;
+  outputText += `<strong>\nPyramid Difficulty Range:</strong>   ${overallPyramidDifficulty || 'Selected skills do not meet rubric requirements for majority'}`;
 
-  document.getElementById('outputp').textContent = outputText;
+  document.getElementById('outputp').innerHTML = outputText;
 
  // Step 8: Populate Summary 
   let PyramidSkillListOutput = '';
@@ -1730,7 +1732,6 @@ window.closePreview = function () {
 
 </body>
 </html>
-
 
 
 
