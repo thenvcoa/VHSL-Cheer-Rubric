@@ -1018,7 +1018,7 @@ function runChecker(silent = false) {
   // Step 8: Add note if extra tosses were excluded
   if (additionalTosses.length > 0) {
     const keptToss = qualifyingTossRows[0];
-    outputText += `\n<strong>Note:</strong><span style="color:#C62828;"> Only one toss may count toward majority.</span> `;
+    outputText += `\n<strong>Note:</strong><span style="color:#C62828;"> Only one toss by majority may count toward difficulty range.</span> `;
     outputText += `The highest qualifying toss counted was: ${keptToss.skill}\n`;
     }
 
@@ -1803,6 +1803,7 @@ window.closePreview = function () {
 
 </body>
 </html>
+
 
 
 
