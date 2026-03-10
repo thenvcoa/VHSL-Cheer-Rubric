@@ -45,6 +45,7 @@
   .icon {  font-size: 24px;       vertical-align: middle;   }
   .majority { background-color: rgba(0, 200, 0, 0.2);  }
   .non-majority {  background-color: rgba(255, 0, 0, 0.2);  }
+  .additional-toss { background-color: rgba(255, 0, 0, 0.2); }
   
 /* === JUMP & TUMBLING === */
   .jumphighlight.selected,  .tumblinghighlight.selected  {    outline: 3px solid #c02025;    background-color: rgba(192, 32, 37, 0.15);}
@@ -106,6 +107,7 @@
   .svg-highlight.release    { stroke: none; fill: none; }
   .svg-highlight.twisting   { stroke: none; fill: none; }
   .svg-highlight.coed       { stroke: none; fill: none; }
+  .svg-highlight.other      { stroke: none; fill: none; }
   .svg-highlight.toss       { stroke: none; fill: none; }
 
 /* Highlight appearance during flash */
@@ -113,6 +115,7 @@
   .svg-flash.release    { stroke: rgba(0,180,0,0.85);   fill: rgba(0,180,0,0.18); stroke-width: 3;   }
   .svg-flash.twisting   { stroke: rgba(255,0,0,0.85);   fill: rgba(255,0,0,0.18); stroke-width: 3;   }
   .svg-flash.coed       { stroke: rgba(0,0,255,0.85);   fill: rgba(0,0,255,0.12); stroke-width: 3;   }
+  .svg-flash.other 		{ stroke: rgba(150,100,50,0.9); fill: rgba(190,150,90,0.35); stroke-width: 3;}
   .svg-flash.toss       { stroke: rgba(255,120,0,0.85); fill: rgba(255,120,0,0.12); stroke-width: 3; }
 
 /*Fade out effect*/
@@ -201,6 +204,7 @@
   .svg-highlight.release {  stroke: rgba(0,180,0,0.85) !important;  fill: rgba(0,180,0,0.18) !important;  stroke-width: 3px !important;}
   .svg-highlight.twisting {  stroke: rgba(255,0,0,0.85) !important;  fill: rgba(255,0,0,0.18) !important;  stroke-width: 3px !important;}
   .svg-highlight.coed {  stroke: rgba(0,0,255,0.85) !important;  fill: rgba(0,0,255,0.12) !important;  stroke-width: 3px !important;}
+  .svg-flash.other {  stroke: rgba(150,100,50,0.9)  !important; fill: rgba(190,150,90,0.35) !important;  stroke-width: 3px !important;}
   .svg-highlight.toss {  stroke: rgba(255,120,0,0.85) !important;  fill: rgba(255,120,0,0.12) !important;  stroke-width: 3px !important;}
 =================================================== */
 </style>
@@ -252,6 +256,7 @@
  
   <label>Head Coach Email</label>
   <input type="email" id="CoachEmail" placeholder="myname@gmail.com" required>
+
 
 
   <label>Number of Athletes Performing</label>
@@ -322,10 +327,12 @@
     <rect id="c2" class="svg-highlight coed" x="7.25%" y="71.5%" width="17.75%" height="2.5%"></rect>
     <rect id="c3" class="svg-highlight coed" x="7.25%" y="74%" width="17.75%" height="2.5%"></rect>
 
-    <!-- Toss -->
-    <rect id="o1" class="svg-highlight toss" x="7.25%" y="84.25%" width="17.75%" height="2.75%"></rect>
-    <rect id="o2" class="svg-highlight toss" x="7.25%" y="88.25%" width="17.75%" height="4%"></rect>
-    <rect id="o3" class="svg-highlight toss" x="25.25%" y="84.25%" width="17.5%" height="2.75%"></rect>
+    <!-- Other -->
+    <rect id="o1" class="svg-highlight other" x="7.25%" y="84.25%" width="17.75%" height="2.75%"></rect>
+    <rect id="o2" class="svg-highlight other" x="25.25%" y="84.25%" width="17.5%" height="2.75%"></rect>
+	
+	<!-- Toss -->
+    <rect id="o3" class="svg-highlight toss" x="7.25%" y="88.25%" width="17.75%" height="4%"></rect>
 	<rect id="o4" class="svg-highlight toss" x="25.25%" y="88.25%" width="17.5%" height="4%"></rect>
 	<rect id="o5" class="svg-highlight toss" x="42.75%" y="88.25%" width="18.25%" height="4%"></rect>
 	<rect id="o6" class="svg-highlight toss" x="61.25%" y="88.25%" width="18.25%" height="4%"></rect>
@@ -623,9 +630,10 @@ const StuntRegions = [
   { id: 'c2', skill: 'Assisted Coed Skills to Prep', category: 'Coed', difficulty: 'Beginner' },
   { id: 'c3', skill: 'Assisted Walk-In/Toss to Chair', category: 'Coed', difficulty: 'Beginner' },
   
-  { id: 'o1', skill: 'Prep Level and Below Stunts Not Previously Categorized', category: 'Toss', difficulty: 'Beginner' },
-  { id: 'o2', skill: 'Straight Ride or Pretty Girl Tosses', category: 'Toss', difficulty: 'Beginner' },
-  { id: 'o3', skill: 'Extended Stunts Not Previously Categorized', category: 'Toss', difficulty: 'Intermediate' },
+  { id: 'o1', skill: 'Prep Level and Below Stunts Not Previously Categorized', category: 'Other', difficulty: 'Beginner' },
+  { id: 'o2', skill: 'Extended Stunts Not Previously Categorized', category: 'Other', difficulty: 'Intermediate' },
+
+  { id: 'o3', skill: 'Straight Ride or Pretty Girl Tosses', category: 'Toss', difficulty: 'Beginner' },
   { id: 'o4', skill: 'Single Skill Tosses', category: 'Toss', difficulty: 'Intermediate' },
   { id: 'o5', skill: 'Multi-Skill Tosses', category: 'Toss', difficulty: 'Advanced' },
   { id: 'o6', skill: 'Single-Skill Tosses with Full Twist', category: 'Toss', difficulty: 'Elite' }, 
@@ -675,9 +683,9 @@ const pyramidCountsContainer = document.getElementById('PyramidCounts');
       { id: 'c1', skill: 'Single Base at Prep Level', category: 'Coed', difficulty: 'Beginner' },
       { id: 'c2', skill: 'Assisted Coed Skills to Prep', category: 'Coed', difficulty: 'Beginner' },
       { id: 'c3', skill: 'Assisted Walk-In/Toss to Chair', category: 'Coed', difficulty: 'Beginner' },
-      { id: 'o1', skill: 'Prep Level and Below Stunts Not Previously Categorized', category: 'Toss', difficulty: 'Beginner' },
-      { id: 'o2', skill: 'Straight Ride or Pretty Girl Tosses', category: 'Toss', difficulty: 'Beginner' },
-      { id: 'o3', skill: 'Extended Stunts Not Previously Categorized', category: 'Toss', difficulty: 'Intermediate' },
+      { id: 'o1', skill: 'Prep Level and Below Stunts Not Previously Categorized', category: 'Other', difficulty: 'Beginner' },
+      { id: 'o2', skill: 'Extended Stunts Not Previously Categorized', category: 'Other', difficulty: 'Intermediate' }, 
+	  { id: 'o3', skill: 'Straight Ride or Pretty Girl Tosses', category: 'Toss', difficulty: 'Beginner' },
       { id: 'h1', skill: 'TEST', category: 'Inversion', difficulty: 'Advanced' },
       { id: 'h2', skill: 'TEST', category: 'Release', difficulty: 'Elite' },
       { id: 'h3', skill: 'TEST', category: 'Twisting', difficulty: 'Super Elite' }
@@ -755,8 +763,6 @@ const pyramidCountsContainer = document.getElementById('PyramidCounts');
       }
     });
   })();
-
-
 
 
 // DRAG–DROP FOR STUNT TABLE
@@ -898,7 +904,7 @@ let draggedPyramidRow = null;
 
 
 // DIFFICULTY CHECKER FOR STUNTS
-function runChecker() {
+function runChecker(silent = false) {
   const numAthletes = parseInt(document.getElementById('numAthletes').value) || 0;
   const majorityStunt = numAthletes <= 15 ? 2 : 3;
 
@@ -906,30 +912,6 @@ function runChecker() {
   let majoritySkills = [];
   let outputText = '<strong>Selected Stunt Skills:\n\n</strong>';
 
-  // Step 1: Reset table coloring
-  rows.forEach((row, idx) => {
-    // skip header if (idx === 0) return; 
-    row.classList.remove('majority', 'non-majority');
-  });
-
-  // Step 2: Label Non-Majority Skills and gather majority skills
-  rows.forEach((row, idx) => {
-    // skip header if (idx === 0) return; 
-    const skill = row.cells[0].textContent;
-    const difficulty = row.cells[1].textContent;
-    const count = parseInt(row.cells[2].querySelector('input').value) || 0;
-
-    if (count >= majorityStunt) {
-      majoritySkills.push({ skill, difficulty });
-      row.classList.add('majority');
-      outputText += `${count} — ${difficulty} — ${skill} \n`;
-    } else {
-      row.classList.add('non-majority');
-      outputText += `${count} — ${difficulty} — ${skill} (Non Majority)\n`;
-    }
-  });
-
-  // Step 3: Define difficulty levels for sorting
   const difficultyLevels = {
     'Beginner': 1,
     'Intermediate': 2,
@@ -938,53 +920,137 @@ function runChecker() {
     'Super Elite': 5
   };
 
-  // Step 4: Count how many majority skills are at each difficulty
+  // Lookup table so we can tell which rows are Toss skills
+  const stuntSkillLookup = {};
+  StuntRegions.forEach(region => {
+    stuntSkillLookup[region.skill] = region;
+  });
+
+  // Step 1: Reset row coloring
+  rows.forEach(row => {
+    row.classList.remove('majority', 'non-majority', 'additional-toss');
+  });
+
+  // Step 2: Find all toss rows that meet majority
+  const qualifyingTossRows = [];
+
+  rows.forEach((row, index) => {
+    const skill = row.cells[0].textContent.trim();
+    const difficulty = row.cells[1].textContent.trim();
+    const count = parseInt(row.cells[2].querySelector('input').value) || 0;
+    const region = stuntSkillLookup[skill];
+
+    if (region && region.category === 'Toss' && count >= majorityStunt) {
+      qualifyingTossRows.push({
+        row,
+        index,
+        skill,
+        difficulty,
+        count,
+        level: difficultyLevels[difficulty] || 0
+      });
+    }
+  });
+
+  // Step 3: Only one toss may count — pick the highest difficulty toss
+  // If tied, keep the first one listed in order of performance
+  qualifyingTossRows.sort((a, b) => {
+    if (b.level !== a.level) return b.level - a.level;
+    return a.index - b.index;
+  });
+
+  const countedTossRow = qualifyingTossRows.length > 0 ? qualifyingTossRows[0].row : null;
+  const additionalTosses = qualifyingTossRows.slice(1);
+
+  // Step 4: Classify each row
+  rows.forEach(row => {
+    const skill = row.cells[0].textContent.trim();
+    const difficulty = row.cells[1].textContent.trim();
+    const count = parseInt(row.cells[2].querySelector('input').value) || 0;
+    const region = stuntSkillLookup[skill];
+    const isToss = region && region.category === 'Toss';
+
+    if (isToss && count >= majorityStunt) {
+      if (row === countedTossRow) {
+        majoritySkills.push({ skill, difficulty });
+        row.classList.add('majority');
+        outputText += `${count} — ${difficulty} — ${skill}\n`;
+      } else {
+        row.classList.add('additional-toss');
+        outputText += `${count} — ${difficulty} — ${skill} (Additional Toss)\n`;
+      }
+    } else if (count >= majorityStunt) {
+      majoritySkills.push({ skill, difficulty });
+      row.classList.add('majority');
+      outputText += `${count} — ${difficulty} — ${skill}\n`;
+    } else {
+      row.classList.add('non-majority');
+      outputText += `${count} — ${difficulty} — ${skill} (Non Majority)\n`;
+    }
+  });
+
+  // Step 5: Count majority skills by difficulty
   const difficultyCount = {};
   majoritySkills.forEach(s => {
     difficultyCount[s.difficulty] = (difficultyCount[s.difficulty] || 0) + 1;
   });
 
-  // Step 5: Sort difficulties from highest to lowest
+  // Step 6: Sort difficulties high to low
   const sortedDifficulties = Object.keys(difficultyLevels).sort(
     (a, b) => difficultyLevels[b] - difficultyLevels[a]
   );
 
-  // Step 6: Determine overall difficulty based on cumulative majority
+  // Step 7: Determine overall stunt difficulty
   let overallStuntDifficulty = null;
   const startingIndex = sortedDifficulties.findIndex(d => difficultyCount[d] >= 1);
 
   if (startingIndex !== -1) {
     let cumulative = 0;
-    // Step down from highest to lowest, adding cumulative majority skills
     for (let i = startingIndex; i < sortedDifficulties.length; i++) {
       cumulative += (difficultyCount[sortedDifficulties[i]] || 0);
       if (cumulative >= 2) {
-        overallStuntDifficulty = sortedDifficulties[i]; // first range that meets cumulative majority
+        overallStuntDifficulty = sortedDifficulties[i];
         break;
       }
     }
   }
 
-  // Step 7: Output results
-  outputText += `<strong>\nRequired Number of Groups for Majority:</strong>   ${majorityStunt}`;
-  outputText += `<strong>\nStunt Difficulty Range:</strong>   ${overallStuntDifficulty || 'Selected skills do not meet rubric requirements for majority'}`;
+  // Step 8: Add note if extra tosses were excluded
+  if (additionalTosses.length > 0) {
+    const keptToss = qualifyingTossRows[0];
+    outputText += `\n<strong>Note:</strong><span style="color:#C62828;"> Only one toss may count toward majority.</span> `;
+    outputText += `The highest qualifying toss counted was: ${keptToss.skill}\n`;
+    }
+
+  // Step 9: Output results
+  outputText += `<strong>\nRequired Number of Groups for Majority:</strong> ${majorityStunt}`;
+  outputText += `<strong>\nStunt Difficulty Range:</strong> ${overallStuntDifficulty || 'Selected skills do not meet rubric requirements for majority'}`;
 
   document.getElementById('output').innerHTML = outputText;
 
-  
- // Step 8: Populate Summary 
-	let StuntSkillListOutput = '';
-		rows.forEach(row => {
-    const skill = row.cells[0].textContent;
-    const difficulty = row.cells[1].textContent;
+  // Step 10: Summary output
+  let StuntSkillListOutput = '';
+  rows.forEach(row => {
+    const skill = row.cells[0].textContent.trim();
+    const difficulty = row.cells[1].textContent.trim();
     const count = parseInt(row.cells[2].querySelector('input').value) || 0;
-    StuntSkillListOutput += `${count} — ${difficulty} — ${skill} `;
-    if (!row.classList.contains('majority')) StuntSkillListOutput += ' (Non Majority)';
+
+    StuntSkillListOutput += `${count} — ${difficulty} — ${skill}`;
+
+    if (row.classList.contains('additional-toss')) {
+      StuntSkillListOutput += ' (Additional Toss)';
+    } else if (row.classList.contains('non-majority')) {
+      StuntSkillListOutput += ' (Non Majority)';
+    }
+
     StuntSkillListOutput += '\n';
-});
-	document.getElementById('StuntSkills').textContent = StuntSkillListOutput;
-	document.getElementById('StuntRange').textContent = overallStuntDifficulty || 'Rubric Requirements Not Met';
-	
+  });
+
+  const stuntSkillsEl = document.getElementById('StuntSkills');
+  const stuntRangeEl = document.getElementById('StuntRange');
+
+  if (stuntSkillsEl) stuntSkillsEl.textContent = StuntSkillListOutput;
+  if (stuntRangeEl) stuntRangeEl.textContent = overallStuntDifficulty || 'Rubric Requirements Not Met';
 }
 
 
@@ -1119,7 +1185,7 @@ document.querySelectorAll('.jumphighlight.jump').forEach(box => {
 
 //====== SET YOUR APPS SCRIPT WEB APP URL =======//
 
-const APPS_SCRIPT_BASE = "https://script.google.com/macros/s/AKfycbzA1BxBeDj23K-E_NLNlen__bTH0Iy7Q0lBTs6A0N_-sjhpznRGzFx7WLlBrFBww25AqA/exec";  // <-- REPLACE THIS
+const APPS_SCRIPT_BASE = "https://script.google.com/macros/s/AKfycbzA1BxBeDj23K-E_NLNlen__bTH0Iy7Q0lBTs6A0N_-sjhpznRGzFx7WLlBrFBww25AqA/exec";  
 
 
 		/*****************************************************
@@ -1340,8 +1406,6 @@ function triggerConfetti() {
 }
 
 
-
-
 		//================== 👉Save & Submit Handler ==================
 		document.getElementById("saveBtn").addEventListener("click", () => {
 
@@ -1424,7 +1488,9 @@ function triggerConfetti() {
  
 
 /************************************************
-|          LOCAL AUTOSAVE SYSTEM                |
+|                                               |   
+|             LOCAL AUTOSAVE SYSTEM             |
+|                                               |
 ************************************************/
 
 // Save full form state to localStorage
@@ -1546,8 +1612,12 @@ window.addEventListener("load", loadAutosave);
 
 
 
+/************************************************
+|                                               |   
+|          PREVIEW SUBMISSION POPUP             |
+|                                               |
+************************************************/
 
-// ========================= PREVIEW SUBMISSION POPUP =========================
 
 (function(){
   document.addEventListener('DOMContentLoaded', () => {
@@ -1733,7 +1803,6 @@ window.closePreview = function () {
 
 </body>
 </html>
-
 
 
 
