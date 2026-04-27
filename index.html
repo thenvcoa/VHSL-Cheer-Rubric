@@ -4,234 +4,246 @@
 <head>
 <meta charset="UTF-8">
 <title>VHSL Cheer Coaches Rubric Submission</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-<!-- ========================GENERAL STYLE COMMANDS======================== -->
+
+<!-- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+<!--                                                                                    BEGIN CSS STYLING                                                                                   -->
+<!-- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+
+
+<!-- ======================== 💅 GENERAL STYLING 💅 ======================== -->
 <style>
-/* === GENERAL STYLING === */
-  body { font-family: Arial, sans-serif; margin: 30px; background: #e5e5e5; }
-  h1 { color: #2F317D; font-size: 40px; font-weight: 700; }
-  label { display: block; margin-top: 15px; font-weight: bold; }
-  input, select, textarea { width: 90%; max-width: 600px; padding: 8px; margin-top: 5px; }
-  .highlight-bar {    background-color: #F8DF00;  padding: 6px 6px; border-radius: 6px; display: inline-block;}   
-  button { margin-top: 25px; padding: 10px 16px; background: #2F317D; color: white; border: none; border-radius: 5px; cursor: pointer; }
-  button:hover { background: #c02025; }
-  .reset-button {  background-color: #c02025 !important;  color: white !important;}
-  .reset-button:hover {  background-color: #D1BC00 !important;}
-  hr { border: none; 	height: 5px; 	background-color: #2F317D; 	margin: 30px 0; }
-  .center-text { text-align: center;}
-  a { color: #2F317D;  text-decoration: underline; }
-  a:hover { color: #c02025; }
-  input::placeholder, textarea::placeholder {  font-style: italic; color: #CFCFCE; white-space: pre-line;}
-  textarea { font-family: Arial, sans-serif;}
-  .section-card {  background: #ffffff;  border-radius: 16px;  padding: 25px 30px;  
-      margin: 40px auto;  box-shadow: 0 4px 12px rgba(0,0,0,0.08);  max-width: 1100px;}
+/* ===============================================================
+   VHSL Cheer Rubric Form — Cleaned Modern Card Styles
+   Keep the functional class names used by JavaScript:
+   .svg-highlight, .svg-flash, .majority, .non-majority,
+   .additional-toss, .jumphighlight, .tumblinghighlight,
+   .completed, .info-popup, #customAlert, #previewModal,
+   #loadingOverlay, #confettiContainer.
+   =============================================================== */
+
+:root {
+  --vhsl-blue: #2F317D;
+  --vhsl-blue-dark: #232567;
+  --vhsl-red: #c02025;
+  --vhsl-red-dark: #9f171c;
+  --vhsl-yellow: #F8DF00;
+  --page-bg: #f4f6fb;
+  --card-bg: #ffffff;
+  --text-main: #1f2937;
+  --text-muted: #5f6472;
+  --border-soft: #e4e7f0;
+  --shadow-soft: 0 10px 28px rgba(31, 41, 55, 0.08);
+  --shadow-hover: 0 14px 36px rgba(31, 41, 55, 0.12);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; font-family: 'Inter', Arial, sans-serif; color: var(--text-main); line-height: 1.45; background:   radial-gradient(circle at top left, rgba(47,49,125,0.10), transparent 34%),
+    linear-gradient(180deg, #f8f9fd 0%, var(--page-bg) 38%, #eef1f8 100%);}
+body > .center-text,
+body > .section-card,
+body > #SummaryWrapper,
+body > div[style*="text-align: center; margin-top: 30px"] { width: min(1120px, calc(100% - 32px)); margin-left: auto !important; margin-right: auto !important;}
+.center-text { text-align: center; }
+.modern-hero { width: min(1120px, calc(100% - 32px)); margin: 28px auto 24px auto; padding: 30px 28px; text-align: center; background: rgba(255,255,255,0.88); border: 1px solid rgba(47,49,125,0.10);
+  border-radius: 26px; box-shadow: var(--shadow-soft); backdrop-filter: blur(10px);}
+.modern-hero img { width: 78%; max-width: 280px; height: auto; margin-bottom: 10px;}
+.modern-hero h1 { margin: 0; color: var(--vhsl-blue); font-size: clamp(30px, 4vw, 46px); line-height: 1.05; font-weight: 800; letter-spacing: -0.03em;}
+.modern-hero p { margin: 10px 0 0 0; color: var(--text-muted); font-size: 16px; font-weight: 500;}
+h1, h2, h3 { letter-spacing: -0.02em; }
+h1 { color: var(--vhsl-blue); font-size: clamp(30px, 4vw, 46px); font-weight: 800; }
+h2 { color: var(--vhsl-blue); font-size: clamp(22px, 2.3vw, 30px); margin: 0 0 10px 0; font-weight: 800; }
+hr { width: min(1120px, calc(100% - 32px)); height: 1px; border: none; background: linear-gradient(90deg, transparent, rgba(47,49,125,0.25), transparent); margin: 28px auto;}
+a { color: var(--vhsl-blue); font-weight: 700; text-decoration: underline; text-underline-offset: 3px;}
+a:hover { color: var(--vhsl-red); }
+.section-card { max-width: 1120px; margin: 34px auto; padding: clamp(22px, 3vw, 34px); background: var(--card-bg); border: 1px solid rgba(31,41,55,0.07); border-radius: 24px;
+  box-shadow: var(--shadow-soft); transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;}
+.section-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); border-color: rgba(47,49,125,0.18);}
+.section-card .center-text p { color: var(--text-muted); margin: 8px 0; }
+.highlight-bar { display: inline-block; padding: 10px 16px; color: #1f2937; background: linear-gradient(135deg, var(--vhsl-yellow), #ffe86b); border-radius: 999px; font-weight: 800;
+  box-shadow: 0 5px 14px rgba(248,223,0,0.26);}
+label { display: block; margin-top: 18px; margin-bottom: 4px; color: #273043; font-size: 14px; font-weight: 700;}
+input, select, textarea { width: 100%; max-width: 660px; padding: 12px 13px; margin-top: 6px; color: var(--text-main); background: #ffffff; border: 1px solid #d5dae7;
+  border-radius: 12px; font: inherit; box-shadow: 0 1px 2px rgba(0,0,0,0.03); transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;}
+input:focus, select:focus, textarea:focus { border-color: var(--vhsl-blue); outline: none; box-shadow: 0 0 0 4px rgba(47,49,125,0.11);}
+textarea { line-height: 1.45; font-family: inherit; }
+input::placeholder, textarea::placeholder { font-style: italic; color: #a4abb9; white-space: pre-line; }
+input.completed, select.completed, textarea.completed {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="%2300A000" viewBox="0 0 16 16"><path d="M6.003 11.803L2.2 8l1.4-1.4 2.4 2.4 5.4-5.4L12.8 5l-6.8 6.8z"/></svg>');
+  background-repeat: no-repeat;  background-position: right 10px center;  background-size: 18px;  padding-right: 35px;}
+button { margin-top: 22px; padding: 12px 20px; color: #ffffff; background: var(--vhsl-blue); border: none; border-radius: 12px; font-family: inherit; font-weight: 800;
+  cursor: pointer; box-shadow: 0 8px 18px rgba(47,49,125,0.20); transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;}
+button:hover { background: var(--vhsl-blue-dark); transform: translateY(-1px); box-shadow: 0 10px 22px rgba(47,49,125,0.26);}
+.reset-button { background: var(--vhsl-red) !important; box-shadow: 0 8px 18px rgba(192,32,37,0.20) !important; }
+.reset-button:hover { background: var(--vhsl-red-dark) !important; }
+#previewBtn { background: #4b5563 !important; }
+#previewBtn:hover { background: #374151 !important; }
+#saveBtn { padding: 16px 30px !important; font-size: 20px !important; border-radius: 16px !important; }
+</style>
 
 
+<!-- =================== 🏋️ STUNT & PYRAMID RUBRIC 🏋️ =================== -->
+<style>
+/* Wrappers */
+.wrapper { width: fit-content; max-width: 100%; margin: 0 auto 40px auto; position: relative; overflow-x: auto; padding: 6px; border-radius: 18px; cursor: pointer;}
+.wrapper img { display: block; max-width: 100%; height: auto; }
+.svg-wrapper { width: 100%; max-width: 1000px; margin: 0 auto; display: block; }
+.svg-wrapper svg { width: 100%; height: auto; display: block; }
 
-/* === STUNT & PYRAMID === */
-  .wrapper {    width: fit-content;  margin-left: auto; margin-right: auto;  position: relative; 	margin-bottom: 40px; cursor: pointer;}
-  .wrapper img {  display: block; }
-  #output, #outputp { margin-top: 20px; white-space: pre-wrap; background: #f7f7f7; padding: 10px; border-radius: 5px; max-width: 825px; }
-  table { width: 70%; max-width: 950px; border-collapse: collapse; margin-top: 10px; }
-  th, td { padding: 6px 10px; text-align: left; border-bottom: 1px solid #ccc; }
-  th { background: #f0f0f0; }
-  #skillCountsTable th:nth-child(3), #skillCountsTable td:nth-child(3) { width: 80px; min-width: 80px; max-width: 80px; text-align: center; }
-  #PyramidCountsTable th:nth-child(3), #PyramidCountsTable td:nth-child(3) { width: 80px; min-width: 80px; max-width: 80px; text-align: center; }
-  #skillCounts input, #PyramidCounts input { width: 60px; }
-  .drag-handle { cursor: grab; font-size: 18px; }
-  .delete-btn { cursor: pointer; color: #d00; font-size: 18px; text-align: center; }
-  .text-underline {  color: #c02025;  text-decoration: underline;  }
-  .note-small { font-size: 12px; font-style: italic; color: gray; margin-top: 26px; }
-  .icon {  font-size: 24px;       vertical-align: middle;   }
-  .majority { background-color: rgba(0, 200, 0, 0.2);  }
-  .non-majority {  background-color: rgba(255, 0, 0, 0.2);  }
-  .additional-toss { background-color: rgba(255, 0, 0, 0.2); }
-  
-/* === JUMP & TUMBLING === */
-  .jumphighlight.selected,  .tumblinghighlight.selected  {    outline: 3px solid #c02025;    background-color: rgba(192, 32, 37, 0.15);}
-  .jumphighlight,   .tumblinghighlight{    position: absolute;    cursor: pointer;}
-  
-/* === LOADING SPINNER === */  
-  #loadingOverlay {  position: fixed;  top: 0; left: 0;  width: 100%; height: 100%;  background: rgba(0, 0, 0, 0.65);  display: none;
-	align-items: center;  flex-direction: column;  justify-content: center;  z-index: 99999; opacity: 1;  transition: opacity 0.6s ease;}
-  #loadingOverlay.fade-out {  opacity: 0;}
-  .spinner {  width: 70px;  height: 70px;  border: 7px solid #ffffff55;  border-top: 7px solid #F8DF00;  border-radius: 50%;  animation: spin 1s linear infinite;}
-  @keyframes spin {  0% { transform: rotate(0deg); }  100% { transform: rotate(360deg); }} 
-  
-/* === ALERT MESSAGES === */  
-  #customAlert { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5);
-                 display: flex; justify-content: center; align-items: center; z-index: 9999;}
-  #customAlertContent {background: #fff; padding: 20px 25px; border-radius: 8px;
-                       max-width: 400px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.3);}
-  #customAlertContent button { margin-top: 15px; padding: 8px 16px; background: #2F317D; color: white;
-                               border: none; border-radius: 5px; cursor: pointer;}
-  #customAlertContent button:hover {  background: #c02025;}
-  #customAlertText {  white-space: pre-line;}
-  
-/* === DARK MODE ADJUSTMENTS FOR MOBILE === */
+/* Tables and calculated-result output */
+table { width: 100%; max-width: 980px; margin-top: 14px; background: #ffffff; border: 1px solid var(--border-soft); border-collapse: separate; 
+	border-spacing: 0; border-radius: 16px;  overflow: hidden;}
+th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border-soft);}
+th { background: #f5f7fc; color: #34405a; font-size: 13px; font-weight: 800; }
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:hover { background: rgba(47,49,125,0.035); }
+#skillCountsTable th:nth-child(3), #skillCountsTable td:nth-child(3),
+#PyramidCountsTable th:nth-child(3), #PyramidCountsTable td:nth-child(3) { width: 80px; min-width: 80px; max-width: 80px; text-align: center;}
+#skillCounts input, #PyramidCounts input { width: 72px; padding: 8px; text-align: center; }
+.drag-handle { cursor: grab; font-size: 15px; }
+.delete-btn { cursor: pointer; color: #d00; font-size: 18px; text-align: center; }
+.majority td { background-color: rgba(34,197,94,0.3) !important; }
+.non-majority td, .additional-toss td { background-color: rgba(239,68,68,0.3) !important; }
+#output, #outputp, #StuntSkills, #StuntRange, #PyramidSkills, #PyramidRange { max-width: 900px; margin-top: 20px; padding: 16px; white-space: pre-wrap; color: #263044;
+  background: #f7f8fc; border: 1px solid var(--border-soft); border-radius: 14px;}
+.text-underline { color: var(--vhsl-red); text-decoration: underline; }
+.note-small { color: #6b7280; font-size: 12px; line-height: 1.35; font-style: italic; margin-top: 26px; }
+.icon { font-size: 24px; vertical-align: middle; }
+
+/* Responsive Inline SVG for Stunt & Pyramid */
+.svg-highlight { fill: none; stroke: none; outline: none; pointer-events: all; cursor: pointer; }
+.svg-highlight.inversion, .svg-highlight.release, .svg-highlight.twisting, .svg-highlight.coed, .svg-highlight.other, .svg-highlight.toss { stroke: none; fill: none; }
+.svg-flash.inversion { stroke: rgba(180,0,180,0.85); fill: rgba(180,0,180,0.18); stroke-width: 3; }
+.svg-flash.release   { stroke: rgba(0,180,0,0.85);   fill: rgba(0,180,0,0.18);   stroke-width: 3; }
+.svg-flash.twisting  { stroke: rgba(255,0,0,0.85);   fill: rgba(255,0,0,0.18);   stroke-width: 3; }
+.svg-flash.coed      { stroke: rgba(0,0,255,0.85);   fill: rgba(0,0,255,0.12);   stroke-width: 3; }
+.svg-flash.other     { stroke: rgba(150,100,50,0.9); fill: rgba(190,150,90,0.35); stroke-width: 3; }
+.svg-flash.toss      { stroke: rgba(255,120,0,0.85); fill: rgba(255,120,0,0.12); stroke-width: 3; }
+.svg-highlight.fadeout { fill: none !important; stroke: none !important; }
+</style>
+
+<!-- ====================== 🤸‍♀️ JUMP & TUMBLING 🤸‍♀️  ===================== -->
+<style>
+.jumphighlight, .tumblinghighlight { position: absolute; cursor: pointer; }
+.jumphighlight.selected, .tumblinghighlight.selected { outline: 3px solid var(--vhsl-red); background-color: rgba(192, 32, 37, 0.15);}
+</style>
+
+<!-- =================== 🤩 EXTRA VISUAL ADD-ONS 🤩 =================== -->
+<style>
+/* === 🔍 INFO BOX POP UP 🔍 === */  
+.info-icon { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; margin-left: 6px; color: var(--vhsl-blue); background: rgba(47,49,125,0.08);
+  border-radius: 999px; font-size: 16px; cursor: pointer;}
+.info-icon:hover { color: var(--vhsl-red); background: rgba(192,32,37,0.10); }
+.info-icon:active::after { content: attr(data-tooltip); }
+.info-popup { display: none; position: fixed; top: 50%; left: 50%; z-index: 10000; max-width: 400px; padding: 20px 25px; text-align: center; background: white; border-radius: 20px;
+  box-shadow: 0 22px 60px rgba(0,0,0,0.28); transform: translate(-50%, -50%);}
+.info-popup a { color: var(--vhsl-blue); text-decoration: underline; }
+
+/* === ⚠ ALERT MESSAGES ⚠ === */  
+#customAlert { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.5); z-index: 9999;}
+#customAlertContent { max-width: 400px; padding: 20px 25px; text-align: center; background: #fff; border-radius: 20px; box-shadow: 0 22px 60px rgba(0,0,0,0.28);}
+#customAlertContent button { margin-top: 15px; padding: 8px 16px; }
+#customAlertText { white-space: pre-line; }
+#previewModal > div { border-radius: 20px !important; box-shadow: 0 22px 60px rgba(0,0,0,0.28) !important; }
+
+/* === 🌀 LOADING SPINNER 🌀 === */  
+#loadingOverlay { position: fixed; inset: 0; display: none; align-items: center; flex-direction: column; justify-content: center; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.65);
+  z-index: 99999; opacity: 1; transition: opacity 0.6s ease;}
+#loadingOverlay.fade-out { opacity: 0; }
+#loadingOverlay p { font-family: 'Inter', Arial, sans-serif; font-weight: 800; }
+.spinner { width: 70px; height: 70px; border: 7px solid #ffffff55; border-top: 7px solid var(--vhsl-yellow); border-radius: 50%; animation: spin 1s linear infinite;}
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+/* 🎉🎉🎉🎉 SUCCESSFUL SUBMISSION CONFETTI CANNONS  🎉🎉🎉🎉 */
+#confettiContainer { position: fixed; left: 0; top: 0; width: 100vw; height: 100vh; display: none; pointer-events: none; overflow: visible; z-index: 999999;}
+.confetti-piece { position: absolute; width: 6px; height: 10px; border-radius: 2px; opacity: 0.95; transform-origin: center; animation: confetti-cannon 3s cubic-bezier(0.2, 0.65, 0.3, 1) forwards;
+  will-change: transform, opacity;}
+@keyframes confetti-cannon { 0% { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 1; }
+  55% { transform: translate(var(--x), var(--y)) rotate(260deg) scale(1.25); opacity: 1; }
+  100% { transform: translate(calc(var(--x) * 1.25), calc(var(--y) * -0.55)) rotate(520deg) scale(0.45); opacity: 0; }
+	}
+</style>
+
+
+<!-- =================== 📱 STYLING ADJUSTMENTS FOR MOBILE DEVICES 	📱 =================== -->
+<style>
+/* === 	☀ REGULAR LIGHT VISUALS ☀ == */
+@media (max-width: 760px) {
+  body > .center-text,  body > .section-card,  body > #SummaryWrapper,  body > div[style*="text-align: center; margin-top: 30px"],
+  .modern-hero { width: min(100% - 20px, 1120px); }
+  .section-card { padding: 20px; border-radius: 18px; }
+  .modern-hero { padding: 22px 16px; border-radius: 20px; }
+  .modern-hero img { max-width: 230px; }
+  button { width: 100%; }
+  div[style*="display: flex; align-items: center; gap: 10px"] { flex-direction: column; align-items: stretch !important; }
+  table { font-size: 13px; }
+	}
+
+/* === 	🌑 DARK MODE VISUALS 🌑 == */
 @media (prefers-color-scheme: dark) {
-  body { background: #1a1a1a !important; color: #f2f2f2 !important; }
-    h1 {    text-shadow:      0 0 1px rgba(255,255,255,0.35);  }
-	a {    color: #c02025 !important;     text-shadow:      0 0 1px rgba(255,255,255,0.35);  }
-    a:hover {    color: #F8DF00 !important;     text-shadow:      0 0 1px rgba(255,255,255,0.35); }
-  input, select, textarea { background: #2a2a2a !important; color: #ffffff !important; border: 1px solid #444 !important; }
-  #output,  #outputp,  #StuntSkills,  #StuntRange,  #PyramidSkills,  #PyramidRange 
-	{ background: #2a2a2a !important; color: #ffffff !important; border: 1px solid #444 !important; border-radius: 5px !important; padding: 10px !important; }
-  tr.majority td { background-color: rgba(167,235,167, 0.2) !important; color: #ffffff !important; }
-  tr.non-majority td { background-color: rgba(249,173,173, 0.2) !important; color: #ffffff !important; }
-  table, th, td { background: #1f1f1f !important; color: #f2f2f2 !important; border-color: #444 !important; }
-  th { background: #333 !important; }
-  .highlight-bar { background-color: #F8DF00 !important;  color: #000000 !important;  border-radius: 6px; }
-  button { background: #2F317D !important; color: white !important; }
-  button:hover { background: #c02025 !important; }
-  input[style*="red"],  select[style*="red"],  textarea[style*="red"] { border: 2px solid red !important; background-color: #2a2a2a !important; color: #ffffff !important; }
-  #customAlertContent { background: #2a2a2a !important; color: #ffffff !important; border: 1px solid #555 !important; }
-  .section-card {    background: #0d0f14;    border: 1px solid rgba(80, 150, 255, 0.35);    box-shadow:      0 0 8px rgba(80, 150, 255, 0.35),
-      0 0 20px rgba(80, 150, 255, 0.15) inset;    transition: box-shadow 0.3s ease, border-color 0.3s ease;  }
-  .section-card h2 {    color: #ffffff !important;  }
-  .section-card p,  .section-card label {    color: #e6e6e6 !important;  }
-  .info-icon {    color: #F8DF00 !important;    text-shadow:      0 0 4px rgba(255,255,255,0.5),      0 0 8px rgba(255,255,255,0.25);    cursor: pointer;  }
-  .info-icon:hover {    color: #c02025 !important;    text-shadow:      0 0 6px rgba(255,255,255,0.8),      0 0 12px rgba(255,255,255,0.5);  }
-  .info-popup {    background: #2a2a2a !important;    color: #f2f2f2 !important;    border: 1px solid #444 !important;
-    box-shadow:      0 0 12px rgba(0,0,0,0.7),      0 0 20px rgba(255,255,255,0.08);  backdrop-filter: blur(10px); }
-  .info-popup a {    color: #F8DF00 !important;    text-shadow:      0 0 3px rgba(255,255,255,0.25);  }
-  .info-popup a:hover {    color: #ffffff !important;    text-shadow:      0 0 6px rgba(255,255,255,0.6);  }
-  }
+  body { color: #e5e7eb; background:  radial-gradient(circle at top left, rgba(248,223,0,0.08), transparent 32%), linear-gradient(180deg, #10131c 0%, #151821 100%);  }
+  .modern-hero, .section-card { color: #f3f4f6;  background: #111827; border-color: rgba(148,163,184,0.22); box-shadow: 0 8px 22px rgba(0,0,0,0.5);  }
+  h1, h2, h3, .modern-hero h1 { color: #ffffff; }
+  .modern-hero p, .section-card .center-text p, .note-small { color: #cbd5e1; }
+  a { color: #facc15; }
+  a:hover { color: #ffffff; }
+  label { color: #e5e7eb; }
+  input, select, textarea {color: #e5e7eb; background: #0f172a; border-color: #334155; }
+  input:focus, select:focus, textarea:focus { border-color: #60a5fa; box-shadow: 0 0 0 4px rgba(96,165,250,0.18); }
+  table { color: #e5e7eb; background: #111827; border-color: #374151; }
+  th { color: #f3f4f6; background: #1f2937; }
+  td, th { border-color: #374151; }
+  tbody tr:hover { background: rgba(255,255,255,0.05); }
+  .majority td { background-color: rgba(34,197,94,0.18) !important; color: #f3f4f6; }
+  .non-majority td, .additional-toss td { background-color: rgba(239,68,68,0.18) !important; color: #f3f4f6; }
+  #output, #outputp, #StuntSkills, #StuntRange, #PyramidSkills, #PyramidRange {color: #f3f4f6; background: #1f2937;  border-color: #374151; }
+  #customAlertContent, .info-popup, #previewModal > div {  color: #f3f4f6 !important; background: #1f2937 !important; border: 1px solid #374151 !important; }
+  .highlight-bar { color: #111827; }
+  .info-icon { color: #facc15; background: rgba(250,204,21,0.12); }
+  button { background: #3b82f6; }
+  button:hover { background: #2563eb; }
+  .reset-button { background: var(--vhsl-red) !important; }
+/*SVG Adustments with glow for dark mode
+  .svg-flash.inversion { filter: drop-shadow(0 0 8px rgba(236,72,153,0.9)); }
+  .svg-flash.release { filter: drop-shadow(0 0 8px rgba(34,197,94,0.9)); }
+  .svg-flash.twisting { filter: drop-shadow(0 0 8px rgba(248,113,113,0.9)); }
+  .svg-flash.coed { filter: drop-shadow(0 0 8px rgba(96,165,250,0.9)); }
+  .svg-flash.other { filter: drop-shadow(0 0 8px rgba(217,119,6,0.9)); }
+  .svg-flash.toss { filter: drop-shadow(0 0 8px rgba(251,146,60,0.9)); }
+}
 </style>
 
-<!-- =================== RESPONSIVE INLINE SVG FOR STUNT & PYRAMID RUBRIC =================== -->
-<style>
-/* SVG highlight styling */
-  .svg-highlight {  fill: none;  stroke: none;  outline: none;    pointer-events: all;  }
-  .svg-highlight.inversion  { stroke: none; fill: none; }
-  .svg-highlight.release    { stroke: none; fill: none; }
-  .svg-highlight.twisting   { stroke: none; fill: none; }
-  .svg-highlight.coed       { stroke: none; fill: none; }
-  .svg-highlight.other      { stroke: none; fill: none; }
-  .svg-highlight.toss       { stroke: none; fill: none; }
-
-/* Highlight appearance during flash */
-  .svg-flash.inversion  { stroke: rgba(180,0,180,0.85); fill: rgba(180,0,180,0.18); stroke-width: 3; }
-  .svg-flash.release    { stroke: rgba(0,180,0,0.85);   fill: rgba(0,180,0,0.18); stroke-width: 3;   }
-  .svg-flash.twisting   { stroke: rgba(255,0,0,0.85);   fill: rgba(255,0,0,0.18); stroke-width: 3;   }
-  .svg-flash.coed       { stroke: rgba(0,0,255,0.85);   fill: rgba(0,0,255,0.12); stroke-width: 3;   }
-  .svg-flash.other 		{ stroke: rgba(150,100,50,0.9); fill: rgba(190,150,90,0.35); stroke-width: 3;}
-  .svg-flash.toss       { stroke: rgba(255,120,0,0.85); fill: rgba(255,120,0,0.12); stroke-width: 3; }
-
-/*Fade out effect*/
-  .svg-highlight.fadeout {  fill: none !important;  stroke: none !important;}
-
-/* ensure the svg scales nicely inside existing .wrapper */
-  .svg-wrapper { width: 90%; max-width: 950px; margin: 0 auto; display: block; }
-  .svg-wrapper svg { width: 100%; height: auto; display: block; }
-
-/* keep pointer cursor for clickable regions */
- .svg-highlight { cursor: pointer; }
-</style>
-
-<!-- =================== EXTRA VISUAL ADD-ONS =================== -->
+<!-- =================== 🪲 DEBUG MODE 🪲 =================== -->
 <style>
 
-/* Green Checkmark After Completed Field */
-  input.completed, select.completed, textarea.completed {
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="%2300A000" viewBox="0 0 16 16"><path d="M6.003 11.803L2.2 8l1.4-1.4 2.4 2.4 5.4-5.4L12.8 5l-6.8 6.8z"/></svg>');
-    background-repeat: no-repeat;  background-position: right 10px center;  background-size: 18px;  padding-right: 35px;}
-/* Info Pop Up Box */  
-  .info-icon {  cursor: pointer;  font-size: 18px;  margin-left: 6px;  color: #2F317D;}
-  .info-icon:hover {  color: #c02025;}
-  .info-popup {  display: none;  position: fixed;  top: 50%; left: 50%;  transform: translate(-50%, -50%);  background: white; padding: 20px 25px;  
-               border-radius: 10px;  box-shadow: 0 6px 20px rgba(0,0,0,0.25);  z-index: 10000;  max-width: 400px;  text-align: left;   text-align: center;}
-  .info-popup a {  color: #2F317D;  text-decoration: underline;}
-  .info-icon:active::after {  content: attr(data-tooltip);} /* Mobile/touch support */
-/* Successful Submission Confetti Cannons */
-/* ================= CONFETTI CANNONS ================= */
-
-#confettiContainer {
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: none;
-  overflow: visible;
-  z-index: 999999;
-  display: none;
-}
-
-.confetti-piece {
-  position: absolute;
-  width: 6px;
-  height: 10px;
-  border-radius: 2px;
-  opacity: 0.95;
-  transform-origin: center;
-  animation: confetti-cannon 3s cubic-bezier(0.2, 0.65, 0.3, 1) forwards;
-  will-change: transform, opacity; /* GPU acceleration */
-}
-
-/* Physics-style motion: launch → hang → gravity fall */
-@keyframes confetti-cannon {
-  0% {
-    transform: translate(0, 0) rotate(0deg) scale(1);
-    opacity: 1;
-  }
-  55% {
-    transform: translate(var(--x), var(--y)) rotate(260deg) scale(1.25);
-    opacity: 1;
-  }
-  100% {
-    transform: translate(
-      calc(var(--x) * 1.25),
-      calc(var(--y) * -0.55)
-    )
-    rotate(520deg)
-    scale(0.45);
-    opacity: 0;
-  }
-}
-
-
-
 
 </style>
 
-<!-- =================== DEBUG MODE =================== -->
-<style>
-/* ===================================================
-   (Comment this whole block out when not in use)
 
-  .svg-highlight.inversion {  stroke: rgba(180,0,180,0.85) !important;  fill: rgba(180,0,180,0.18) !important;  stroke-width: 3px !important;}
-  .svg-highlight.release {  stroke: rgba(0,180,0,0.85) !important;  fill: rgba(0,180,0,0.18) !important;  stroke-width: 3px !important;}
-  .svg-highlight.twisting {  stroke: rgba(255,0,0,0.85) !important;  fill: rgba(255,0,0,0.18) !important;  stroke-width: 3px !important;}
-  .svg-highlight.coed {  stroke: rgba(0,0,255,0.85) !important;  fill: rgba(0,0,255,0.12) !important;  stroke-width: 3px !important;}
-  .svg-flash.other {  stroke: rgba(150,100,50,0.9)  !important; fill: rgba(190,150,90,0.35) !important;  stroke-width: 3px !important;}
-  .svg-highlight.toss {  stroke: rgba(255,120,0,0.85) !important;  fill: rgba(255,120,0,0.12) !important;  stroke-width: 3px !important;}
-=================================================== */
-</style>
-
-
-
+<!-- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+<!--                                                                                     END CSS STYLING                                                                                    -->
+<!-- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
 
 </head>
 <body>
 
-<!-- ========================START HTML VISUAL======================== -->
+<!-- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+<!--                                                                                  BEGIN HTML INTERFACE                                                                                  -->
+<!-- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
 
-	<div style="text-align: center; margin-bottom: 20px;">
-		<img src="vhsl logo 2.png" alt="VHSL Logo" style="max-width: 325px; height: auto;">
-	</div>
-
-	<div style="text-align: center; margin-bottom: 40px;">
-		<h1>VHSL Cheer Coaches Rubric Submission</h1>
-	</div>
-
-<div class="center-text">
-<p>
+  <div class="modern-hero">
+    <img src="vhsl logo 2.png" alt="VHSL Logo">
+    <h1>VHSL Cheer Coaches Rubric Submission</h1>
+    <p>Interactive rubric form for stunt, pyramid, tumbling, and jump difficulty submission</p>
+ <p>
   For additional resources, visit 
   <a href="https://www.vhsl.org/competition-cheer/" target="_blank" rel="noopener noreferrer">
     VHSL Cheer Website</a>.
 </p>
-</div>
+ </div>
 
 <hr>
 
@@ -249,6 +261,7 @@
     <option value="Varsity">Varsity</option>
     <option value="Junior Varsity">Junior Varsity</option>
 	<option value="Middle School">Middle School</option>
+	<option value="Rec League">Rec League</option>
   </select>
 
   <label>Head Coach First & Last Name</label>
@@ -256,8 +269,6 @@
  
   <label>Head Coach Email</label>
   <input type="email" id="CoachEmail" placeholder="myname@gmail.com" required>
-
-
 
   <label>Number of Athletes Performing</label>
   <input type="number" id="numAthletes" min="1">
@@ -271,6 +282,8 @@
 
 <hr>
 
+<!-- ========================== 🏋 INTERACTIVE STUNT RUBRIC 🏋 ========================== -->
+
 <div class="section-card" data-section="Stunts">
 <div class="center-text">  
   <h2>Stunt Skills Rubric 
@@ -280,18 +293,20 @@
   <p><strong>Click on the rubric image to select skills.</strong></p>
   <p><strong><span class="text-underline">***Please list skills in order of performance.***</span></strong></p> 
 </div>
-
-
 	
   <div class="wrapper svg-wrapper" aria-label="Stunt Rubric (interactive)">
   <!-- Outer SVG (viewBox matches the original SVG canvas: 0 0 928 705) -->
   <svg id="StuntRubricSVG" viewBox="0 0 928 705" preserveAspectRatio="xMidYMid meet" role="img" aria-label="VHSL Stunt Rubric">
     <!-- Use your uploaded SVG file as the background image inside the inline SVG -->
     <!-- Keep the filename exactly as you host it. If you inlined the whole SVG body instead, remove this <image> line. -->
-    <image href="Stunt Rubric 2026.svg" x="0" y="0" width="928" height="705" preserveAspectRatio="xMidYMid meet" />
+	<image href="Stunt Rubric 2026.svg" x="0" y="0" width="928" height="705" preserveAspectRatio="xMidYMid meet" />
 
-    <!-- Responsive region overlays.
-         Coordinates are percentages (x, y, width, height) so they scale with the SVG.
+	<!--  🚨🛑🚧🚨🛑🚧🚨🛑🚧🚨🛑🚧🚨🛑🚧🚨🛑🚧🚨🛑🚧🚨🛑🚧🚨🛑🚧🚨🛑🚧🚨🛑🚧🚨🛑🚧 	       -->
+	<!--  04/27/26 - ALTERNATIVE: HOST IMAGE DIRECTLY FROM PNG TO AVOID MAPPING TO SVG. All click box functionality remains the same.   -->
+	<!--  <image href="Stunt Rubric 2026 DRAFT.png" x="0" y="0" width="928" height="705" preserveAspectRatio="xMidYMid meet" />   -->
+  
+  <!-- Responsive region overlays.
+         Coordinates are percentages (x, y, width, height) so they scale with the rubric image.
          IDs match original HTML so your JS mapping still applies.
          These rects were computed from your PNG coords and corrected for the SVG's internal translate.
     -->
@@ -363,7 +378,7 @@
 	<div style="display: flex; align-items: center; gap: 10px;">
 	<button onclick="runChecker()">Calculate Stunt Difficulty Range</button>
     <span class="note-small">
-        Majority skills will highlight in green and non-majority skills will highlight in red.
+        Majority skills will highlight in green and non-majority/additional skills will highlight in red.
     </span>
 	</div>
 
@@ -381,6 +396,7 @@
     <p><strong><span class="text-underline">***Please list skills in order of performance.***</span></strong></p> 
 </div>
 
+<!-- ========================== 🏋 INTERACTIVE PYRAMID RUBRIC 🏋 ========================== -->
 
   <!-- ======= RESPONSIVE INLINE SVG: PYRAMID RUBRIC ======= -->
   <div class="wrapper svg-wrapper" aria-label="Pyramid Rubric (interactive)">
@@ -388,6 +404,10 @@
     <!-- Use your uploaded SVG file as the background image inside the inline SVG -->
     <!-- Keep the filename exactly as you host it. If you inlined the whole SVG body instead, remove this <image> line. -->
     <image href="Pyramid Rubric 2026.svg" x="0" y="0" width="1174" height="643" preserveAspectRatio="xMidYMid meet" />
+
+	<!--  🚨🛑🚧🚨🛑🚧🚨🛑🚧🚨🛑🚧🚨🛑🚧🚨🛑🚧🚨🛑🚧🚨🛑🚧🚨🛑🚧🚨🛑🚧🚨🛑🚧🚨🛑🚧 	       -->
+	<!--  04/27/26 - ALTERNATIVE: HOST IMAGE DIRECTLY FROM PNG TO AVOID MAPPING TO SVG. All click box functionality remains the same.   -->
+	<!-- <image href="Pyramid Rubric 2026 DRAFT.png" x="0" y="0" width="1174" height="643" preserveAspectRatio="xMidYMid meet" />     -->
 
     <!-- Highlight regions (same pattern as Stunt) -->
     <rect id="n1" class="svg-highlight inversion"  x="18.5%" y="16.75%" width="15%" height="5%"></rect>
@@ -424,7 +444,7 @@
 	<div style="display: flex; align-items: center; gap: 10px;">
 	<button onclick="runChecker2()">Calculate Pyramid Difficulty Range</button>
 	<span class="note-small">
-		Majority skills will highlight in green and non-majority skills will highlight in red.
+		Majority skills will highlight in green and non-majority/additional skills will highlight in red.
 	</span>
 	</div>
 
@@ -432,6 +452,8 @@
   </div>
   
 <hr>
+
+<!-- ========================== ‍🤸‍♀️ INTERACTIVE TUMBLING RUBRIC 🤸‍♀️ ========================== -->
 
 <div class="section-card" data-section="Tumbling">
 <div class="center-text">
@@ -447,22 +469,22 @@
 		<!-- Highlight boxes (clickable areas) -->
 		<!-- Row 1: 0.0 – 1.0 -->
 		<div class="tumblinghighlight tumbling" id="tumbling1" 
-			style="left:7px; top:100px; width:595px; height:103px;" 
+			style="left:10px; top:104px; width:597px; height:103px;" 
 			data-value="0.0 – 1.0"></div>
 
 		<!-- Row 2: 1.25 – 2.5 -->
 		<div class="tumblinghighlight tumbling" id="tumbling2" 
-			style="left:7px; top:205px; width:595px; height:83px;" 
+			style="left:10px; top:210px; width:597px; height:82px;" 
 			data-value="1.25 – 2.5"></div>
 
 		<!-- Row 3: 2.75 – 4.00 -->
 		<div class="tumblinghighlight tumbling" id="tumbling3" 
-			style="left:7px; top:290px; width:595px; height:67px;" 
+			style="left:10px; top:294px; width:597px; height:67px;" 
 			data-value="2.75 – 4.00"></div>
 
 		<!-- Row 4: 4.25 – 5.0 -->
 		<div class="tumblinghighlight tumbling" id="tumbling4" 
-			style="left:7px; top:359px; width:595px; height:92px;" 
+			style="left:10px; top:363px; width:597px; height:92px;" 
 			data-value="4.25 – 5.0"></div>
 
 	</div>
@@ -492,6 +514,8 @@
 
 <hr>
 
+<!-- ========================== ‍🐰️ INTERACTIVE JUMP RUBRIC 🐰️ ========================== -->
+
 <div class="section-card" data-section="Jumps">
 <div class="center-text">
   <h2>Jump Skills Rubric
@@ -506,27 +530,27 @@
 		<!-- Highlight boxes (clickable areas) -->
 		<!-- Row 1: 0.0 – 1.5 -->
 		<div class="jumphighlight jump" id="jump1" 
-			style="left:10px; top:100px; width:440px; height:70px;" 
+			style="left:14px; top:105px; width:440px; height:70px;" 
 			data-value="0.0 – 1.5"></div>
 
 		<!-- Row 2: 1.75 – 2.75 -->
 		<div class="jumphighlight jump" id="jump2" 
-			style="left:10px; top:172px; width:440px; height:55px;" 
+			style="left:14px; top:178px; width:440px; height:55px;" 
 			data-value="1.75 – 2.75"></div>
 
 		<!-- Row 3: 3.00 – 4.00 -->
 		<div class="jumphighlight jump" id="jump3" 
-			style="left:10px; top:231px; width:440px; height:103px;" 
+			style="left:14px; top:236px; width:440px; height:103px;" 
 			data-value="3.00 – 4.00"></div>
 
 		<!-- Row 4: 4.25 – 4.75 -->
 		<div class="jumphighlight jump" id="jump4" 
-			style="left:10px; top:338px; width:440px; height:41px;" 
+			style="left:14px; top:342px; width:440px; height:43px;" 
 			data-value="4.25 – 4.75"></div>
 
 		<!-- Row 5: 5.0 -->
 		<div class="jumphighlight jump" id="jump5" 
-			style="left:10px; top:383px; width:440px; height:55px;" 
+			style="left:14px; top:388px; width:440px; height:55px;" 
 			data-value="5.0"></div>
 	</div>
 
@@ -545,6 +569,8 @@
 
 <hr>
 
+<!-- ============ 👩‍⚖️ LEGALITY 👩‍⚖️ ============ -->
+
 <div class="section-card" data-section="Legality">
   <label>Any Legality Rulings from Bill Ahern?</label>
   <select id="legalityRulings">
@@ -560,13 +586,9 @@
 	<br>
 	<button id="resetBtn" class="reset-button" onclick="localStorage.removeItem('rubricFormAutosave'); location.reload();">Clear  |  Reset </button>
     <button id="previewBtn" style="background:#555;">Preview  |  Print</button>
-
-
-
   </div>
 
-
-<!-- Summary Output Results -->
+<!-- ============ 📼 Summary Output Results 📼 ============ -->
 
 <div id="SummaryWrapper" style="display:none;">
 <label>Stunt Skills Summary</label>
@@ -582,23 +604,25 @@
 <div id="PyramidRange" style="background: #f0f0f0; padding: 8px; border-radius: 4px;"></div>
 </div>
 
-
-
-
-<!-- ========================END HTML VISUAL======================== -->
-
+<!-- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+<!--                                                                                   END HTML INTERFACE                                                                                   -->
+<!-- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
 
 <script>
 
-/*********SHOW INFO ⓘ POP UP*********/
+<!-- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+<!--                                                                               BEGIN SCRIPT FUNCTIONALITY                                                                               -->
+<!-- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+
+/********* 🔍 SHOW INFO ⓘ POP UP 🔍 *********/
 
 function showInfo(id) {  document.getElementById(id).style.display = "block";}
 function closeInfo(id) {  document.getElementById(id).style.display = "none";}
 
 /************************************************ 
-|                                               |
-|            STUNT & PYRAMID RUBRIC             |
-|                                               |
+ |                                               |
+|        🏋️ STUNT & PYRAMID RUBRIC 🏋️            |
+ |                                               |
 ************************************************/
 
 
@@ -703,7 +727,7 @@ const pyramidCountsContainer = document.getElementById('PyramidCounts');
 
     const skillCountsContainer = document.getElementById('skillCounts');
 
-    // ---- ADD ROW TO STUNT TABLE ----
+    // ---- 🖇 ADD ROW TO STUNT TABLE 🖇 ----
     function addRowForRegion(region) {
       const skillId = 'count_' + region.id;
       // create new row
@@ -718,19 +742,19 @@ const pyramidCountsContainer = document.getElementById('PyramidCounts');
       `;
       skillCountsContainer.appendChild(row);
 
-      // ---- DELETE BUTTON ----
+      // ---- 🗑 DELETE BUTTON 🗑 ----
       row.querySelector('.delete-btn').addEventListener('click', () => {
         if (row.parentElement) row.parentElement.removeChild(row);
       });
 
-      // ---- DRAG & DROP FUNCTIONALITY ----
+      // ---- 🖱 DRAG & DROP FUNCTIONALITY 🖱 ----
       row.addEventListener('dragstart', e => {
         e.dataTransfer.effectAllowed = 'move';
         window.__draggedRow = row;
       });
     }
 
-    // ---- FLASH EFFECT ----
+    // ---- 📸 FLASH EFFECT 📸 ----
     function flashRect(rectEl) {
       rectEl.classList.add('svg-flash');
       setTimeout(() => rectEl.classList.add('fadeout'), 220);
@@ -739,7 +763,7 @@ const pyramidCountsContainer = document.getElementById('PyramidCounts');
       }, 520);
     }
 
-    // ---- CLICK & KEYBOARD EVENTS ----
+    // ---- ⌨ CLICK & KEYBOARD EVENTS ⌨ ----
     Regions.forEach(r => {
       try {
         const el = document.getElementById(r.id);
@@ -816,7 +840,7 @@ let draggedRow = null;
 
   const pyramidCountsContainer = document.getElementById("PyramidCounts");
 
-  // ---- FLASH EFFECT ----
+  // ---- 📸 FLASH EFFECT 📸 ----
   function flashRect(rectEl) {
     rectEl.classList.add("svg-flash");
     setTimeout(() => rectEl.classList.add("fadeout"), 220);
@@ -825,7 +849,7 @@ let draggedRow = null;
     }, 520);
   }
 
-  // ---- ADD ROW TO PYRAMID TABLE ----
+  // ---- 🖇 ADD ROW TO PYRAMID TABLE 🖇 ----
   function addPyramidRow(region) {
     const skillId = "pcount_" + region.id;
 
@@ -842,19 +866,19 @@ let draggedRow = null;
 
     pyramidCountsContainer.appendChild(row);
 
-    // ---- DELETE BUTTON ----
+    // ---- 🗑 DELETE BUTTON 🗑 ----
     row.querySelector(".delete-btn").addEventListener("click", () => {
       row.remove();
     });
 
-    // ---- DRAG & DROP FUNCTIONALITY ----
+    // ---- 🖱 DRAG & DROP FUNCTIONALITY 🖱 ----
     row.addEventListener("dragstart", (ev) => {
       ev.dataTransfer.effectAllowed = "move";
       window.__draggedPyramidRow = row;
     });
   }
 
-  // ---- CLICK & KEYBOARD EVENTS ----
+  // ---- ⌨ CLICK & KEYBOARD EVENTS ⌨ ----
   Regions.forEach(region => {
     const rect = document.getElementById(region.id);
     if (!rect) return;
@@ -903,7 +927,7 @@ let draggedPyramidRow = null;
 	});
 
 
-// DIFFICULTY CHECKER FOR STUNTS
+// 🧠🧠 DIFFICULTY CHECKER FOR STUNTS 
 function runChecker(silent = false) {
   const numAthletes = parseInt(document.getElementById('numAthletes').value) || 0;
   const majorityStunt = numAthletes <= 15 ? 2 : 3;
@@ -1018,7 +1042,7 @@ function runChecker(silent = false) {
   // Step 8: Add note if extra tosses were excluded
   if (additionalTosses.length > 0) {
     const keptToss = qualifyingTossRows[0];
-    outputText += `\n<strong>Note:</strong><span style="color:#C62828;"> Only one toss by majority may count toward difficulty range.</span> `;
+    outputText += `\n<strong>Note:</strong><span style="color:#C62828;"> Only one toss by majority may count toward difficulty range.</span>\n`;
     outputText += `The highest qualifying toss counted was: ${keptToss.skill}\n`;
     }
 
@@ -1054,7 +1078,7 @@ function runChecker(silent = false) {
 }
 
 
-// DIFFICULTY CHECKER FOR PYRAMID
+// 🧠🧠 DIFFICULTY CHECKER FOR PYRAMID
 function runChecker2() {
   const numAthletes = parseInt(document.getElementById('numAthletes').value) || 0;
   const majorityPyramid = numAthletes <= 15 ? 1 : 2;
@@ -1142,7 +1166,7 @@ function runChecker2() {
 
 /************************************************ 
 |                                               |
-|            TUMBLING & JUMP RUBRIC             |
+|         🤸‍♀️ TUMBLING & JUMP RUBRIC 🤸‍♀️         |
 |                                               |
 ************************************************/
 
@@ -1179,6 +1203,7 @@ document.querySelectorAll('.jumphighlight.jump').forEach(box => {
 |                APPS SCRIPT FOR                |
 |           DATE/LOCATION DROP DOWN             |
 |  + ASSOCIATION GOOGLE SHEET SUBMISSION        |
+|                📌📌📌📌📌                   
 |                                               |
 ************************************************/
 
@@ -1315,6 +1340,7 @@ const APPS_SCRIPT_BASE = "https://script.google.com/macros/s/AKfycbzA1BxBeDj23K-
 /************************************************ 
 |                                               |
 |          VALIDATION & SUBMIT FORM             |
+|                 📩📩📩📩📩
 |                                               |
 ************************************************/
 
@@ -1406,7 +1432,7 @@ function triggerConfetti() {
 }
 
 
-		//================== 👉Save & Submit Handler ==================
+		//================== 📨 Save & Submit Handler 📨 ==================
 		document.getElementById("saveBtn").addEventListener("click", () => {
 
 			// Run the difficulty checkers first
@@ -1490,6 +1516,7 @@ function triggerConfetti() {
 /************************************************
 |                                               |   
 |             LOCAL AUTOSAVE SYSTEM             |
+|                 💾💾💾💾💾
 |                                               |
 ************************************************/
 
@@ -1615,6 +1642,7 @@ window.addEventListener("load", loadAutosave);
 /************************************************
 |                                               |   
 |          PREVIEW SUBMISSION POPUP             |
+|                 📖📖📖📖📖
 |                                               |
 ************************************************/
 
@@ -1640,8 +1668,7 @@ window.addEventListener("load", loadAutosave);
             .sectionTitle { margin-top:18px; font-weight:700; font-size:15px; }
             .divider { height:2px; background:#2F317D; margin:6px 0 10px 0; }
             pre { white-space:pre-wrap; font-size:14px; }
-          </style>
-          </head><body>${contentHTML}</body></html>`);
+          </style></head><body>${contentHTML}</body></html>`);
         printWindow.document.close();
         printWindow.focus();
         printWindow.print();
@@ -1749,12 +1776,17 @@ window.closePreview = function () {
     if (modal) modal.style.display = "none";
 };
 
+<!-- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+<!--                                                                                END SCRIPT FUNCTIONALITY                                                                                -->
+<!-- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
 
 </script>
 
+<!-- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+<!--                                                                             BEGIN AUXILIARY HTML INTERFACE                                                                             -->
+<!-- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
 
-
-<!-- ========================"SUBMITTING" LOADING SPINNER======================== -->
+<!-- ======================== 🌀 "SUBMITTING" LOADING SPINNER 🌀 ======================== -->
 <div id="loadingOverlay">
   <div class="spinner"></div>
   <p style="color:white; margin-top:10px; font-size:18px;">Submitting...</p>
@@ -1762,7 +1794,7 @@ window.closePreview = function () {
 
 
 
-<!-- ========================ERROR ALERT MESSAGE======================== -->
+<!-- ======================== ⚠ ERROR ALERT MESSAGE ⚠ ======================== -->
 
 <div id="customAlert" style="display:none;">
   <div id="customAlertContent">
@@ -1771,7 +1803,7 @@ window.closePreview = function () {
   </div>
 </div>
 
-<!-- ========================INFO ICON MESSAGE======================== -->
+<!-- ======================== 🔍 INFO ICON MESSAGE 🔍 ======================== -->
 
 <div id="majorityInfo" class="info-popup">
   <h3>What Counts as a "Majority"?</h3>
@@ -1781,7 +1813,7 @@ window.closePreview = function () {
 </div>
 
 
-<!-- ===================== PREVIEW POPUP ======================= -->
+<!-- ===================== 📖 PREVIEW POPUP 📖 ======================= -->
 <div id="previewModal" style="display:none;    position: fixed;    top:0; left:0; width:100%; height:100%;
     background: rgba(0,0,0,0.6); z-index:99999;    justify-content: center; align-items: center; padding: 20px;">
   <div style="      background: #fff; max-width:760px; width:100%;      border-radius:10px; padding:22px;      max-height:86vh; overflow-y:auto;
@@ -1789,11 +1821,11 @@ window.closePreview = function () {
     <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
       <h2 style="margin:0; font-size:26px; color:#c02025"><strong>Rubric Submission Preview</strong></h2>
       <div style="display:flex; gap:8px;">
-        <button id="previewPrintBtn" style="padding:8px 12px; border-radius:6px; border:none; cursor:pointer; background:#2F317D; color:#fff;">Print</button>
+        <button id="previewPrintBtn" style="padding:8px 12px; border-radius:6px; border:none; cursor:pointer; background:#2F317D; color:#fff;">Export</button>
         <button onclick="closePreview()" style="padding:8px 12px; border-radius:6px; border:none; cursor:pointer; background:#c02025; color:#fff;">Close</button>
 	  </div>
     </div>
-	  <span class="note-small">Click 'Print' to save this for an easier copy/paste on future submissions!</span>
+	  <span class="note-small">Click 'Export' to print, download, or share your rubric summary.</span>
     <div id="previewContent" style="white-space:pre-wrap; font-size:15px; margin-top:14px; color:#111;"></div>
   </div>
 </div>
@@ -1804,7 +1836,9 @@ window.closePreview = function () {
 </body>
 </html>
 
-
+<!-- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+<!--                                                                              END AUXILIARY HTML INTERFACE                                                                              -->
+<!-- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
 
 
 
