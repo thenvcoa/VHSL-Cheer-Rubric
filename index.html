@@ -16,15 +16,6 @@
 
 <!-- ======================== 💅 GENERAL STYLING 💅 ======================== -->
 <style>
-/* ===============================================================
-   VHSL Cheer Rubric Form — Cleaned Modern Card Styles
-   Keep the functional class names used by JavaScript:
-   .svg-highlight, .svg-flash, .majority, .non-majority,
-   .additional-toss, .jumphighlight, .tumblinghighlight,
-   .completed, .info-popup, #customAlert, #previewModal,
-   #loadingOverlay, #confettiContainer.
-   =============================================================== */
-
 :root {
   --vhsl-blue: #2F317D;
   --vhsl-blue-dark: #232567;
@@ -218,8 +209,15 @@ tbody tr:hover { background: rgba(47,49,125,0.035); }
 
 <!-- =================== 🪲 DEBUG MODE 🪲 =================== -->
 <style>
-
-
+ (Comment this whole block out when not in use)
+/*
+  .svg-highlight.inversion {  stroke: rgba(180,0,180,0.85) !important;  fill: rgba(180,0,180,0.18) !important;  stroke-width: 3px !important;}
+  .svg-highlight.release {  stroke: rgba(0,180,0,0.85) !important;  fill: rgba(0,180,0,0.18) !important;  stroke-width: 3px !important;}
+  .svg-highlight.twisting {  stroke: rgba(255,0,0,0.85) !important;  fill: rgba(255,0,0,0.18) !important;  stroke-width: 3px !important;}
+  .svg-highlight.coed {  stroke: rgba(0,0,255,0.85) !important;  fill: rgba(0,0,255,0.12) !important;  stroke-width: 3px !important;}
+  .svg-flash.other {  stroke: rgba(150,100,50,0.9)  !important; fill: rgba(190,150,90,0.35) !important;  stroke-width: 3px !important;}
+  .svg-highlight.toss {  stroke: rgba(255,120,0,0.85) !important;  fill: rgba(255,120,0,0.12) !important;  stroke-width: 3px !important;}
+*/
 </style>
 
 
@@ -234,21 +232,18 @@ tbody tr:hover { background: rgba(47,49,125,0.035); }
 <!--                                                                                  BEGIN HTML INTERFACE                                                                                  -->
 <!-- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
 
-  <div class="modern-hero">
-    <img src="vhsl logo 2.png" alt="VHSL Logo">
-    <h1>VHSL Cheer Coaches Rubric Submission</h1>
-    <p>Interactive rubric form for stunt, pyramid, tumbling, and jump difficulty submission</p>
- <p>
-  For additional resources, visit 
-  <a href="https://www.vhsl.org/competition-cheer/" target="_blank" rel="noopener noreferrer">
-    VHSL Cheer Website</a>.
-</p>
- </div>
+<div class="modern-hero">
+   <img src="vhsl logo 2.png" alt="VHSL Logo">
+   <h1>VHSL Cheer Coaches Rubric Submission</h1>
+    <p>Interactive rubric form for event submissions</p>
+	<p>For additional resources, visit <a href="https://www.vhsl.org/competition-cheer/" target="_blank" rel="noopener noreferrer">VHSL Cheer Website</a>.
+	</p>
+</div>
 
 <hr>
 
 <div class="center-text">
- <p class="highlight-bar">All fields are required.</p>
+	<p class="highlight-bar">All fields are required.</p>
 </div>
 
 <div class="section-card" data-section="CoachTeamInfo">
@@ -387,6 +382,8 @@ tbody tr:hover { background: rgba(47,49,125,0.035); }
 
 <hr>
 
+<!-- ========================== 🏋 INTERACTIVE PYRAMID RUBRIC 🏋 ========================== -->
+
 <div class="section-card" data-section="Pyramid">
  <div class="center-text">
   <h2>Pyramid Skills Rubric
@@ -395,8 +392,6 @@ tbody tr:hover { background: rgba(47,49,125,0.035); }
   <p><strong>Click on the rubric image to select skills.</strong></p>
     <p><strong><span class="text-underline">***Please list skills in order of performance.***</span></strong></p> 
 </div>
-
-<!-- ========================== 🏋 INTERACTIVE PYRAMID RUBRIC 🏋 ========================== -->
 
   <!-- ======= RESPONSIVE INLINE SVG: PYRAMID RUBRIC ======= -->
   <div class="wrapper svg-wrapper" aria-label="Pyramid Rubric (interactive)">
@@ -611,7 +606,7 @@ tbody tr:hover { background: rgba(47,49,125,0.035); }
 <script>
 
 <!-- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
-<!--                                                                               BEGIN SCRIPT FUNCTIONALITY                                                                               -->
+<!--                                                                                     BEGIN JAVASCRIPT                                                                                   -->
 <!-- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
 
 /********* 🔍 SHOW INFO ⓘ POP UP 🔍 *********/
@@ -621,7 +616,7 @@ function closeInfo(id) {  document.getElementById(id).style.display = "none";}
 
 /************************************************ 
  |                                               |
-|        🏋️ STUNT & PYRAMID RUBRIC 🏋️            |
+          🏋️ STUNT & PYRAMID RUBRIC 🏋️            
  |                                               |
 ************************************************/
 
@@ -690,7 +685,7 @@ const pyramidWrapper = document.getElementById('PyramidRubricSVG').closest('.wra
 const pyramidCountsContainer = document.getElementById('PyramidCounts');
 
 
-// CLICK HANDLER FOR STUNTS
+// ⌨⌨ CLICK HANDLER FOR STUNTS
   (function() {
   
     const fallbackRegions = [
@@ -789,7 +784,7 @@ const pyramidCountsContainer = document.getElementById('PyramidCounts');
   })();
 
 
-// DRAG–DROP FOR STUNT TABLE
+// 📊📊 DRAG–DROP FOR STUNT TABLE
 let draggedRow = null;
 
 	skillCountsContainer.addEventListener('dragstart', e => {
@@ -812,7 +807,7 @@ let draggedRow = null;
 	draggedRow = null;
 	});
 
-// CLICK HANDLER FOR PYRAMID RUBRIC
+// ⌨⌨ CLICK HANDLER FOR PYRAMID RUBRIC
 (function () {
 
   const fallbackPyramidRegions = [
@@ -903,7 +898,7 @@ let draggedRow = null;
 })();
 
 
-// DRAG–DROP FOR PYRAMID TABLE
+// 📊📊 DRAG–DROP FOR PYRAMID TABLE
 let draggedPyramidRow = null;
 
 	pyramidCountsContainer.addEventListener('dragstart', e => {
@@ -950,12 +945,12 @@ function runChecker(silent = false) {
     stuntSkillLookup[region.skill] = region;
   });
 
-  // Step 1: Reset row coloring
+  // 🔶Step 1: Reset row coloring
   rows.forEach(row => {
     row.classList.remove('majority', 'non-majority', 'additional-toss');
   });
 
-  // Step 2: Find all toss rows that meet majority
+  // 🔶Step 2: Find all toss rows that meet majority
   const qualifyingTossRows = [];
 
   rows.forEach((row, index) => {
@@ -976,7 +971,7 @@ function runChecker(silent = false) {
     }
   });
 
-  // Step 3: Only one toss may count — pick the highest difficulty toss
+  // 🔶Step 3: Only one toss may count — pick the highest difficulty toss
   // If tied, keep the first one listed in order of performance
   qualifyingTossRows.sort((a, b) => {
     if (b.level !== a.level) return b.level - a.level;
@@ -986,7 +981,7 @@ function runChecker(silent = false) {
   const countedTossRow = qualifyingTossRows.length > 0 ? qualifyingTossRows[0].row : null;
   const additionalTosses = qualifyingTossRows.slice(1);
 
-  // Step 4: Classify each row
+  // 🔶Step 4: Classify each row
   rows.forEach(row => {
     const skill = row.cells[0].textContent.trim();
     const difficulty = row.cells[1].textContent.trim();
@@ -1013,18 +1008,18 @@ function runChecker(silent = false) {
     }
   });
 
-  // Step 5: Count majority skills by difficulty
+  // 🔶Step 5: Count majority skills by difficulty
   const difficultyCount = {};
   majoritySkills.forEach(s => {
     difficultyCount[s.difficulty] = (difficultyCount[s.difficulty] || 0) + 1;
   });
 
-  // Step 6: Sort difficulties high to low
+  // 🔶Step 6: Sort difficulties high to low
   const sortedDifficulties = Object.keys(difficultyLevels).sort(
     (a, b) => difficultyLevels[b] - difficultyLevels[a]
   );
 
-  // Step 7: Determine overall stunt difficulty
+  // 🔶Step 7: Determine overall stunt difficulty
   let overallStuntDifficulty = null;
   const startingIndex = sortedDifficulties.findIndex(d => difficultyCount[d] >= 1);
 
@@ -1039,20 +1034,20 @@ function runChecker(silent = false) {
     }
   }
 
-  // Step 8: Add note if extra tosses were excluded
+  // 🔶Step 8: Add note if extra tosses were excluded
   if (additionalTosses.length > 0) {
     const keptToss = qualifyingTossRows[0];
     outputText += `\n<strong>Note:</strong><span style="color:#C62828;"> Only one toss by majority may count toward difficulty range.</span>\n`;
     outputText += `The highest qualifying toss counted was: ${keptToss.skill}\n`;
     }
 
-  // Step 9: Output results
+  // 🔶Step 9: Output results
   outputText += `<strong>\nRequired Number of Groups for Majority:</strong> ${majorityStunt}`;
   outputText += `<strong>\nStunt Difficulty Range:</strong> ${overallStuntDifficulty || 'Selected skills do not meet rubric requirements for majority'}`;
 
   document.getElementById('output').innerHTML = outputText;
 
-  // Step 10: Summary output
+  // 🔶Step 10: Summary output
   let StuntSkillListOutput = '';
   rows.forEach(row => {
     const skill = row.cells[0].textContent.trim();
@@ -1087,10 +1082,10 @@ function runChecker2() {
   let majoritySkills = [];
   let outputText = '<strong>Selected Pyramid Skills:\n\n</strong>';
 
-  // Step 1: Reset table coloring
+  // 🔷Step 1: Reset table coloring
   rows.forEach(row => row.classList.remove('majority', 'non-majority'));
 
-  // Step 2: Label Non-Majority Skills and gather majority skills
+  // 🔷Step 2: Label Non-Majority Skills and gather majority skills
   rows.forEach(row => {
     const skill = row.cells[0].textContent;
     const difficulty = row.cells[1].textContent;
@@ -1106,7 +1101,7 @@ function runChecker2() {
     }
   });
 
- // Step 3: Define difficulty levels for sorting
+ // 🔷Step 3: Define difficulty levels for sorting
   const difficultyLevels = {
     'Beginner': 1,
     'Intermediate': 2,
@@ -1115,18 +1110,18 @@ function runChecker2() {
     'Super Elite': 5
   };
 
-  // Step 4: Count how many majority skills are at each difficulty
+  // 🔷Step 4: Count how many majority skills are at each difficulty
   const difficultyCount = {};
   majoritySkills.forEach(s => {
     difficultyCount[s.difficulty] = (difficultyCount[s.difficulty] || 0) + 1;
   });
 
-  // Step 5: Sort difficulties from highest to lowest
+  // 🔷Step 5: Sort difficulties from highest to lowest
   const sortedDifficulties = Object.keys(difficultyLevels).sort(
     (a, b) => difficultyLevels[b] - difficultyLevels[a]
   );
 
-  // Step 6: Determine overall difficulty based on cumulative majority
+  // 🔷Step 6: Determine overall difficulty based on cumulative majority
   let overallPyramidDifficulty = null;
   const startingIndex = sortedDifficulties.findIndex(d => difficultyCount[d] >= 1);
 
@@ -1141,13 +1136,13 @@ function runChecker2() {
     }
   }
 
-  // Step 7: Output results
+  // 🔷Step 7: Output results
   outputText += `<strong>\nRequired Number of Skill Flyers for Majority:</strong>   ${majorityPyramid}`;
   outputText += `<strong>\nPyramid Difficulty Range:</strong>   ${overallPyramidDifficulty || 'Selected skills do not meet rubric requirements for majority'}`;
 
   document.getElementById('outputp').innerHTML = outputText;
 
- // Step 8: Populate Summary 
+ // 🔷Step 8: Populate Summary 
   let PyramidSkillListOutput = '';
   rows.forEach(row => {
     const skill = row.cells[0].textContent;
@@ -1507,7 +1502,7 @@ function triggerConfetti() {
 					//  Show spinner animation
 		document.getElementById("loadingOverlay").style.display = "flex";
 
-    // ✅!!!!!!!EVERYTHING IS VALIDATED - SUBMIT TO GOOGLE SHEETS!!!!!!!✅ //
+    // ✅👏👏👏!!!!!!!EVERYTHING IS VALIDATED - SUBMIT TO GOOGLE SHEETS!!!!!!!👏👏👏✅ //
 		appsScriptSubmissionFlow();
 
 		});
@@ -1597,26 +1592,47 @@ function loadAutosave() {
         });
     }
 }
+
 function addRestoredStuntRow(item) {
-    const row = document.createElement("tr");
-    row.innerHTML = `
-        <td class="drag-handle">${item.skill}</td>
-        <td>${item.difficulty}</td>
-        <td><input type="number" value="${item.count}" min="0"></td>
-        <td class="delete-btn">🗑️</td>
-    `;
-    document.getElementById("skillCounts").appendChild(row);
+  const row = document.createElement("tr");
+
+  row.innerHTML = `
+    <td class="drag-handle">${item.skill}</td>
+    <td>${item.difficulty}</td>
+    <td><input type="number" value="${item.count}" min="0"></td>
+    <td class="delete-btn">🗑️</td>
+  `;
+
+  document.getElementById("skillCounts").appendChild(row);
+
+  row.querySelector(".delete-btn").addEventListener("click", () => {
+    row.remove();
+    autosaveForm();
+  });
+
+  row.querySelector("input").addEventListener("input", autosaveForm);
+  row.querySelector("input").addEventListener("change", autosaveForm);
 }
 
 function addRestoredPyramidRow(item) {
-    const row = document.createElement("tr");
-    row.innerHTML = `
-        <td class="drag-handle">${item.skill}</td>
-        <td>${item.difficulty}</td>
-        <td><input type="number" value="${item.count}" min="0"></td>
-        <td class="delete-btn">🗑️</td>
-    `;
-    document.getElementById("PyramidCounts").appendChild(row);
+  const row = document.createElement("tr");
+
+  row.innerHTML = `
+    <td class="drag-handle">${item.skill}</td>
+    <td>${item.difficulty}</td>
+    <td><input type="number" value="${item.count}" min="0"></td>
+    <td class="delete-btn">🗑️</td>
+  `;
+
+  document.getElementById("PyramidCounts").appendChild(row);
+
+  row.querySelector(".delete-btn").addEventListener("click", () => {
+    row.remove();
+    autosaveForm();
+  });
+
+  row.querySelector("input").addEventListener("input", autosaveForm);
+  row.querySelector("input").addEventListener("change", autosaveForm);
 }
 // Save whenever any input changes
 document.querySelectorAll("input, textarea, select").forEach(el => {
