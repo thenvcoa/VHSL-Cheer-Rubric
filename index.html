@@ -1274,9 +1274,10 @@ const APPS_SCRIPT_BASE = "https://script.google.com/macros/s/AKfycbwtizRxk7B-UaB
 		}
 
 		async function appsScriptSubmissionFlow() {
-
-		const competition_raw = competitionValue ? JSON.parse(competitionValue) : {};
-		const association = competition_raw.association || "Unknown";
+  			
+			const competitionValue = document.getElementById("competitionLocation").value;  // ← this line must be here
+  			const competition_raw = competitionValue ? JSON.parse(competitionValue) : {};
+  			const association = competition_raw.association || "Unknown";
 
 			const payload = {
 			association: association,
