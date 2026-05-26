@@ -1274,11 +1274,7 @@ const APPS_SCRIPT_BASE = "https://script.google.com/macros/s/AKfycbwtizRxk7B-UaB
 		}
 
 		async function appsScriptSubmissionFlow() {
-  console.log("SUBMISSION FUNCTION FIRED"); // ← add this as the very first line
-  
-  const competitionValue = document.getElementById("competitionLocation").value;
-  console.log("ASSOCIATION:", JSON.parse(competitionValue).association); // ← add this too
-  // ... rest of function
+
 		const competition_raw = competitionValue ? JSON.parse(competitionValue) : {};
 		const association = competition_raw.association || "Unknown";
 
@@ -1312,14 +1308,13 @@ const APPS_SCRIPT_BASE = "https://script.google.com/macros/s/AKfycbwtizRxk7B-UaB
 		};
 
 		try {
-			console.log("ABOUT TO FETCH", JSON.stringify(payload).substring(0, 100));
 
-await fetch(APPS_SCRIPT_BASE, {
-  method: "POST",
-  mode: "no-cors",
-  headers: { "Content-Type": "text/plain" },
-  body: JSON.stringify(payload)
-});
+			await fetch(APPS_SCRIPT_BASE, {
+  			method: "POST",
+  			mode: "no-cors",
+  			headers: { "Content-Type": "text/plain" },
+  			body: JSON.stringify(payload)
+			});
 
 			showCustomAlert("Submission sent successfully!");
   
