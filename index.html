@@ -1312,12 +1312,14 @@ const APPS_SCRIPT_BASE = "https://script.google.com/macros/s/AKfycbzA1BxBeDj23K-
 		};
 
 		try {
-			await fetch(APPS_SCRIPT_BASE, {
-			method: "POST",
-			mode: "no-cors",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify(payload)
-			});
+			console.log("ABOUT TO FETCH", JSON.stringify(payload).substring(0, 100));
+
+await fetch(APPS_SCRIPT_BASE, {
+  method: "POST",
+  mode: "no-cors",
+  headers: { "Content-Type": "text/plain" },
+  body: JSON.stringify(payload)
+});
 
 			showCustomAlert("Submission sent successfully!");
   
