@@ -100,7 +100,7 @@ tbody tr:hover { background: rgba(47,49,125,0.035); }
 #output, #outputp, #StuntSkills, #StuntRange, #PyramidSkills, #PyramidRange { max-width: 900px; margin-top: 20px; padding: 16px; white-space: pre-wrap; color: #263044;
   background: #f7f8fc; border: 1px solid var(--border-soft); border-radius: 14px;}
 .text-underline { color: var(--vhsl-red); text-decoration: underline; }
-.note-small { color: #6b7280; font-size: 12px; line-height: 1.35; font-style: italic; margin-top: 26px; }
+.note-small { color: #6b7280; font-size: 12px; line-height: 1.35; font-style: italic; margin-top: 26px; text-align: center; }
 .icon { font-size: 24px; vertical-align: middle; }
 .credited-star {display: inline-block; width: 22px; min-width: 22px; font-weight: 800; color: #2F317D; text-align: left;}
 
@@ -374,6 +374,7 @@ tbody tr:hover { background: rgba(47,49,125,0.035); }
 	<button onclick="runChecker()">Calculate Stunt Difficulty Range</button>
     <span class="note-small">
         Majority skills will highlight in green and non-majority/additional skills will highlight in red.
+		<br> ★ = Skills used to determine difficulty range <br>
     </span>
 	</div>
 
@@ -440,6 +441,7 @@ tbody tr:hover { background: rgba(47,49,125,0.035); }
 	<button onclick="runChecker2()">Calculate Pyramid Difficulty Range</button>
 	<span class="note-small">
 		Majority skills will highlight in green and non-majority/additional skills will highlight in red.
+		<br> ★ = Skills used to determine difficulty range <br>
 	</span>
 	</div>
 
@@ -1126,10 +1128,8 @@ function runChecker2() {
     if (count >= majorityPyramid) {
       majoritySkills.push({ skill, difficulty });
       row.classList.add('majority');
-      outputText += `${count} — ${difficulty} — ${skill}\n`;
     } else {
       row.classList.add('non-majority');
-      outputText += `${count} — ${difficulty} — ${skill} (Non Majority)\n`;
     }
   });
 
@@ -1184,8 +1184,6 @@ function runChecker2() {
 		creditedPyramidNeeded--;
 	}
 	});
-
-outputText = '<strong>Selected Pyramid Skills:\n\n</strong>';
 
 rows.forEach(row => {
   const skill = row.cells[0].textContent.trim();
