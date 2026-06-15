@@ -500,7 +500,7 @@ tbody tr:hover { background: rgba(47,49,125,0.035); }
 
 	<!--  🚨🛑🚧🚨🛑🚧🚨🛑🚧🚨🛑🚧🚨🛑🚧🚨🛑🚧🚨🛑🚧🚨🛑🚧🚨🛑🚧🚨🛑🚧🚨🛑🚧🚨🛑🚧 	       -->
 	<!--  04/27/26 - ALTERNATIVE: HOST IMAGE DIRECTLY FROM PNG TO AVOID MAPPING TO SVG. All click box functionality remains the same.   -->
-	<image href="Pyramid Rubric 2026.png" x="0" y="0" width="1174" height="643" preserveAspectRatio="xMidYMid meet" />    
+	<image href="Pyramid Rubric 2026 (1).png" x="0" y="0" width="1174" height="643" preserveAspectRatio="xMidYMid meet" />    
 
 <!-- 🟣NON-RELEASE TRANSITIONS🟣 -->
     <rect id="n1" class="svg-highlight inversion"  x="17.75%" y="17.75%" width="15.5%" height="5.25%"></rect>
@@ -536,12 +536,14 @@ tbody tr:hover { background: rgba(47,49,125,0.035); }
     <rect id="pr8" class="svg-highlight release"    x="48.75%" y="61.25%" width="16.75%" height="6.75%"></rect>	
     <rect id="pr9" class="svg-highlight release"    x="48.75%" y="68%" width="16.75%" height="6.5%"></rect>
 
-    <rect id="pr10" class="svg-highlight release"    x="65.5%" y="54.75%" width="17.5%" height="6.5%"></rect>
-    <rect id="pr11" class="svg-highlight release"    x="65.5%" y="61.25%" width="17.5%" height="6.75%"></rect>	
-    <rect id="pr12" class="svg-highlight release"    x="65.5%" y="68%" width="17.5%" height="6.5%"></rect>
+    <rect id="pr10" class="svg-highlight release"    x="65.5%" y="48%" width="17.5%" height="6.5%"></rect>
+    <rect id="pr11" class="svg-highlight release"    x="65.5%" y="54.75%" width="17.5%" height="6.5%"></rect>
+    <rect id="pr12" class="svg-highlight release"    x="65.5%" y="61.25%" width="17.5%" height="6.75%"></rect>	
+    <rect id="pr13" class="svg-highlight release"    x="65.5%" y="68%" width="17.5%" height="6.5%"></rect>
 
-    <rect id="pr13" class="svg-highlight release"    x="83%" y="54.75%" width="16.75%" height="6.5%"></rect>
-    <rect id="pr14" class="svg-highlight release"    x="83%" y="68%" width="16.75%" height="6.5%"></rect>
+    <rect id="pr14" class="svg-highlight release"    x="83%" y="54.75%" width="16.75%" height="6.5%"></rect>
+    <rect id="pr15" class="svg-highlight release"    x="83%" y="61.25%" width="16.75%" height="6.5%"></rect>
+    <rect id="pr16" class="svg-highlight release"    x="83%" y="68%" width="16.75%" height="6.5%"></rect>
 
 <!-- 🔴BRACED ROLL/FLIP🔴 -->
     <rect id="b1" class="svg-highlight twisting"   x="17.75%" y="75.75%" width="15.5%" height="5.25%"></rect>
@@ -800,23 +802,23 @@ const StuntRegions = [
   { id: 'r10', skill: 'Switch Up to Prep IBP/ABP', category: 'Release', difficulty: 'Intermediate' },
   { id: 'r11', skill: 'Prep Level Low to Low (Tic Toc)', category: 'Release', difficulty: 'Intermediate' },
   { id: 'r12', skill: 'Twisting Release to Prep Level', category: 'Release', difficulty: 'Intermediate' },
-  { id: 'r13', skill: 'Prep Level Release to Extended', category: 'Release', difficulty: 'Advanced' },
-  { id: 'r14', skill: 'Release to Extended', category: 'Release', difficulty: 'Advanced' },
-  { id: 'r15', skill: 'Extended Release to Prep Level IBP', category: 'Release', difficulty: 'Advanced' },
+  { id: 'r13', skill: 'Prep Level Release to Extended/IBP/ABP', category: 'Release', difficulty: 'Advanced' },
+  { id: 'r14', skill: 'Release to Extended/IBP/ABP', category: 'Release', difficulty: 'Advanced' },
+  { id: 'r15', skill: 'Extended Release to Prep Level IBP/ABP', category: 'Release', difficulty: 'Advanced' },
   { id: 'r16', skill: 'Horizontal Release to Extended', category: 'Release', difficulty: 'Advanced' },
   { id: 'r17', skill: 'Switch Up to Extended IBP/ABP', category: 'Release', difficulty: 'Advanced' },
   { id: 'r18', skill: '1/4, 1/2, or 3/4 Twist Switch Up to Extended IBP', category: 'Release', difficulty: 'Advanced' },
   { id: 'r19', skill: 'Low to High to IBP/ABP', category: 'Release', difficulty: 'Advanced' },
   { id: 'r20', skill: '1/4, 1/2, or 3/4 Twist Low to High to IBP', category: 'Release', difficulty: 'Advanced' },
-  { id: 'r21', skill: '1/4, 1/2, or 3/4 Twist Release to Extended', category: 'Release', difficulty: 'Elite' },
+  { id: 'r21', skill: '1/4, 1/2, or 3/4 Twist Release to Extended/IBP/ABP', category: 'Release', difficulty: 'Elite' },
   { id: 'r22', skill: 'Horizontal Release to Extended IBP/ABP', category: 'Release', difficulty: 'Elite' },
   { id: 'r23', skill: 'Full Twisting Switch Up to Extended IBP', category: 'Release', difficulty: 'Elite' },
   { id: 'r24', skill: '1/4, 1/2, or 3/4 Twist Switch Up to Extended ABP', category: 'Release', difficulty: 'Elite' },
   { id: 'r25', skill: '1/4, 1/2, or 3/4 Twist Low to High to ABP', category: 'Release', difficulty: 'Elite' },
   { id: 'r26', skill: 'High to High (IBP to IBP/ABP)', category: 'Release', difficulty: 'Elite' },
   { id: 'r27', skill: '1/4 Twist High to High to IBP/ABP', category: 'Release', difficulty: 'Elite' },
-  { id: 'r28', skill: 'Full Twisting Release to Extended', category: 'Release', difficulty: 'Super Elite' },
-  { id: 'r29', skill: 'Horizontal Twisting Release to Extended', category: 'Release', difficulty: 'Super Elite' },
+  { id: 'r28', skill: 'Full Twisting Release to Extended/IBP/ABP', category: 'Release', difficulty: 'Super Elite' },
+  { id: 'r29', skill: 'Horizontal Twisting Release to Extended/IBP/ABP', category: 'Release', difficulty: 'Super Elite' },
   { id: 'r30', skill: 'Full Twisting Switch Up to Extended ABP', category: 'Release', difficulty: 'Super Elite' },
   { id: 'r31', skill: 'High to High (ABP to ABP)', category: 'Release', difficulty: 'Super Elite' },
   { id: 'r32', skill: 'Full Twisting Low to High to IBP/ABP', category: 'Release', difficulty: 'Super Elite' },
@@ -824,22 +826,22 @@ const StuntRegions = [
   { id: 'r34', skill: 'Full Twisting High to High to IBP/ABP', category: 'Release', difficulty: 'Super Elite' },
 <!-- 🔴TWISTING🔴 -->  
   { id: 't1', skill: '1/4 or 1/2 Up to Prep Level', category: 'Twisting', difficulty: 'Beginner' },
-  { id: 't2', skill: '1/4 Up to Extended', category: 'Twisting', difficulty: 'Beginner' },
+  { id: 't2', skill: '1/4 Up to Extended/IBP/ABP', category: 'Twisting', difficulty: 'Beginner' },
   { id: 't3', skill: '1/4 or 1/2 Twisting Transitions', category: 'Twisting', difficulty: 'Beginner' },
   { id: 't4', skill: 'Full Up to Prep Level', category: 'Twisting', difficulty: 'Intermediate' },
-  { id: 't5', skill: '1/2 or 3/4 Up to Extended', category: 'Twisting', difficulty: 'Intermediate' },
-  { id: 't6', skill: '3/4 or Full Twisting Transitions', category: 'Twisting', difficulty: 'Intermediate' },
-  { id: 't7', skill: 'Full Up to Extended', category: 'Twisting', difficulty: 'Advanced' },
+  { id: 't5', skill: '1/2 or 3/4 Up to Extended/IBP/ABP', category: 'Twisting', difficulty: 'Intermediate' },
+  { id: 't6', skill: '3/4 or Greater Twisting Transitions to Prep or Below Prep', category: 'Twisting', difficulty: 'Intermediate' },
+  { id: 't7', skill: 'Full Up to Extended/IBP/ABP', category: 'Twisting', difficulty: 'Advanced' },
   { id: 't8', skill: 'Hands Full Around to Extended', category: 'Twisting', difficulty: 'Advanced' },
-  { id: 't9', skill: '1.5 Up to Extended', category: 'Twisting', difficulty: 'Elite' },
-  { id: 't10', skill: 'Hands 1.5 Around to Extended', category: 'Twisting', difficulty: 'Elite' },
+  { id: 't9', skill: '1.5 Up to Extended/IBP/ABP', category: 'Twisting', difficulty: 'Elite' },
+  { id: 't10', skill: 'Hands 1.5 Around to Extended/IBP/ABP', category: 'Twisting', difficulty: 'Elite' },
   { id: 't11', skill: 'Hands Full Around to Extended IBP/ABP', category: 'Twisting', difficulty: 'Elite' },
-  { id: 't12', skill: 'High to High Full Around (Ext to Ext)', category: 'Twisting', difficulty: 'Elite' },
-  { id: 't13', skill: 'Double Up to Extended', category: 'Twisting', difficulty: 'Super Elite' },
-  { id: 't14', skill: 'Hands Double Around to Extended', category: 'Twisting', difficulty: 'Super Elite' },
-  { id: 't15', skill: 'High to High Full Around to IBP/ABP (Ext to Single Leg)', category: 'Twisting', difficulty: 'Super Elite' },
-  { id: 't16', skill: 'High to High Full Around to IBP/ABP (Single Leg to Single Leg)', category: 'Twisting', difficulty: 'Super Elite' },
-  { id: 't17', skill: 'High to High 1.5 Around', category: 'Twisting', difficulty: 'Super Elite' },
+  { id: 't12', skill: 'High High Full Around (Ext to Ext)', category: 'Twisting', difficulty: 'Elite' },
+  { id: 't13', skill: 'Double Up to Extended/IBP/ABP', category: 'Twisting', difficulty: 'Super Elite' },
+  { id: 't14', skill: 'Hands Double Around to Extended/IBP/ABP', category: 'Twisting', difficulty: 'Super Elite' },
+  { id: 't15', skill: 'High High Full Around to IBP/ABP (Ext to Single Leg)', category: 'Twisting', difficulty: 'Super Elite' },
+  { id: 't16', skill: 'High High Full Around to IBP/ABP (Single Leg to Single Leg)', category: 'Twisting', difficulty: 'Super Elite' },
+  { id: 't17', skill: 'High High 1.5 Around', category: 'Twisting', difficulty: 'Super Elite' },
 <!-- 🔵SINGLE BASE🔵 -->  
   { id: 'c1', skill: 'Prep Level Skills', category: 'Coed', difficulty: 'Beginner' },
   { id: 'c2', skill: 'Walk-In/Toss to Chair', category: 'Coed', difficulty: 'Beginner' },
@@ -860,7 +862,7 @@ const StuntRegions = [
   { id: 'c17', skill: 'Releases to Extended Single Leg', category: 'Coed', difficulty: 'Elite' },
   { id: 'c18', skill: '1/4 Twist Release to Extended', category: 'Coed', difficulty: 'Elite' },
   { id: 'c19', skill: 'Released Inversion to Prep Level', category: 'Coed', difficulty: 'Elite' },
-  { id: 'c20', skill: 'Toss Single Arm Extended', category: 'Coed', difficulty: 'Elite' },
+  { id: 'c20', skill: 'Toss Hands, Press to Extended Single Arm', category: 'Coed', difficulty: 'Elite' },
   { id: 'c21', skill: 'Walk-In to Extended Single Arm', category: 'Coed', difficulty: 'Elite' },
   { id: 'c22', skill: 'Toss Extended Single Leg', category: 'Coed', difficulty: 'Elite' },
   { id: 'c23', skill: 'High to High to Extended', category: 'Coed', difficulty: 'Elite' },
@@ -910,11 +912,13 @@ const PyramidRegions = [
   { id: 'pr7', skill: 'Braced Inverted Release to Extended (2)', category: 'Release', difficulty: 'Advanced' },
   { id: 'pr8', skill: 'Braced 1/4, 1/2, or 3/4 Twisting Release to Extended (1 or 2)', category: 'Release', difficulty: 'Advanced' },
   { id: 'pr9', skill: 'Unbraced Release to Extended', category: 'Release', difficulty: 'Advanced' },
-  { id: 'pr10', skill: 'Braced Inverted Release to Extended (1)', category: 'Release', difficulty: 'Elite' },
-  { id: 'pr11', skill: 'Braced Full Twisting Release to Extended (1 or 2)', category: 'Release', difficulty: 'Elite' },
-  { id: 'pr12', skill: 'Unbraced 1/4, 1/2, or 3/4 Twisting Release to Extended', category: 'Release', difficulty: 'Elite' },
-  { id: 'pr13', skill: 'Unbraced Inverted Release to Extended', category: 'Release', difficulty: 'Super Elite' },
-  { id: 'pr14', skill: 'Unbraced Full Twisting Release to Extended', category: 'Release', difficulty: 'Super Elite' },
+  { id: 'pr10', skill: 'Braced Twisting Inverted Release to Extended (1 or 2)', category: 'Release', difficulty: 'Elite' },
+  { id: 'pr11', skill: 'Braced Inverted Release to Extended (1)', category: 'Release', difficulty: 'Elite' },
+  { id: 'pr12', skill: 'Braced Full Twisting Release to Extended (1 or 2)', category: 'Release', difficulty: 'Elite' },
+  { id: 'pr13', skill: 'Unbraced 1/4, 1/2, or 3/4 Twisting Release to Extended', category: 'Release', difficulty: 'Elite' },
+  { id: 'pr14', skill: 'Unbraced Inverted Release to Extended', category: 'Release', difficulty: 'Super Elite' },
+  { id: 'pr15', skill: 'Unbraced Twisting Inverted Release to Extended', category: 'Release', difficulty: 'Super Elite' },
+  { id: 'pr16', skill: 'Unbraced Full Twisting Release to Extended', category: 'Release', difficulty: 'Super Elite' },
 <!-- 🔴BRACED ROLL/FLIP🔴 --> 
   { id: 'b1', skill: 'Rolling Transition to Prep Level or Below', category: 'Twisting', difficulty: 'Beginner' },
   { id: 'b2', skill: 'Flipping Transition Landing Below Prep Level (1 or 2)', category: 'Twisting', difficulty: 'Beginner' },
