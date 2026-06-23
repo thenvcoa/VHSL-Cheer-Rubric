@@ -1308,7 +1308,7 @@ function runChecker(silent = false) {
   if (row.classList.contains('additional-toss')) {
     outputText += ' - {Additional Toss}';
   } else if (row.classList.contains('non-majority')) {
-    outputText += ' - {Non Majority}';
+    outputText += ' - {Non-Majority}';
   }
 
   outputText += '\n';
@@ -1340,7 +1340,7 @@ function runChecker(silent = false) {
     if (row.classList.contains('additional-toss')) {
       StuntSkillListOutput += ' - {Additional Toss}';
     } else if (row.classList.contains('non-majority')) {
-      StuntSkillListOutput += ' - {Non Majority}';
+      StuntSkillListOutput += ' - {Non-Majority}';
     }
 
     StuntSkillListOutput += '\n';
@@ -1442,7 +1442,7 @@ rows.forEach(row => {
   outputText += `<span class="credited-star">${star}</span>${count} — ${difficulty} — ${skill}`;
 
   if (row.classList.contains('non-majority')) {
-    outputText += ' - {Non Majority}';
+    outputText += ' - {Non-Majority}';
   }
 
   outputText += '\n';
@@ -1466,7 +1466,7 @@ rows.forEach(row => {
 
 	PyramidSkillListOutput += `<span class="credited-star">${star}</span>${count} — ${difficulty} — ${skill}`;
 
-    if (!row.classList.contains('majority')) PyramidSkillListOutput += ' - {Non Majority}';
+    if (!row.classList.contains('majority')) PyramidSkillListOutput += ' - {Non-Majority}';
     PyramidSkillListOutput += '\n';
   });
 
