@@ -1820,28 +1820,39 @@ const APPS_SCRIPT_BASE = "https://script.google.com/macros/s/AKfycbwtizRxk7B-UaB
 		};
 
 		try {
+  const response = await fetch(APPS_SCRIPT_BASE, {
+    method: "POST",
+    headers: { 
+      "Content-Type": "text/plain;charset=utf-8" 
+    },
+    body: JSON.stringify(payload)
+  });
 
-			await fetch(APPS_SCRIPT_BASE, {
-  			method: "POST",
-  			mode: "no-cors",
-  			headers: { "Content-Type": "text/plain" },
-  			body: JSON.stringify(payload)
-			});
+  const resultText = await response.text();
+  let result;
 
-			showCustomAlert("Submission sent successfully!");
-  
-			//  HIDE SPINNER AFTER SUCCESSFUL SUBMISSION
-				document.getElementById("loadingOverlay").style.display = "none";
-				triggerConfetti();   // 🎉 CONFETTI!!!!!
+  try {
+    result = JSON.parse(resultText);
+  } catch (parseErr) {
+    console.error("Raw Apps Script response:", resultText);
+    throw new Error("Apps Script did not return valid JSON.");
+  }
 
+  if (!result.success) {
+    console.error("Apps Script error:", result);
+    throw new Error(result.error || "Submission failed.");
+  }
 
-		} catch (err) {
-		
-		    // Also hide spinner if an error occurs too
-				document.getElementById("loadingOverlay").style.display = "none";
-	
-			showCustomAlert("Network error sending submission: " + err.message);
-		}
+  showCustomAlert("Submission sent successfully!");
+
+  document.getElementById("loadingOverlay").style.display = "none";
+  triggerConfetti();
+
+} catch (err) {
+  document.getElementById("loadingOverlay").style.display = "none";
+  console.error("Submission error:", err);
+  showCustomAlert("Submission failed:\n\n" + err.message);
+}
 		}
 
 /************************************************ 
@@ -2035,7 +2046,7 @@ function autosaveForm() {
     const simpleFields = [
         "schoolName","teamLevel","CoachName","CoachEmail",
         "numAthletes","competitionLocation","teamSync",
-        "additionalTumbling","jumpSequence","legalityRulings"
+        "additionalTumbling","jumpSequence"
     ];
     simpleFields.forEach(id => {
         const el = document.getElementById(id);
@@ -2103,6 +2114,20 @@ function loadAutosave() {
             addRestoredPyramidRow(item);
         });
     }
+	
+	const legalitySelect = document.getElementById("legalityRulings");
+if (legalitySelect) legalitySelect.value = "";
+
+const legalityUploadSection = document.getElementById("legalityUploadSection");
+if (legalityUploadSection) legalityUploadSection.style.display = "none";
+
+if (typeof selectedPhotoPdfFiles !== "undefined") selectedPhotoPdfFiles = [];
+if (typeof selectedVideoFiles !== "undefined") selectedVideoFiles = [];
+
+if (typeof renderFileList === "function") {
+  renderFileList(selectedPhotoPdfFiles, "photoPdfFileList");
+  renderFileList(selectedVideoFiles, "videoFileList");
+}
 }
 
 function addRestoredStuntRow(item) {
