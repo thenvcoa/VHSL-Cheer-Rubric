@@ -757,7 +757,7 @@ tbody tr:hover { background: rgba(47,49,125,0.035); }
   <div id="videoFileList" class="upload-file-list"></div>
 
   <p class="autosave-file-note">
-    <strong>Note:</strong> uploaded files are not saved by autosave. If this page is refreshed before submission, files must be selected again.
+    <strong>⚠Note:</strong> uploaded files are not saved by autosave. If this page is refreshed before submission, files must be selected again.
   </p>
 
   <p class="note-small">
@@ -1888,7 +1888,7 @@ const APPS_SCRIPT_BASE = "https://script.google.com/macros/s/AKfycbwtizRxk7B-UaB
     body: JSON.stringify(payload)
   });
 
-  showCustomAlert("Submission sent. Please verify it appears in the Google Sheet.");
+  showCustomAlert("Submission sent successfully!");
 
   document.getElementById("loadingOverlay").style.display = "none";
   triggerConfetti();
@@ -2160,6 +2160,7 @@ function loadAutosave() {
         });
     }
 	
+	// Don't Restore Legality Rulings 
 	const legalitySelect = document.getElementById("legalityRulings");
 if (legalitySelect) legalitySelect.value = "";
 
