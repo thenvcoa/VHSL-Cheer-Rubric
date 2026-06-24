@@ -1827,7 +1827,7 @@ const APPS_SCRIPT_BASE = "https://script.google.com/macros/s/AKfycbwtizRxk7B-UaB
     body: JSON.stringify(payload)
   });
 
-  showCustomAlert("Submission sent successfully!");
+  showCustomAlert("Submission sent. Please verify it appears in the Google Sheet.");
 
   document.getElementById("loadingOverlay").style.display = "none";
   triggerConfetti();
