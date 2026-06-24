@@ -717,7 +717,7 @@ tbody tr:hover { background: rgba(47,49,125,0.035); }
 
 <hr>
 
-<!-- ============ 👩‍⚖️ LEGALITY 👩‍⚖️ ============ -->
+<!-- ============ ⚖️ LEGALITY ⚖️ ============ -->
 
 <div class="section-card" data-section="Legality">
 <label>Any Legality Rulings from Bill Ahern?</label>
@@ -729,28 +729,39 @@ tbody tr:hover { background: rgba(47,49,125,0.035); }
 
 <div id="legalityUploadSection" style="display:none; margin-top:18px;">
 
-<label>Upload Legality Photos / PDFs</label>
-<input
-  type="file"
-  id="legalityPhotoPdfFiles"
-  accept="image/*,.pdf"
-  multiple
-  onchange="addFilesToList('legalityPhotoPdfFiles', selectedPhotoPdfFiles, 'photoPdfFileList')"
->
-<div id="photoPdfFileList"></div>
+  <label>Upload Legality Photos / Files</label>
+  <p class="upload-help">
+    Limit: <strong>30 MB per file</strong>. You may upload multiple photos/files.</p>
+  <input
+    type="file"
+    id="legalityPhotoPdfFiles"
+    accept="image/*,.pdf"
+    multiple
+    onchange="addFilesToList('legalityPhotoPdfFiles', 'photoPdf')"
+  >
+  <div id="photoPdfUploadCount" class="upload-count">Photos/Files selected: 0</div>
+  <div id="photoPdfFileList" class="upload-file-list"></div>
 
-<label>Upload Legality Videos</label>
-<input
-  type="file"
-  id="legalityVideoFiles"
-  accept="video/*"
-  multiple
-  onchange="addFilesToList('legalityVideoFiles', selectedVideoFiles, 'videoFileList')"
->
-<div id="videoFileList"></div>
+  <label>Upload Legality Videos</label>
+  <p class="upload-help">
+   Limit: <strong>20 MB per file</strong>. You may upload multiple videos.
+  </p>
+  <input
+    type="file"
+    id="legalityVideoFiles"
+    accept="video/*"
+    multiple
+    onchange="addFilesToList('legalityVideoFiles', 'video')"
+  >
+  <div id="videoUploadCount" class="upload-count">Videos selected: 0</div>
+  <div id="videoFileList" class="upload-file-list"></div>
+
+  <p class="autosave-file-note">
+    <strong>Note:</strong> uploaded files are not saved by autosave. If this page is refreshed before submission, files must be selected again.
+  </p>
 
   <p class="note-small">
-    Upload any supporting legality ruling files (i.e. the referenced video and screenshots of your email from Bill Ahern). Multiple files may be selected.
+    Upload any legality ruling supporting documentation, such as the referenced video and screenshots of the ruling email from Bill Ahern.
   </p>
 
 </div>
@@ -1545,67 +1556,150 @@ document.querySelectorAll('.jumphighlight.jump').forEach(box => {
 
 /************************************************ 
 |                                               |
-|         ⚖️ LEGALITY FILE UPLOADS ⚖         |
+|         ⚖️ LEGALITY FILE UPLOADS ⚖️          |
 |                                               |
 ************************************************/
+
+const MAX_PHOTO_PDF_MB = 30;
+const MAX_VIDEO_MB = 20;
+
+const MAX_PHOTO_PDF_BYTES = MAX_PHOTO_PDF_MB * 1024 * 1024;
+const MAX_VIDEO_BYTES = MAX_VIDEO_MB * 1024 * 1024;
+
 let selectedPhotoPdfFiles = [];
 let selectedVideoFiles = [];
 
-function addFilesToList(inputId, fileArray, listId) {
+function formatFileSize(bytes) {
+  return (bytes / 1024 / 1024).toFixed(1) + " MB";
+}
+
+function getUploadConfig(type) {
+  if (type === "photoPdf") {
+    return {
+      fileArray: selectedPhotoPdfFiles,
+      listId: "photoPdfFileList",
+      countId: "photoPdfUploadCount",
+      limitBytes: MAX_PHOTO_PDF_BYTES,
+      limitMb: MAX_PHOTO_PDF_MB,
+      label: "Photos/PDFs"
+    };
+  }
+
+  return {
+    fileArray: selectedVideoFiles,
+    listId: "videoFileList",
+    countId: "videoUploadCount",
+    limitBytes: MAX_VIDEO_BYTES,
+    limitMb: MAX_VIDEO_MB,
+    label: "Videos"
+  };
+}
+
+function addFilesToList(inputId, type) {
   const input = document.getElementById(inputId);
   if (!input || !input.files) return;
 
-  Array.from(input.files).forEach(file => {
-    fileArray.push(file);
+  const config = getUploadConfig(type);
+  const incomingFiles = Array.from(input.files);
+
+  const oversizedFiles = incomingFiles.filter(file => file.size > config.limitBytes);
+  const allowedFiles = incomingFiles.filter(file => file.size <= config.limitBytes);
+
+  if (oversizedFiles.length > 0) {
+    const fileList = oversizedFiles
+      .map(file => `${file.name} (${formatFileSize(file.size)})`)
+      .join("\n");
+
+    showCustomAlert(
+      `${config.label} upload limit exceeded.\n\n` +
+      `The following file(s) are over the ${config.limitMb} MB limit and were not added:\n\n` +
+      fileList
+    );
+  }
+
+  allowedFiles.forEach(file => {
+    config.fileArray.push(file);
   });
 
   input.value = "";
-  renderFileList(fileArray, listId);
+  renderFileList(type);
 }
 
-function renderFileList(fileArray, listId) {
-  const list = document.getElementById(listId);
-  if (!list) return;
+function renderFileList(type) {
+  const config = getUploadConfig(type);
+  const list = document.getElementById(config.listId);
+  const count = document.getElementById(config.countId);
 
+  if (count) {
+    count.textContent = `${config.label} selected: ${config.fileArray.length}`;
+  }
+
+  if (!list) return;
   list.innerHTML = "";
 
-  fileArray.forEach((file, index) => {
+  if (config.fileArray.length === 0) {
+    return;
+  }
+
+  config.fileArray.forEach((file, index) => {
     const item = document.createElement("div");
+    item.className = "upload-file-item";
+
     item.innerHTML = `
-      ${file.name} (${(file.size / 1024 / 1024).toFixed(1)} MB)
-      <button type="button" onclick="removeSelectedFile('${listId}', ${index})">Remove</button>
+      <div class="upload-file-name">
+        ${escapeHtmlForDisplay(file.name)}
+        <span class="upload-file-size">${formatFileSize(file.size)}</span>
+      </div>
+      <button type="button" class="upload-remove-btn" onclick="removeSelectedFile('${type}', ${index})">
+        Remove
+      </button>
     `;
+
     list.appendChild(item);
   });
 }
 
-function removeSelectedFile(listId, index) {
-  if (listId === "photoPdfFileList") {
-    selectedPhotoPdfFiles.splice(index, 1);
-    renderFileList(selectedPhotoPdfFiles, "photoPdfFileList");
-  }
+function removeSelectedFile(type, index) {
+  const config = getUploadConfig(type);
+  config.fileArray.splice(index, 1);
+  renderFileList(type);
+}
 
-  if (listId === "videoFileList") {
-    selectedVideoFiles.splice(index, 1);
-    renderFileList(selectedVideoFiles, "videoFileList");
-  }
+function clearLegalityUploadFiles() {
+  selectedPhotoPdfFiles = [];
+  selectedVideoFiles = [];
+
+  const photoFiles = document.getElementById("legalityPhotoPdfFiles");
+  const videoFiles = document.getElementById("legalityVideoFiles");
+
+  if (photoFiles) photoFiles.value = "";
+  if (videoFiles) videoFiles.value = "";
+
+  renderFileList("photoPdf");
+  renderFileList("video");
 }
 
 function toggleLegalityUploads() {
   const select = document.getElementById("legalityRulings");
   const uploadSection = document.getElementById("legalityUploadSection");
 
-  const photoFiles = document.getElementById("legalityPhotoPdfFiles");
-  const videoFiles = document.getElementById("legalityVideoFiles");
+  if (!select || !uploadSection) return;
 
   if (select.value === "Yes") {
     uploadSection.style.display = "block";
   } else {
     uploadSection.style.display = "none";
-
-    if (photoFiles) photoFiles.value = "";
-    if (videoFiles) videoFiles.value = "";
+    clearLegalityUploadFiles();
   }
+}
+
+function escapeHtmlForDisplay(value) {
+  return String(value || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
 
 function fileToBase64(file) {
@@ -1613,12 +1707,10 @@ function fileToBase64(file) {
     const reader = new FileReader();
 
     reader.onload = () => {
-      const base64 = reader.result.split(",")[1];
-
       resolve({
         name: file.name,
-        mimeType: file.type,
-        base64: base64
+        mimeType: file.type || "application/octet-stream",
+        base64: reader.result.split(",")[1]
       });
     };
 
@@ -1627,16 +1719,17 @@ function fileToBase64(file) {
   });
 }
 
-async function getFilesAsBase64FromArray(files) {
-  const oversizedFiles = files.filter(file => file.size > MAX_UPLOAD_FILE_SIZE_BYTES);
+async function getFilesAsBase64FromArray(files, limitBytes, limitMb, label) {
+  const oversizedFiles = files.filter(file => file.size > limitBytes);
 
   if (oversizedFiles.length > 0) {
     const fileList = oversizedFiles
-      .map(file => `${file.name} (${(file.size / 1024 / 1024).toFixed(1)} MB)`)
+      .map(file => `${file.name} (${formatFileSize(file.size)})`)
       .join("\n");
 
     throw new Error(
-      `The following file(s) are over the ${MAX_UPLOAD_FILE_SIZE_MB} MB limit:\n\n${fileList}`
+      `${label} upload limit exceeded.\n\n` +
+      `The following file(s) are over the ${limitMb} MB limit:\n\n${fileList}`
     );
   }
 
@@ -1687,8 +1780,6 @@ const APPS_SCRIPT_BASE = "https://script.google.com/macros/s/AKfycbwtizRxk7B-UaB
 		window.addEventListener("load", populateCompetitionLocations);
 	
 
-
-
 		/*****************************************************
 		2) COLLECT TABLE COUNTS
 		*****************************************************/
@@ -1710,7 +1801,6 @@ const APPS_SCRIPT_BASE = "https://script.google.com/macros/s/AKfycbwtizRxk7B-UaB
 		}
 
 
-
 		/*****************************************************
 		3) SUBMISSION → SEND TO GOOGLE APP SCRIPT
 		*****************************************************/
@@ -1721,42 +1811,6 @@ const APPS_SCRIPT_BASE = "https://script.google.com/macros/s/AKfycbwtizRxk7B-UaB
 			document.getElementById('customAlertText').textContent = message;
 			alertDiv.style.display = 'flex';
 			document.getElementById('customAlertOk').onclick = () => { alertDiv.style.display = 'none'; };
-		}
-
-		function fileToBase64(file) {
-			return new Promise((resolve, reject) => {
-			const reader = new FileReader();
-
-				reader.onload = () => {
-				resolve({
-				name: file.name,
-				mimeType: file.type || "application/octet-stream",
-				base64: reader.result.split(",")[1]
-					});
-				};
-
-				reader.onerror = reject;
-				reader.readAsDataURL(file);
-			});
-		}
-
-		const MAX_UPLOAD_FILE_SIZE_MB = 20;
-		const MAX_UPLOAD_FILE_SIZE_BYTES = MAX_UPLOAD_FILE_SIZE_MB * 1024 * 1024;
-
-		async function getFilesAsBase64FromArray(files) {
-		const oversizedFiles = files.filter(file => file.size > MAX_UPLOAD_FILE_SIZE_BYTES);
-
-		if (oversizedFiles.length > 0) {
-			const fileList = oversizedFiles
-			.map(file => `${file.name} (${(file.size / 1024 / 1024).toFixed(1)} MB)`)
-			.join("\n");
-
-			throw new Error(
-			`The following file(s) are over the ${MAX_UPLOAD_FILE_SIZE_MB} MB limit:\n\n${fileList}`
-			);
-		}
-
-		return Promise.all(files.map(fileToBase64));
 		}
 
 		async function appsScriptSubmissionFlow() {
@@ -1772,13 +1826,13 @@ const APPS_SCRIPT_BASE = "https://script.google.com/macros/s/AKfycbwtizRxk7B-UaB
 
 			if (legalityValue === "Yes") {
 				try {
-					legalityPhotoPdfFiles = await getFilesAsBase64FromArray(selectedPhotoPdfFiles);
-					legalityVideoFiles = await getFilesAsBase64FromArray(selectedVideoFiles);
+					legalityPhotoPdfFiles = await getFilesAsBase64FromArray(selectedPhotoPdfFiles, MAX_PHOTO_PDF_BYTES, MAX_PHOTO_PDF_MB, "Photos/PDFs");
+					legalityVideoFiles = await getFilesAsBase64FromArray(selectedVideoFiles, MAX_VIDEO_BYTES, MAX_VIDEO_MB, "Videos");
 				} catch (err) {
-					hideLoading && hideLoading();
+					document.getElementById("loadingOverlay").style.display = "none";
 
 					showCustomAlert(
-					err.message || "One or more uploaded files are too large. Please select files under 50 MB."
+					err.message || "One or more uploaded files are too large. Please select smaller files."
 					);
 
 					return;
@@ -1820,9 +1874,16 @@ const APPS_SCRIPT_BASE = "https://script.google.com/macros/s/AKfycbwtizRxk7B-UaB
 		};
 
 		try {
+  /*
+    DEBUG NOTE:
+    GitHub Pages + Apps Script usually requires mode: "no-cors".
+    That means the browser cannot read the Apps Script JSON response.
+    If troubleshooting is needed later, temporarily remove mode: "no-cors"
+    and update Apps Script/CORS handling so the response can be inspected.
+  */
   await fetch(APPS_SCRIPT_BASE, {
     method: "POST",
-    //mode: "no-cors",
+    mode: "no-cors",
     headers: { "Content-Type": "text/plain" },
     body: JSON.stringify(payload)
   });
