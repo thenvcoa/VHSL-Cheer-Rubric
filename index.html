@@ -1820,28 +1820,12 @@ const APPS_SCRIPT_BASE = "https://script.google.com/macros/s/AKfycbwtizRxk7B-UaB
 		};
 
 		try {
-  const response = await fetch(APPS_SCRIPT_BASE, {
+  await fetch(APPS_SCRIPT_BASE, {
     method: "POST",
-    headers: { 
-      "Content-Type": "text/plain;charset=utf-8" 
-    },
+    mode: "no-cors",
+    headers: { "Content-Type": "text/plain" },
     body: JSON.stringify(payload)
   });
-
-  const resultText = await response.text();
-  let result;
-
-  try {
-    result = JSON.parse(resultText);
-  } catch (parseErr) {
-    console.error("Raw Apps Script response:", resultText);
-    throw new Error("Apps Script did not return valid JSON.");
-  }
-
-  if (!result.success) {
-    console.error("Apps Script error:", result);
-    throw new Error(result.error || "Submission failed.");
-  }
 
   showCustomAlert("Submission sent successfully!");
 
@@ -1851,7 +1835,7 @@ const APPS_SCRIPT_BASE = "https://script.google.com/macros/s/AKfycbwtizRxk7B-UaB
 } catch (err) {
   document.getElementById("loadingOverlay").style.display = "none";
   console.error("Submission error:", err);
-  showCustomAlert("Submission failed:\n\n" + err.message);
+  showCustomAlert("Network error sending submission: " + err.message);
 }
 		}
 
