@@ -1822,7 +1822,7 @@ const APPS_SCRIPT_BASE = "https://script.google.com/macros/s/AKfycbwtizRxk7B-UaB
 		try {
   await fetch(APPS_SCRIPT_BASE, {
     method: "POST",
-    mode: "no-cors",
+    //mode: "no-cors",
     headers: { "Content-Type": "text/plain" },
     body: JSON.stringify(payload)
   });
