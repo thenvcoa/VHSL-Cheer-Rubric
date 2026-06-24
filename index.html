@@ -729,21 +729,25 @@ tbody tr:hover { background: rgba(47,49,125,0.035); }
 
 <div id="legalityUploadSection" style="display:none; margin-top:18px;">
 
-  <label>Upload Legality Photos / PDFs</label>
-  <input 
-    type="file" 
-    id="legalityPhotoPdfFiles" 
-    accept="image/*,.pdf" 
-    multiple
-  >
+<label>Upload Legality Photos / PDFs</label>
+<input
+  type="file"
+  id="legalityPhotoPdfFiles"
+  accept="image/*,.pdf"
+  multiple
+  onchange="addFilesToList('legalityPhotoPdfFiles', selectedPhotoPdfFiles, 'photoPdfFileList')"
+>
+<div id="photoPdfFileList"></div>
 
-  <label>Upload Legality Videos</label>
-  <input 
-    type="file" 
-    id="legalityVideoFiles" 
-    accept="video/*" 
-    multiple
-  >
+<label>Upload Legality Videos</label>
+<input
+  type="file"
+  id="legalityVideoFiles"
+  accept="video/*"
+  multiple
+  onchange="addFilesToList('legalityVideoFiles', selectedVideoFiles, 'videoFileList')"
+>
+<div id="videoFileList"></div>
 
   <p class="note-small">
     Upload any supporting legality ruling files (i.e. the referenced video and screenshots of your email from Bill Ahern). Multiple files may be selected.
@@ -1544,6 +1548,48 @@ document.querySelectorAll('.jumphighlight.jump').forEach(box => {
 |         ⚖️ LEGALITY FILE UPLOADS ⚖         |
 |                                               |
 ************************************************/
+let selectedPhotoPdfFiles = [];
+let selectedVideoFiles = [];
+
+function addFilesToList(inputId, fileArray, listId) {
+  const input = document.getElementById(inputId);
+  if (!input || !input.files) return;
+
+  Array.from(input.files).forEach(file => {
+    fileArray.push(file);
+  });
+
+  input.value = "";
+  renderFileList(fileArray, listId);
+}
+
+function renderFileList(fileArray, listId) {
+  const list = document.getElementById(listId);
+  if (!list) return;
+
+  list.innerHTML = "";
+
+  fileArray.forEach((file, index) => {
+    const item = document.createElement("div");
+    item.innerHTML = `
+      ${file.name} (${(file.size / 1024 / 1024).toFixed(1)} MB)
+      <button type="button" onclick="removeSelectedFile('${listId}', ${index})">Remove</button>
+    `;
+    list.appendChild(item);
+  });
+}
+
+function removeSelectedFile(listId, index) {
+  if (listId === "photoPdfFileList") {
+    selectedPhotoPdfFiles.splice(index, 1);
+    renderFileList(selectedPhotoPdfFiles, "photoPdfFileList");
+  }
+
+  if (listId === "videoFileList") {
+    selectedVideoFiles.splice(index, 1);
+    renderFileList(selectedVideoFiles, "videoFileList");
+  }
+}
 
 function toggleLegalityUploads() {
   const select = document.getElementById("legalityRulings");
@@ -1581,11 +1627,20 @@ function fileToBase64(file) {
   });
 }
 
-async function getFilesAsBase64(inputId) {
-  const input = document.getElementById(inputId);
-  if (!input || !input.files || input.files.length === 0) return [];
+async function getFilesAsBase64FromArray(files) {
+  const oversizedFiles = files.filter(file => file.size > MAX_UPLOAD_FILE_SIZE_BYTES);
 
-  return Promise.all(Array.from(input.files).map(fileToBase64));
+  if (oversizedFiles.length > 0) {
+    const fileList = oversizedFiles
+      .map(file => `${file.name} (${(file.size / 1024 / 1024).toFixed(1)} MB)`)
+      .join("\n");
+
+    throw new Error(
+      `The following file(s) are over the ${MAX_UPLOAD_FILE_SIZE_MB} MB limit:\n\n${fileList}`
+    );
+  }
+
+  return Promise.all(files.map(fileToBase64));
 }
 
 /************************************************ 
@@ -1688,12 +1743,7 @@ const APPS_SCRIPT_BASE = "https://script.google.com/macros/s/AKfycbwtizRxk7B-UaB
 		const MAX_UPLOAD_FILE_SIZE_MB = 20;
 		const MAX_UPLOAD_FILE_SIZE_BYTES = MAX_UPLOAD_FILE_SIZE_MB * 1024 * 1024;
 
-		async function getFilesAsBase64(inputId) {
-		const input = document.getElementById(inputId);
-		if (!input || !input.files || input.files.length === 0) return [];
-
-		const files = Array.from(input.files);
-
+		async function getFilesAsBase64FromArray(files) {
 		const oversizedFiles = files.filter(file => file.size > MAX_UPLOAD_FILE_SIZE_BYTES);
 
 		if (oversizedFiles.length > 0) {
@@ -1702,7 +1752,7 @@ const APPS_SCRIPT_BASE = "https://script.google.com/macros/s/AKfycbwtizRxk7B-UaB
 			.join("\n");
 
 			throw new Error(
-			`The following file(s) are over the 50 MB limit and cannot be uploaded:\n\n${fileList}\n\nPlease choose smaller files.`
+			`The following file(s) are over the ${MAX_UPLOAD_FILE_SIZE_MB} MB limit:\n\n${fileList}`
 			);
 		}
 
@@ -1722,8 +1772,8 @@ const APPS_SCRIPT_BASE = "https://script.google.com/macros/s/AKfycbwtizRxk7B-UaB
 
 			if (legalityValue === "Yes") {
 				try {
-					legalityPhotoPdfFiles = await getFilesAsBase64("legalityPhotoPdfFiles");
-					legalityVideoFiles = await getFilesAsBase64("legalityVideoFiles");
+					legalityPhotoPdfFiles = await getFilesAsBase64FromArray(selectedPhotoPdfFiles);
+					legalityVideoFiles = await getFilesAsBase64FromArray(selectedVideoFiles);
 				} catch (err) {
 					hideLoading && hideLoading();
 
