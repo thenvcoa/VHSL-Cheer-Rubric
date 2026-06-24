@@ -156,7 +156,89 @@ tbody tr:hover { background: rgba(47,49,125,0.035); }
   55% { transform: translate(var(--x), var(--y)) rotate(260deg) scale(1.25); opacity: 1; }
   100% { transform: translate(calc(var(--x) * 1.25), calc(var(--y) * -0.55)) rotate(520deg) scale(0.45); opacity: 0; }
 	}
+
+/* === ⚖️ LEGALITY FILE UPLOAD UI ⚖️ === */
+.upload-help {
+  max-width: 760px;
+  margin: 8px 0 12px 0;
+  color: var(--text-muted);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.upload-count {
+  max-width: 760px;
+  margin: 8px 0;
+  padding: 8px 10px;
+  color: #374151;
+  background: #f5f7fc;
+  border: 1px solid var(--border-soft);
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.upload-file-list {
+  max-width: 760px;
+  margin: 8px 0 18px 0;
+}
+
+.upload-file-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 8px 0;
+  padding: 10px 12px;
+  background: #ffffff;
+  border: 1px solid var(--border-soft);
+  border-radius: 12px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+}
+
+.upload-file-name {
+  min-width: 0;
+  color: var(--text-main);
+  font-size: 14px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.upload-file-size {
+  display: block;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.upload-remove-btn {
+  flex: 0 0 auto;
+  margin-top: 0;
+  padding: 7px 10px;
+  background: var(--vhsl-red) !important;
+  border-radius: 10px;
+  font-size: 12px;
+  box-shadow: none;
+}
+
+.upload-remove-btn:hover {
+  background: var(--vhsl-red-dark) !important;
+}
+
+.autosave-file-note {
+  max-width: 760px;
+  margin-top: 12px;
+  padding: 10px 12px;
+  color: #92400e;
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: 12px;
+  font-size: 13px;
+  line-height: 1.4;
+}
 </style>
+
+
 
 
 <!-- =================== 📱 STYLING ADJUSTMENTS FOR MOBILE DEVICES 	📱 =================== -->
@@ -728,7 +810,9 @@ tbody tr:hover { background: rgba(47,49,125,0.035); }
 </select>
 
 <div id="legalityUploadSection" style="display:none; margin-top:18px;">
-
+  
+  <p class="note-small">Upload any legality ruling supporting documentation, such as the referenced video and screenshots of the ruling email from Bill Ahern.</p>
+  
   <label>Upload Legality Photos / Files</label>
   <p class="upload-help">
     Limit: <strong>30 MB per file</strong>. You may upload multiple photos/files.</p>
@@ -757,12 +841,10 @@ tbody tr:hover { background: rgba(47,49,125,0.035); }
   <div id="videoFileList" class="upload-file-list"></div>
 
   <p class="autosave-file-note">
-    <strong>⚠Note:</strong> uploaded files are not saved by autosave. If this page is refreshed before submission, files must be selected again.
+    <strong>⚠ Note:</strong> Uploaded files are not saved by autosave. If this page is refreshed before submission, files must be uploaded again.
   </p>
 
-  <p class="note-small">
-    Upload any legality ruling supporting documentation, such as the referenced video and screenshots of the ruling email from Bill Ahern.
-  </p>
+
 
 </div>
 </div>
