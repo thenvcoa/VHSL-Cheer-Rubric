@@ -2246,24 +2246,34 @@ async function getFilesAsBase64FromArray(_0x28a618, _0x4041a7, _0x1dfd0d, _0x37f
 }
 const APPS_SCRIPT_BASE = "https://script.google.com/macros/s/AKfycbwtizRxk7B-UaBMHbJqhi2qlGEAlhGIMDqJQQraVWOoB0Uqf_8EU-JYTRsTJu1UCKo/exec";
 async function populateCompetitionLocations() {
+  const select = document.getElementById("competitionLocation");
+  select.innerHTML = `<option value="">Loading events...</option>`;
+
   try {
-    const _0x41250f = await fetch(APPS_SCRIPT_BASE + "?sheetName=Events");
-    if (!_0x41250f.ok) {
-      throw new Error("Failed to load competitions");
+    const response = await fetch(`${APPS_SCRIPT_BASE}?sheetName=Events&t=${Date.now()}`);
+    
+    if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
+    
+    const data = await response.json();
+
+    if (!Array.isArray(data) || data.length === 0) {
+      select.innerHTML = `<option value="">No events available</option>`;
+      return;
     }
-    const _0x2862ab = await _0x41250f.json();
-    const _0x5529c1 = document.getElementById("competitionLocation");
-    _0x5529c1.innerHTML = "<option value=\"\">--Select--</option>";
-    _0x2862ab.forEach(_0x20617a => {
-      const _0x232bd4 = document.createElement("option");
-      const _0x4945c5 = _0x20617a.date + " - " + _0x20617a.eventname + " @ " + _0x20617a.location;
-      _0x232bd4.textContent = _0x4945c5;
-      _0x232bd4.value = JSON.stringify(_0x20617a);
-      _0x232bd4.dataset.association = _0x20617a.association || "";
-      _0x5529c1.appendChild(_0x232bd4);
+
+    select.innerHTML = `<option value="">--Select--</option>`;
+    data.forEach(item => {
+      const option = document.createElement("option");
+      const display = `${item.date} - ${item.eventname} @ ${item.location}`;
+      option.textContent = display;
+      option.value = JSON.stringify(item);
+      option.dataset.association = item.association || "";
+      select.appendChild(option);
     });
-  } catch (_0x1c923b) {
-    console.error("Competition fetch error:", _0x1c923b);
+
+  } catch (err) {
+    console.error("Competition fetch error:", err);
+    select.innerHTML = `<option value="">⚠️ Failed to load events — please refresh the page</option>`;
   }
 }
 window.addEventListener("load", populateCompetitionLocations);
@@ -2299,67 +2309,84 @@ function showCustomAlert(_0x4bc7f7) {
   };
 }
 async function appsScriptSubmissionFlow() {
-  const _0x19cb7d = document.getElementById("competitionLocation").value;
-  const _0x5380cc = _0x19cb7d ? JSON.parse(_0x19cb7d) : {};
-  const _0x3efeba = _0x5380cc.association || "Unknown";
-  let _0x37c0c9 = [];
-  let _0x5eec21 = [];
-  const _0x472c15 = document.getElementById("legalityRulings")?.value || "";
-  if (_0x472c15 === "Yes") {
+  const competitionValue = document.getElementById("competitionLocation").value;
+  const competition_raw = competitionValue ? JSON.parse(competitionValue) : {};
+  const association = competition_raw.association || "Unknown";
+
+  let photoPdfFiles = [];
+  let videoFiles = [];
+  const legalityRulings = document.getElementById("legalityRulings")?.value || "";
+
+  if (legalityRulings === "Yes") {
     try {
-      _0x37c0c9 = await getFilesAsBase64FromArray(selectedPhotoPdfFiles, MAX_PHOTO_PDF_BYTES, MAX_PHOTO_PDF_MB, "Photos/PDFs");
-      _0x5eec21 = await getFilesAsBase64FromArray(selectedVideoFiles, MAX_VIDEO_BYTES, MAX_VIDEO_MB, "Videos");
-    } catch (_0x5dc0b2) {
+      photoPdfFiles = await getFilesAsBase64FromArray(selectedPhotoPdfFiles, MAX_PHOTO_PDF_BYTES, MAX_PHOTO_PDF_MB, "Photos/PDFs");
+      videoFiles = await getFilesAsBase64FromArray(selectedVideoFiles, MAX_VIDEO_BYTES, MAX_VIDEO_MB, "Videos");
+    } catch (err) {
       document.getElementById("loadingOverlay").style.display = "none";
-      showCustomAlert(_0x5dc0b2.message || "One or more uploaded files are too large. Please select smaller files.");
+      showCustomAlert(err.message || "One or more uploaded files are too large. Please select smaller files.");
       return;
     }
   }
-  const _0x3bde2a = {
-    association: _0x3efeba,
+
+  const payload = {
+    association,
     competition_selection: document.getElementById("competitionLocation").selectedOptions[0].textContent,
-    competition_raw: _0x5380cc,
+    competition_raw,
     fields: {
-      schoolName: document.getElementById("schoolName").value,
-      teamLevel: document.getElementById("teamLevel").value,
-      CoachName: document.getElementById("CoachName").value,
-      CoachEmail: document.getElementById("CoachEmail").value,
-      numAthletes: document.getElementById("numAthletes").value,
-      StuntSkills: document.getElementById("StuntSkills").textContent,
-      StuntRange: document.getElementById("StuntRange").textContent,
-      PyramidSkills: document.getElementById("PyramidSkills").textContent,
-      PyramidRange: document.getElementById("PyramidRange").textContent,
-      TumblingOutput: document.getElementById("TumblingOutput").dataset.selected || "",
-      teamSync: document.getElementById("teamSync").value,
-      additionalTumbling: document.getElementById("additionalTumbling").value,
-      JumpOutput: document.getElementById("JumpOutput").dataset.selected || "",
-      jumpSequence: document.getElementById("jumpSequence").value,
-      legalityRulings: document.getElementById("legalityRulings").value
+      schoolName:        document.getElementById("schoolName").value,
+      teamLevel:         document.getElementById("teamLevel").value,
+      CoachName:         document.getElementById("CoachName").value,
+      CoachEmail:        document.getElementById("CoachEmail").value,
+      numAthletes:       document.getElementById("numAthletes").value,
+      StuntSkills:       document.getElementById("StuntSkills").textContent,
+      StuntRange:        document.getElementById("StuntRange").textContent,
+      PyramidSkills:     document.getElementById("PyramidSkills").textContent,
+      PyramidRange:      document.getElementById("PyramidRange").textContent,
+      TumblingOutput:    document.getElementById("TumblingOutput").dataset.selected || "",
+      teamSync:          document.getElementById("teamSync").value,
+      additionalTumbling:document.getElementById("additionalTumbling").value,
+      JumpOutput:        document.getElementById("JumpOutput").dataset.selected || "",
+      jumpSequence:      document.getElementById("jumpSequence").value,
+      legalityRulings:   document.getElementById("legalityRulings").value
     },
-    legalityUploads: {
-      photoPdfFiles: _0x37c0c9,
-      videoFiles: _0x5eec21
-    },
-    skillCounts: collectTableCounts("#skillCounts"),
-    pyramidCounts: collectTableCounts("#PyramidCounts"),
-    timestamp: new Date().toISOString()
+    legalityUploads: { photoPdfFiles, videoFiles },
+    skillCounts:    collectTableCounts("#skillCounts"),
+    pyramidCounts:  collectTableCounts("#PyramidCounts"),
+    timestamp:      new Date().toISOString()
   };
+
   try {
+    // Use a two-step approach: send via no-cors but also verify via a follow-up GET
+    // Step 1 — send the submission
     await fetch(APPS_SCRIPT_BASE, {
       method: "POST",
       mode: "no-cors",
-      headers: {
-        "Content-Type": "text/plain"
-      },
-      body: JSON.stringify(_0x3bde2a)
+      headers: { "Content-Type": "text/plain" },
+      body: JSON.stringify(payload)
     });
-    showCustomAlert("Submission sent successfully!");
+
+    // Step 2 — verify it landed by checking a confirmation endpoint
+    // Wait 3 seconds for the sheet write to complete
+    await new Promise(resolve => setTimeout(resolve, 3000));
+
+    const verifyResponse = await fetch(
+      `${APPS_SCRIPT_BASE}?action=verify&email=${encodeURIComponent(payload.fields.CoachEmail)}&t=${Date.now()}`
+    );
+    const verifyData = await verifyResponse.json();
+
     document.getElementById("loadingOverlay").style.display = "none";
-    triggerConfetti();
-  } catch (_0x1536b8) {
+
+    if (verifyData.found) {
+      showCustomAlert("✅ Submission received successfully!");
+      triggerConfetti();
+    } else {
+      showCustomAlert("⚠️ Your submission may not have been received. Please try again or contact your association commissioner.");
+    }
+
+  } catch (err) {
     document.getElementById("loadingOverlay").style.display = "none";
-    console.error("Submission error:", _0x1536b8);
-    showCustomAlert("Network error sending submission: " + _0x1536b8.message);
+    console.error("Submission error:", err);
+    showCustomAlert("⚠️ Network error — please check your connection and try again.");
   }
 }
 function addCompletionCheckmarks() {
