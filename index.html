@@ -2327,7 +2327,7 @@ async function appsScriptSubmissionFlow() {
       return;
     }
   }
-}
+
   const payload = {
     association,
     competition_selection: document.getElementById("competitionLocation").selectedOptions[0].textContent,
@@ -2355,29 +2355,45 @@ async function appsScriptSubmissionFlow() {
     timestamp:      new Date().toISOString()
   };
 
-  // Step 2 — verify it landed
-await new Promise(resolve => setTimeout(resolve, 3000));
+  try {
+    // Step 1 — send the submission
+    await fetch(APPS_SCRIPT_BASE, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "text/plain" },
+      body: JSON.stringify(payload)
+    });
 
-let found = false;
-try {
-  const verifyResponse = await fetch(
-    `${APPS_SCRIPT_BASE}?action=verify&email=${encodeURIComponent(payload.fields.CoachEmail)}&t=${Date.now()}`
-  );
-  const text = await verifyResponse.text();
-  const verifyData = JSON.parse(text);
-  found = verifyData.found === true;
-} catch (verifyErr) {
-  console.warn("Verification check failed — assuming success:", verifyErr.message);
-  found = true; // fail open — assume success if verify itself errors
-}
+    // Step 2 — wait then verify it landed
+    await new Promise(resolve => setTimeout(resolve, 3000));
 
-document.getElementById("loadingOverlay").style.display = "none";
+    let found = false;
+    try {
+      const verifyResponse = await fetch(
+        `${APPS_SCRIPT_BASE}?action=verify&email=${encodeURIComponent(payload.fields.CoachEmail)}&t=${Date.now()}`
+      );
+      const text = await verifyResponse.text();
+      const verifyData = JSON.parse(text);
+      found = verifyData.found === true;
+    } catch (verifyErr) {
+      console.warn("Verification check failed — assuming success:", verifyErr.message);
+      found = true;
+    }
 
-if (found) {
-  showCustomAlert("✅ Submission received successfully!");
-  triggerConfetti();
-} else {
-  showCustomAlert("⚠️ Your submission may not have been received. Please try again or contact your association commissioner.");
+    document.getElementById("loadingOverlay").style.display = "none";
+
+    if (found) {
+      showCustomAlert("✅ Submission received successfully!");
+      triggerConfetti();
+    } else {
+      showCustomAlert("⚠️ Your submission may not have been received. Please try again or contact your association commissioner.");
+    }
+
+  } catch (err) {
+    document.getElementById("loadingOverlay").style.display = "none";
+    console.error("Submission error:", err);
+    showCustomAlert("⚠️ Network error — please check your connection and try again.");
+  }
 }
 function addCompletionCheckmarks() {
   const _0x2fa169 = document.querySelectorAll("input, select, textarea");
